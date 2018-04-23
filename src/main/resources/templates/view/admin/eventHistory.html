@@ -1,0 +1,48 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.EventHistory.js}"></script>
+
+<div class="table-responsive">
+    <table class="table">
+        <colgroup>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+        </colgroup>
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>이벤트 명</td>
+            <td>이벤트 세부일정</td>
+            <td>이벤트 상태</td>
+            <td>이벤트 시작 시간</td>
+            <td>이벤트 종료 시간</td>
+            <td>이벤트 결과 확인</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event : ${eventList}">
+            <td th:text="${event.getEventId()}"></td>
+            <td th:text="${event.getEventTitle()}"></td>
+            <td th:text="${event.getEventDetail()}"></td>
+            <td th:text="${event.getEventStatus()}"></td>
+            <td th:text="${event.getEventStartTime()}"></td>
+            <td th:text="${event.getEventEndTime()}"></td>
+            <td>
+                <button type="button" class="btn btn-success btn-sm viewEventBtn"
+                        th:attr="data-event-id=${event.getEventId()}">이벤트 결과 확인
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:inline="javascript">
+    $(function() {
+        var view = new Horyu.View.EventHistory();
+        view.init();
+    });
+</script>

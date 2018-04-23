@@ -1,0 +1,40 @@
+<div class="alert alert-info">
+    현재 <a style="font-weight: bold;"><a th:remove="tag" th:text="${applyCount}">0</a>명</a>이 이벤트 응모를 하였습니다.
+</div>
+
+<div class="alert alert-info">
+    최근 응모한 50명만 표시됩니다.
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <colgroup>
+            <col width="180px"/>
+            <col/><!--<col width="200px"/>-->
+            <col/><!--<col width="200px"/>-->
+            <col/>
+            <!--<col/>-->
+            <!--<col width="100px"/>-->
+        </colgroup>
+        <thead>
+        <tr>
+            <td>응모 일자</td>
+            <td>이메일</td>
+            <td>유튜브 닉네임</td>
+            <td>아이피</td>
+            <!--<td>UserAgent</td>-->
+            <!--<td>사용자 브라우저 핑거프린트2</td>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applicant : ${applicantList}">
+            <td th:text="${#dates.format(applicant.getApplyTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${applicant.getEmail()}"></td>
+            <td th:text="${applicant.getYoutubeNickname()}"></td>
+            <td th:text="${applicant.getIpAddress()}"></td>
+            <!--<td th:text="${applicant.getUserAgent()}"></td>-->
+            <!--<td th:text="${applicant.getFingerprint2()}"></td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>

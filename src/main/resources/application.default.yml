@@ -1,0 +1,47 @@
+server:
+  port: 80
+  compression:
+    enabled: true
+    mime-types: text/html,text/css,application/javascript
+    min-response-size: 2048
+spring:
+  profiles:
+    active: production
+
+---
+spring:
+  profiles: dev
+  session:
+    store-type: jdbc
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://<Host>:<Port>/<Database>
+    username: <DB Username>
+    password: <DB Password>
+    validation-query: SELECT 1
+    test-while-idle: true
+    max-active: 200
+    max-idle: 100
+    min-idle: 20
+    max-wait: 1000
+
+---
+spring:
+  profiles: production
+  session:
+    store-type: jdbc
+  thymeleaf:
+    cache: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://<Host>:<Port>/<Database>
+    username: <DB Username>
+    password: <DB Password>
+    validation-query: SELECT 1
+    test-while-idle: true
+    max-active: 200
+    max-idle: 100
+    min-idle: 20
+    max-wait: 1000

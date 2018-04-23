@@ -1,0 +1,32 @@
+#main-container {
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.hidden-input {
+    visibility: hidden;
+}
+
+.invalid-feedback {
+    font-size: 13pt !important;
+}
+
+.company-gift-table td {
+    vertical-align: middle;
+}
+
+.company-gift-table .company-cell {
+    min-width: 300px;
+}
+
+#copyright {
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    z-index: 1000;
+}

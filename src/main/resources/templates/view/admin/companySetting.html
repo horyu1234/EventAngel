@@ -1,0 +1,106 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.CompanySetting.js}"></script>
+
+<div class="alert alert-warning">
+    <strong>주의: 추첨을 시작하면, 다음 이벤트를 시작하거나 현재 이벤트의 당첨자 목록을 초기화하기 전까지는 아래 설정을 더 이상 수정하실 수 없습니다.</strong>
+</div>
+
+<div class="alert alert-warning"
+     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    추첨이 시작되었으므로, 더 이상 설정 변경이 불가능합니다.
+    <br/><br/>
+    새로운 이벤트 시작은 "현재 이벤트 설정" 메뉴를 이용해주세요.
+</div>
+
+<div class="col-md-10 offset-md-1"
+     th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    <div class="card border-info">
+        <div class="card-header">도움을 주신 회사 추가</div>
+        <div class="card-body">
+            <form method="post" action="#" th:action="@{/admin/companySetting/saveCompany}"
+                  th:object="${companySaveForm}"
+                  accept-charset="utf-8">
+                <input name="companyId" id="companyId" hidden="" style="visibility: hidden" value="0"/>
+
+                <div class="form-group">
+                    <label for="companyName" class="control-label">회사 이름</label>
+                    <input class="form-control" name="companyName" id="companyName"
+                           placeholder="회사 이름을 입력해주세요."
+                           required=""/>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyDetail" class="control-label">회사 정보</label>
+                    <input class="form-control" name="companyDetail" id="companyDetail"
+                           placeholder="회사 정보를 입력해주세요."
+                           required=""/>
+                </div>
+
+                <button type="submit" class="btn btn-success" id="submitBtn">회사 추가</button>
+                <button type="button" class="btn btn-default" id="cancelEditBtn" style="visibility: hidden">수정 취소
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive" style="margin-top: 20px">
+        <table class="table company-gift-table" id="company-table">
+            <colgroup>
+                <col width="10px"/>
+                <col width="150px"/>
+                <col width="150px"/>
+                <col width="20px"/>
+                <col width="20px"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <td>#</td>
+                <td>회사 이름</td>
+                <td>회사 정보</td>
+                <td>수정</td>
+                <td>삭제</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="company : ${companyList}">
+                <td class="company-id" th:text="${company.getCompanyId()}"></td>
+                <td class="company-name" style="min-width: 150px" th:text="${company.getCompanyName()}"></td>
+                <td class="company-detail" style="min-width: 150px" th:text="${company.getCompanyDetail()}"></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm companyEditBtn">수정</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm companyDeleteBtn">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">회사 제거</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    회사를 제거하시면, 상품 목록에서 현재 회사에 설정된 상품들도 자동으로 제거됩니다.
+                    <br/><br/>
+                    정말 진행하시겠습니까?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger">제거</button>
+                <button type="button" id="deleteAbortBtn" class="btn btn-primary" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(function() {
+        var view = new Horyu.View.CompanySetting();
+        view.init();
+    });
+</script>

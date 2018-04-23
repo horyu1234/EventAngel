@@ -1,0 +1,36 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.EventHistoryView.js}"></script>
+
+<button type="button" class="btn btn-info" onclick="location.href='/admin/eventHistory/';">목록으로 돌아가기</button>
+
+<div class="table-responsive" style="margin-top: 20px">
+    <table class="table company-gift-table" id="prize-table">
+        <colgroup>
+            <col width="200px"/>
+            <col/>
+            <col width="250px"/>
+            <col width="250px"/>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>도움을 주신 회사</th>
+            <th>상품</th>
+            <th>당첨자 이메일</th>
+            <th>당첨자 유튜브 닉네임</th>
+            <th>아이피</th>
+            <th>핑거프린트2</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script th:inline="javascript">
+    $(function() {
+        var eventResult = /*[[${eventResult}]]*/[];
+
+        var view = new Horyu.View.EventHistoryView({
+            prizeList: eventResult
+        });
+        view.init();
+    });
+</script>

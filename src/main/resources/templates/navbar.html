@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">허수아비 이벤트</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:classappend="${#strings.startsWith(viewName, 'view/apply/')} ? active">
+                    <a class="nav-link" th:href="@{/apply}">
+                        <i class="fas fa-pencil-alt"></i>&nbsp; 이벤트 응모
+                    </a>
+                </li>
+                <li class="nav-item" th:classappend="${#strings.startsWith(viewName, 'view/check/')} ? active">
+                    <a class="nav-link" th:href="@{/check}">
+                        <i class="fas fa-search"></i>&nbsp; 이벤트 응모 확인
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item" th:if="${session.loginUsername == null}"
+                    th:classappend="${#strings.startsWith(viewName, 'view/admin/')} ? active">
+                    <a class="nav-link" th:href="@{/admin/login}">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp; 관리자 로그인
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown" th:if="${session.loginUsername != null}"
+                    th:classappend="${#strings.startsWith(viewName, 'view/admin/')} ? active">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download"> <i
+                            class="fas fa-user"></i>&nbsp; <a th:remove="tag"
+                                                              th:text="${session.loginNickname == null ? session.loginUsername : session.loginNickname}"></a>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="download">
+                        <a class="dropdown-item" th:href="@{/admin/logout/}">
+                            <i class="fas fa-sign-out-alt"></i>&nbsp; 로그아웃
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" th:href="@{/admin/eventSetting/}">
+                            <i class="fas fa-wrench"></i>&nbsp; 현재 이벤트 설정
+                        </a>
+                        <a class="dropdown-item" th:href="@{/admin/companySetting/}">
+                            <i class="fas fa-wrench"></i>&nbsp; 도움을 주신 회사 목록 설정
+                        </a>
+                        <a class="dropdown-item" th:href="@{/admin/prizeSetting/}">
+                            <i class="fas fa-wrench"></i>&nbsp; 상품 목록 설정
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" th:href="@{/admin/applicantList/}">
+                            <i class="fas fa-list-ul"></i>&nbsp; 응모자 목록
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/admin/lottery/}">
+                            <i class="fas fa-random"></i>&nbsp; 추첨
+                        </a>
+                        <a class="dropdown-item" th:href="@{/admin/eventHistory/}">
+                            <i class="fas fa-history"></i>&nbsp; 이벤트 기록
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

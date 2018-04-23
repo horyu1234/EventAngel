@@ -1,0 +1,123 @@
+<link th:href="@{/css/apply.css}" rel="stylesheet"/>
+<script type="text/javascript" th:src="@{/js/Horyu.View.Apply.js}"></script>
+
+<div class="alert alert-info"
+     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+    현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
+</div>
+
+<div class="col-md-10 offset-md-1">
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="alert alert-warning alert-banner"></div>
+
+            <div th:remove="tag"
+                 th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+                <a id="event-title" th:text="${eventTitle}"></a>
+                <br/>
+                <a id="event-detail" th:text="${eventDetail}"></a>
+
+                <form id="applyForm" method="post" action="#" th:action="@{/apply}" th:object="${applyForm}"
+                      accept-charset="utf-8">
+                    <input class="hidden-input" name="fingerprint2" id="fingerprint2"/>
+
+                    <div class="form-group">
+                        <label for="youtubeNickname" class="control-label">유튜브 닉네임</label>
+                        <input class="form-control" name="youtubeNickname" id="youtubeNickname"
+                               placeholder="유튜브 닉네임을 입력해주세요."
+                               data-parsley-trigger="change" data-parsley-required=""
+                               data-parsley-length="[1, 100]"
+                               data-parsley-errors-container="#youtubeNickname-errors"/>
+                        <div class="invalid-feedback" id="youtubeNickname-errors"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">이메일</label>
+                        <input class="form-control" name="email" id="email"
+                               placeholder="이메일을 입력해주세요."
+                               data-parsley-trigger="change" data-parsley-required=""
+                               data-parsley-type="email"
+                               data-parsley-errors-container="#email-errors"/>
+                        <div class="invalid-feedback" id="email-errors"></div>
+                    </div>
+
+                    <br/>
+                    <p id="subscribe-notice-title">허수아비 유튜브 구독자이신가요?</p>
+                    <p id="subscribe-notice-detail">채널 구독자분을 대상으로 하는 이벤트라 이해 부탁드리겠습니다.</p>
+
+                    <button type="submit" class="btn btn-success">구독자입니다! (자동 응모)</button>
+                    <button type="button" class="btn btn-warning" onclick="$('#submit-modal').modal()">구독자가 아닙니다 :(
+                    </button>
+
+                    <small class="form-text text-muted">중복 응모하시면 자동으로 추첨에서 제외되오니 주의 부탁드리겠습니다.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px"
+         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+        <div class="card-header">도움을 주신 회사와 상품 목록</div>
+        <div class="card-body table-responsive">
+            <table class="table company-gift-table" id="prize-table">
+                <colgroup>
+                    <col width="200px"/>
+                    <col width="100%"/>
+                    <col width="20px"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>도움을 주신 회사</th>
+                    <th>상품</th>
+                    <th>개수</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="submit-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">안내</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success">
+                    <strong>지금 허수아비 유튜브를 구독하고 이벤트에 응모해보세요!</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"
+                        onclick="window.open('https://www.youtube.com/channel/UCyoqIWgyiQmxYiNP_l7KlyQ','_blank')">
+                    허수아비 유튜브로 이동
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var applyCount = /*[[${applyCount}]]*/0;
+    var eventStatus = /*[[${eventStatus}]]*/'close';
+    var eventStartTime = /*[[${eventStartTime}]]*/'0000-00-00 00:00';
+    var eventEndTime = /*[[${eventEndTime}]]*/'0000-00-00 00:00';
+    var prizeList = /*[[${prizeList}]]*/[];
+
+    $(function() {
+        var view = new Horyu.View.Apply({
+            applyCount: applyCount,
+            eventStatus: eventStatus,
+            eventStartTime: eventStartTime,
+            eventEndTime: eventEndTime,
+            prizeList: prizeList
+        });
+
+        view.init();
+    });
+</script>

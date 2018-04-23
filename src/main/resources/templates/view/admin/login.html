@@ -1,0 +1,32 @@
+<div class="card bg-light col-md-4 offset-md-4">
+    <div class="card-body">
+        <div class="alert alert-info">
+            본 로그인은 관리자 전용입니다.
+        </div>
+        <div class="alert alert-dismissible alert-danger" th:if="${loginFailed}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            아이디 또는 비밀번호가 맞지 않습니다.
+        </div>
+
+        <form id="loginForm" method="post" action="#" th:action="@{/admin/login}" th:object="${loginForm}"
+              accept-charset="utf-8">
+            <div class="form-group">
+                <label for="username" class="control-label">아이디</label>
+                <input class="form-control" name="username" id="username"
+                       placeholder="아이디를 입력해주세요."
+                       type="text" required="" th:value="${username}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="control-label">비밀번호</label>
+                <input class="form-control" name="password" id="password"
+                       placeholder="비밀번호를 입력해주세요."
+                       type="password" required=""/>
+            </div>
+
+            <button type="submit" class="btn btn-primary loginBtn">로그인</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/admin/login.js}"></script>

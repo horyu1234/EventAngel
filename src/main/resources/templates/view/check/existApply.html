@@ -1,0 +1,13 @@
+<div class="card bg-light col-md-10 offset-md-1">
+    <div class="card-body">
+        <div class="alert alert-success">
+            이벤트 응모가 되어 있는 상태입니다.
+            <br/><br/>
+            응모 일자: <a th:remove="tag" th:text="${#dates.format(applicant.applyTime, 'yyyy-MM-dd a hh:mm:ss')}"></a>
+            <br/>
+            유튜브 닉네임: <a th:remove="tag" th:text="${applicant.getYoutubeNickname()}"></a>
+            <br/>
+            이메일: <a th:remove="tag" th:text="${applicant.getEmail()}"></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.EventSetting.js}"></script>
+
+<div class="alert alert-warning">
+    <strong>주의: 추첨을 시작하면, 다음 이벤트를 시작하거나 현재 이벤트의 당첨자 목록을 초기화하기 전까지는 아래 설정을 더 이상 수정하실 수 없습니다.</strong>
+</div>
+
+<div class="alert alert-warning"
+     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    추첨이 시작되었으므로, 더 이상 설정 변경이 불가능합니다.
+    <br/><br/>
+    <button type="button" class="btn btn-primary endEventBtn">현재 이벤트 종료 후 새로운 이벤트 시작</button>
+    <button type="button" class="btn btn-info resetEventWinner">현재 이벤트의 당첨자 초기화</button>
+</div>
+
+<div class="col-md-10 offset-md-1"
+     th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    <div class="card bg-light">
+        <div class="card-body">
+            <a style="font-weight: bold; font-size: 22pt;">현재 이벤트 설정</a>
+            <br/><br/>
+            <form id="eventSettingForm" method="post" action="#" th:action="@{/admin/eventSetting/general}"
+                  th:object="${eventSettingForm}"
+                  accept-charset="utf-8">
+                <input name="eventId" id="eventId" hidden="" style="visibility: hidden" th:value="${eventId}"/>
+                <input name="eventStatus" id="eventStatus" hidden="" style="visibility: hidden"/>
+                <input name="eventStartTime" id="eventStartTime" hidden="" style="visibility: hidden"/>
+                <input name="eventEndTime" id="eventEndTime" hidden="" style="visibility: hidden"/>
+
+                <div class="form-group">
+                    <div class="btn-group btn-group-toggle eventStatusBtnGroup" data-toggle="buttons">
+                        <label class="btn btn-outline-success"
+                               th:classappend="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).OPEN} ? active">
+                            <input class="eventStatusButton" type="radio" id="OPEN"
+                                   autocomplete="off"
+                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).OPEN} ? ''"/>
+                            현재 응모 신청을 받습니다.
+                        </label>
+                        <label class="btn btn-outline-danger"
+                               th:classappend="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).CLOSE} ? active">
+                            <input class="eventStatusButton" type="radio" id="CLOSE"
+                                   autocomplete="off"
+                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).CLOSE} ? ''"/>
+                            현재 응모 신청을 받지 않습니다.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="eventOpenSettingGroup">
+                    <div class="form-group">
+                        <label for="eventTitle" class="control-label">이벤트 응모 타이틀</label>
+                        <input class="form-control" name="eventTitle" id="eventTitle"
+                               placeholder="이벤트 응모 타이틀을 입력해주세요."
+                               required=""
+                               th:value="${eventTitle}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDetail" class="control-label">세부 일정</label>
+                        <input class="form-control" name="eventDetail" id="eventDetail"
+                               placeholder="세부 일정을 입력해주세요."
+                               required=""
+                               th:value="${eventDetail}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventTerm" class="control-label">응모 기간</label>
+                        <input class="form-control" id="eventTerm" required=""/>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary submitBtn">저장</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="end-event-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">현재 이벤트 종료 후 새로운 이벤트 시작</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    정말 현재 이벤트를 종료하시겠습니까?
+                    <br/>
+                    아래 사항들이 초기화됩니다.
+                    <br/><br/>
+                    <ul>
+                        <li>기존 이벤트 설정</li>
+                        <li>도움을 주신 회사 목록</li>
+                        <li>상품 목록</li>
+                        <li>응모자 목록</li>
+                    </ul>
+                    이벤트 당첨자 등의 기록은 "이벤트 기록" 메뉴에 별도로 저장됩니다.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="endEventConfirmBtn" class="btn btn-danger">현재 이벤트 종료 후 새로운 이벤트 시작</button>
+                <button type="button" class="btn btn-primary abortBtn" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reset-event-winner-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">현재 이벤트의 당첨자 초기화</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    정말 현재 이벤트의 당첨자를 초기화하시겠습니까?
+                    <br/><br/>
+                    현재 이벤트의 당첨자들이 초기화되며, 모든 설정이 변경 가능한 상태가 됩니다.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="resetEventWinnerConfirmBtn" class="btn btn-danger">현재 이벤트의 당첨자 초기화</button>
+                <button type="button" class="btn btn-primary abortBtn" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var eventStartTime = /*[[${eventStartTime}]]*/'0000-00-00 00:00';
+    var eventEndTime = /*[[${eventEndTime}]]*/'0000-00-00 00:00';
+
+    $(function() {
+        var view = new Horyu.View.EventSetting({
+            eventStartTime: eventStartTime,
+            eventEndTime: eventEndTime
+        });
+
+        view.init();
+    });
+</script>

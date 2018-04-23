@@ -1,0 +1,113 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.PrizeSetting.js}"></script>
+
+<div class="alert alert-warning">
+    <strong>주의: 추첨을 시작하면, 다음 이벤트를 시작하거나 현재 이벤트의 당첨자 목록을 초기화하기 전까지는 아래 설정을 더 이상 수정하실 수 없습니다.</strong>
+</div>
+
+<div class="alert alert-warning"
+     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    추첨이 시작되었으므로, 더 이상 설정 변경이 불가능합니다.
+    <br/><br/>
+    새로운 이벤트 시작은 "현재 이벤트 설정" 메뉴를 이용해주세요.
+</div>
+
+<div class="col-md-10 offset-md-1" th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+    <div class="card" style="margin-top: 20px">
+        <div class="card-header">상품 추가</div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                회사 수정은 우측 상단 "관리자 메뉴->도움을 주신 회사 설정" 을 이용해주세요.
+            </div>
+
+            <form method="post" action="#" th:action="@{/admin/prizeSetting/savePrize}" th:object="${prizeSaveForm}"
+                  accept-charset="utf-8">
+                <input name="prizeId" id="prizeId" hidden="" style="visibility: hidden" value="0"/>
+
+                <div class="form-group">
+                    <label for="companyId" class="control-label">회사 선택</label>
+                    <select class="form-control" name="companyId" id="companyId"
+                            required="">
+                        <option th:each="company : ${companyList}" th:value="${company.getCompanyId()}"
+                                th:text="${company.getCompanyName()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="prizeName" class="control-label">상품 이름</label>
+                    <input class="form-control" name="prizeName" id="prizeName"
+                           placeholder="상품 이름을 입력해주세요."
+                           required=""/>
+                </div>
+
+                <div class="form-group">
+                    <label for="prizeAmount" class="control-label">상품 수</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="number"
+                               name="prizeAmount" id="prizeAmount"
+                               required="" value="1" min="1"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">개</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success" id="submitBtn">상품 추가</button>
+                <button type="button" class="btn btn-default" id="cancelEditBtn" style="visibility: hidden">수정 취소
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive" style="margin-top: 20px">
+        <table class="table company-gift-table" id="prize-table">
+            <colgroup>
+                <col width="200px"/>
+                <col width="100%"/>
+                <col width="20px"/>
+                <col width="20px"/>
+                <col width="20px"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>도움을 주신 회사</th>
+                <th>상품</th>
+                <th>개수</th>
+                <td>수정</td>
+                <td>삭제</td>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">상품 제거</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    정말 해당 상품을 제거하시겠습니까?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger">제거</button>
+                <button type="button" id="deleteAbortBtn" class="btn btn-primary" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var prizeList = /*[[${prizeList}]]*/[];
+
+    $(function() {
+        var view = new Horyu.View.PrizeSetting({
+            prizeList: prizeList
+        });
+
+        view.init();
+    });
+</script>

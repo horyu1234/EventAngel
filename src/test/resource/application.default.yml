@@ -1,0 +1,22 @@
+logging:
+  level.org.springframework.jdbc.core.JdbcTemplate: debug
+
+server:
+  port: 9093
+
+spring:
+  session:
+    store-type: jdbc
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://<Host>:<Port>/<Database>
+    username: <DB Username>
+    password: <DB Password>
+    validation-query: SELECT 1
+    test-while-idle: true
+    max-active: 200
+    max-idle: 100
+    min-idle: 20
+    max-wait: 1000

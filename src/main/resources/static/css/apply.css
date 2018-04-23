@@ -1,0 +1,20 @@
+#event-title {
+    font-weight: bold;
+    font-size: 28pt;
+}
+
+#event-detail {
+    font-weight: bold;
+    font-size: 15pt;
+    color: gray;
+}
+
+#subscribe-notice-title {
+    font-weight: bold;
+    font-size: 18pt;
+    margin-bottom: 0;
+}
+
+#subscribe-notice-detail {
+    font-size: 10pt;
+}

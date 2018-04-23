@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>허수아비 이벤트</title>
+
+    <meta charset='UTF-8'/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--<meta property="og:url" content="http://허수아비이벤트.한국/"/>-->
+    <meta property="og:title" content="허수아비 이벤트"/>
+    <meta property="og:description" content="허수아비 이벤트 응모 / 추첨 사이트입니다."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" th:content="@{/img/logo.jpg}"/>
+    <meta name="description" content="허수아비 이벤트 응모 / 추첨 사이트입니다."/>
+    <meta name="theme-color" content="#373a3c"/>
+    <meta name="msapplication-navbutton-color" content="#373a3c"/>
+    <meta name="msapplication-TileColor" content="#373a3c"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="#373a3c"/>
+
+    <link th:href="@{/lib/bootstrap-cosmo/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/lib/fontawesome-free-5.0.9/css/fontawesome-all.css}" rel="stylesheet"/>
+    <link th:href="@{/lib/daterangepicker-2.1.25/css/daterangepicker.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <script type="text/javascript" th:src="@{/lib/jquery-3.3.1/js/jquery-3.3.1.min.js}"></script>
+
+    <script type="text/javascript" th:src="@{/lib/parsley-2.8.1/parsley.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/parsley-2.8.1/i18n/ko.js}"></script>
+
+    <script type="text/javascript" th:src="@{/lib/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/whoareyou.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/countUp-1.9.3/countUp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/moment-2.22.0/js/moment-with-locales.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/jquery.countdown/js/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/sugarjs-2.0.4/js/sugar.min.js}"></script>
+    <script th:if="${#strings.startsWith(viewName, 'view/admin/')}" type="text/javascript"
+            th:src="@{/lib/daterangepicker-2.1.25/js/daterangepicker.js}"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-75680482-7"></script>
+    <script th:inline="javascript">
+        moment.locale('ko');
+        Sugar.extend();
+
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-75680482-7');
+    </script>
+
+</head>
+<body>
+<!--[if lte IE 8]>
+<div class="alert alert-danger">
+    <strong>본 브라우저의 버전이 낮아, 사이트의 내용이 정상적으로 보이지 않을 수 있습니다.<br/>IE 9 이상 또는 크롬을 사용해주시기 바랍니다.</strong>
+</div>
+<![endif]-->
+
+<noscript>
+    <div class="alert alert-danger">
+        <strong>사용자의 브라우저는 JavaScript 를 차단하고 있습니다. JavaScript 를 차단할 시 정상적인 사이트 이용이 불가능합니다.</strong>
+    </div>
+</noscript>
+
+<div th:remove="tag" th:include="navbar" th:with="viewName=${viewName}"></div>
+
+<div class="container" id="main-container" th:include="${viewName}"></div>
+</body>
+
+<div class="alert alert-primary" id="copyright">
+    <a style="font-size: 11pt">
+        사이트 개발 : 류현오(horyu1234)&nbsp; /&nbsp; 서버 제공: 정재우(kakaruta)
+        <br/>
+        <a href="https://activity.horyu.me" target="_blank">https://activity.horyu.me</a>
+    </a>
+    <br/>
+    <a style="font-size: 8pt">ⓒ horyu1234. All Rights Reserved.</a>
+</div>
+</html>
