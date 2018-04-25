@@ -1,4 +1,5 @@
 # HusuabieEventLotteryApply
+[![Build Status](https://travis-ci.org/horyu1234/HusuabieEventLotteryApply.svg?branch=master)](https://travis-ci.org/horyu1234/HusuabieEventLotteryApply)
 [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 허수아비 이벤트 사이트입니다.  
