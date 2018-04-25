@@ -3,8 +3,6 @@ package com.horyu1234.husuabieventlotteryapply.service;
 import com.horyu1234.husuabieventlotteryapply.database.dao.CompanyDAO;
 import com.horyu1234.husuabieventlotteryapply.domain.Company;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

@@ -47,22 +47,22 @@ public class EventService {
     }
 
     public EventDetailStatus getEventDetailStatus(Event event) {
-        if (event.getEventStatus() == EventStatus.OPEN) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime startTime = LocalDateTime.parse(event.getEventStartTime(), dateTimeFormatter);
-            LocalDateTime endTime = LocalDateTime.parse(event.getEventEndTime(), dateTimeFormatter);
-
-            if (currentTime.isBefore(startTime)) {
-                return EventDetailStatus.START_SOON;
-            } else if (currentTime.isAfter(endTime)) {
-                return EventDetailStatus.ALREADY_END;
-            } else {
-                return EventDetailStatus.OPEN;
-            }
-        } else {
+        if (event.getEventStatus() != EventStatus.OPEN) {
             return EventDetailStatus.CLOSE;
+        }
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime startTime = LocalDateTime.parse(event.getEventStartTime(), dateTimeFormatter);
+        LocalDateTime endTime = LocalDateTime.parse(event.getEventEndTime(), dateTimeFormatter);
+
+        if (currentTime.isBefore(startTime)) {
+            return EventDetailStatus.START_SOON;
+        } else if (currentTime.isAfter(endTime)) {
+            return EventDetailStatus.ALREADY_END;
+        } else {
+            return EventDetailStatus.OPEN;
         }
     }
 
