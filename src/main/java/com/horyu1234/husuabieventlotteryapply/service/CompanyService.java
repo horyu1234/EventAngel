@@ -32,6 +32,7 @@ public class CompanyService {
 
         if (company.getCompanyId() == 0) {
             int maxCompanyId = 0;
+
             if (!companyDAO.getCompanyList(eventId).isEmpty()) {
                 maxCompanyId = companyDAO.getMaxCompanyId(eventId);
             }

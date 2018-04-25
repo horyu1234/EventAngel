@@ -33,7 +33,9 @@ public class AccountService {
         }
 
         Account storedAccount = storedAccounts.get(0);
-        if (BCrypt.checkpw(username + "/" + password, storedAccount.getPassword())) {
+        String STORED_ACCOUNT = username + "/" + password;
+
+        if (BCrypt.checkpw(STORED_ACCOUNT, storedAccount.getPassword())) {
             return storedAccount;
         }
 
