@@ -84,15 +84,18 @@ public class ApplyController {
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         if (eventDetailStatus == EventDetailStatus.START_SOON) {
-            LOGGER.info(String.format("[%s] 곧 시작될 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
+            String applyBeforeEventMessage = String.format("[%s] 곧 시작될 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+            LOGGER.info(applyBeforeEventMessage);
 
             return "redirect:/apply";
         } else if (eventDetailStatus == EventDetailStatus.CLOSE) {
-            LOGGER.info(String.format("[%s] 비활성화된 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
+            String applyDeActiveEventMessage = String.format("[%s] 비활성화된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+            LOGGER.info(applyDeActiveEventMessage);
 
             return "redirect:/apply";
         } else if (eventDetailStatus == EventDetailStatus.ALREADY_END) {
-            LOGGER.info(String.format("[%s] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
+            String applyEndEventMessage = String.format("[%s] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+            LOGGER.info(applyEndEventMessage);
 
             model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/alreadyEnd");
 
@@ -118,7 +121,9 @@ public class ApplyController {
         model.addAttribute("applicant", applicant);
         model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/success");
 
-        LOGGER.info(String.format("[%s] 새로운 응모 - %s / %s", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname()));
+
+        String newApply = String.format("[%s] 새로운 응모 - %s / %s", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname());
+        LOGGER.info(newApply);
 
         return ViewNames.LAYOUT;
     }

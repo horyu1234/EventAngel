@@ -68,6 +68,7 @@ public class PrizeService {
         List<Prize> prizeList = prizeDAO.getPrizeList(eventId);
 
         List<CompanyAndPrize> companyAndPrizeList = new ArrayList<>();
+
         for (Prize prize : prizeList) {
             Company company = companyDAO.getCompany(eventId, prize.getCompanyId());
 
