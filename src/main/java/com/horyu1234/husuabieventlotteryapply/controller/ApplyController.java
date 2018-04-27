@@ -30,6 +30,13 @@ import java.util.Date;
 @Controller
 public class ApplyController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
+
+    private static String VIEW_PATH_APPLY = "view/apply/apply";
+    private static String VIEW_PATH_REDUPLICATION = "view/apply/reduplication";
+    private static String VIEW_PATH_ALREADY_END = "view/apply/alreadyEnd";
+    private static String VIEW_PATH_INVALID_FORM = "view/apply/invalidForm";
+    private static String VIEW_PATH_SUCCESS = "view/apply/success";
+
     private ApplicantService applicantService;
     private EventService eventService;
     private PrizeService prizeService;
@@ -64,7 +71,7 @@ public class ApplyController {
 
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/apply");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_PATH_APPLY);
 
         return ViewNames.LAYOUT;
     }
@@ -75,7 +82,7 @@ public class ApplyController {
         Applicant storedApplicant = applicantService.getApply(applyForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/reduplication");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_PATH_REDUPLICATION);
 
             return ViewNames.LAYOUT;
         }
@@ -97,7 +104,7 @@ public class ApplyController {
             String applyEndEventMessage = String.format("[%s] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
             LOGGER.info(applyEndEventMessage);
 
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/alreadyEnd");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_PATH_ALREADY_END);
 
             return ViewNames.LAYOUT;
         }
@@ -111,7 +118,7 @@ public class ApplyController {
         applicant.setFingerprint2(StringUtils.isNullOrEmpty(applyForm.getFingerprint2()) ? null : applyForm.getFingerprint2());
 
         if (StringUtils.isNullOrEmpty(applicant.getEmail()) || StringUtils.isNullOrEmpty(applicant.getYoutubeNickname()) || !applicant.getEmail().contains("@")) {
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/invalidForm");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_PATH_INVALID_FORM);
 
             return ViewNames.LAYOUT;
         }
@@ -119,7 +126,7 @@ public class ApplyController {
         applicantService.addApply(applicant);
 
         model.addAttribute("applicant", applicant);
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/success");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_PATH_SUCCESS);
 
 
         String newApply = String.format("[%s] 새로운 응모 - %s / %s", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname());

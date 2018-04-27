@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class CheckController {
+    private static final String VIEW_CHECK_CHECK = "view/check/check";
+    private static final String VIEW_CHECK_EXIST_APPLY = "view/check/existApply";
+    private static final String VIEW_CHECK_NOT_EXIST_APPLY = "view/check/notExistApply";
     private ApplicantService applicantService;
 
     @Autowired
@@ -25,7 +28,7 @@ public class CheckController {
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     public String check(Model model) {
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/check");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_CHECK_CHECK);
 
         return ViewNames.LAYOUT;
     }
@@ -35,12 +38,12 @@ public class CheckController {
         Applicant storedApplicant = applicantService.getApply(checkForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/existApply");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_CHECK_EXIST_APPLY);
 
             return ViewNames.LAYOUT;
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/notExistApply");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_CHECK_NOT_EXIST_APPLY);
 
         return ViewNames.LAYOUT;
     }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin/companySetting")
 @Controller
 public class CompanySettingController {
+    private static final String VIEW_ADMIN_COMPANY_SETTING = "view/admin/companySetting";
     private EventService eventService;
     private CompanyService companyService;
 
@@ -39,7 +40,7 @@ public class CompanySettingController {
         model.addAttribute("companyList", companyService.getCompanyList(currentEvent.getEventId()));
         model.addAttribute(ModelAttributeNames.EVENT_STATUS, currentEvent.getEventStatus());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/companySetting");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_COMPANY_SETTING);
 
         return ViewNames.LAYOUT;
     }

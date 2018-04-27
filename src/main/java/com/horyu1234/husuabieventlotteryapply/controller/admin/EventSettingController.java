@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin/eventSetting")
 @Controller
 public class EventSettingController {
+    private static final String VIEW_ADMIN_EVENT_SETTING = "view/admin/eventSetting";
     private EventService eventService;
 
     @Autowired
@@ -34,7 +35,7 @@ public class EventSettingController {
         model.addAttribute(ModelAttributeNames.EVENT_START_TIME, currentEvent.getEventStartTime());
         model.addAttribute(ModelAttributeNames.EVENT_END_TIME, currentEvent.getEventEndTime());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventSetting");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_EVENT_SETTING);
 
         return ViewNames.LAYOUT;
     }

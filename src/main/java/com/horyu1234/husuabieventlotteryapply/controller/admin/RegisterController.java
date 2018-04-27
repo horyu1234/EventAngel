@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin/register")
 @Controller
 public class RegisterController {
+
+    private static final String VIEW_ADMIN_REGISTER = "view/admin/register";
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
     public String register(Model model,
                            @PathVariable String uuid) {
         System.out.println("uuid: " + uuid);
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/register");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_REGISTER);
 
         return ViewNames.LAYOUT;
     }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin/prizeSetting")
 @Controller
 public class PrizeController {
+    private static final String VIEW_ADMIN_PRIZE_SETTING = "view/admin/prizeSetting";
     private EventService eventService;
     private CompanyService companyService;
     private PrizeService prizeService;
@@ -47,7 +48,7 @@ public class PrizeController {
         model.addAttribute("companyList", companyService.getCompanyList(currentEvent.getEventId()));
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/prizeSetting");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_PRIZE_SETTING);
 
         return ViewNames.LAYOUT;
     }
