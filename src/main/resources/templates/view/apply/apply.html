@@ -2,7 +2,7 @@
 <script type="text/javascript" th:src="@{/js/Horyu.View.Apply.js}"></script>
 
 <div class="alert alert-info"
-     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN or eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).ALREADY_END }">
     현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
 </div>
 
@@ -56,7 +56,7 @@
     </div>
 
     <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+         th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).CLOSE}">
         <div class="card-header">도움을 주신 회사와 상품 목록</div>
         <div class="card-body table-responsive">
             <table class="table company-gift-table" id="prize-table">

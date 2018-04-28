@@ -59,6 +59,21 @@ Horyu.View.Apply = function(options) {
                     window.location.reload();
                 });
         } else if (_this.options.eventStatus.$name === 'ALREADY_END') {
+            var options = {
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                suffix: '명'
+            };
+
+            var countUp = new CountUp('applyCount', 0, _this.options.applyCount, 0, 5, options);
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
+
             $('.alert-banner').html('<a style="font-weight: bold; font-size: 20pt;">다음 시간 전에 이미 응모 신청이 마감되었습니다.</a>' +
                 '<br/>' +
                 '<a id="time-countdown" style="font-weight: bold; font-size: 32pt;"></a>');
