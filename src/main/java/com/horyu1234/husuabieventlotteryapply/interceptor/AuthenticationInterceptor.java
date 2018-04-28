@@ -13,7 +13,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String loginUsername = (String) request.getSession().getAttribute(SessionAttributeNames.LOGIN_USERNAME);
         if (loginUsername == null) {
-            response.sendRedirect("/admin/login");
+            String adminLoginLocation = "/admin/login";
+            response.sendRedirect(adminLoginLocation);
             return false;
         }
 

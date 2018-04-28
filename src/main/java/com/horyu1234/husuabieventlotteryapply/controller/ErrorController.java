@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/error")
 @Controller
 public class ErrorController {
+
+    private static final String VIEW_ERROR_404 = "view/error/404";
+
     @RequestMapping("/404")
     public String notFound(Model model) {
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/error/404");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ERROR_404);
 
         return ViewNames.LAYOUT;
     }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/lottery")
 @Controller
 public class LotteryController {
+    private static final String VIEW_ADMIN_LOTTERY = "view/admin/lottery";
     private EventService eventService;
     private ApplicantService applicantService;
     private PrizeService prizeService;
@@ -62,7 +63,7 @@ public class LotteryController {
         model.addAttribute("applyCount", applicantService.getApplyCount());
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/lottery");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_LOTTERY);
 
         return ViewNames.LAYOUT;
     }

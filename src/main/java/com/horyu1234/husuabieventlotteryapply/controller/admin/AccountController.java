@@ -23,6 +23,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class AccountController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+    private static final String VIEW_ADMIN_LOGIN = "view/admin/login";
+    private static final String VIEW_ADMIN_LOGIN1 = "view/admin/login";
     private AccountService accountService;
 
     @Autowired
@@ -36,7 +38,7 @@ public class AccountController {
             return "redirect:/admin/eventSetting/";
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/login");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_LOGIN);
 
         return ViewNames.LAYOUT;
     }
@@ -48,7 +50,7 @@ public class AccountController {
         if (account == null) {
             model.addAttribute("loginFailed", true);
             model.addAttribute(ModelAttributeNames.LOGIN_USERNAME, loginForm.getUsername());
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/login");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_LOGIN1);
 
             return ViewNames.LAYOUT;
         }
@@ -56,7 +58,8 @@ public class AccountController {
         session.setAttribute(SessionAttributeNames.LOGIN_USERNAME, account.getUsername());
         session.setAttribute(SessionAttributeNames.LOGIN_NICKNAME, account.getNickname());
 
-        LOGGER.info(loginForm.getUsername() + " 님이 로그인하셨습니다.");
+        String LoginMessage = loginForm.getUsername() + " 님이 로그인하셨습니다.";
+        LOGGER.info(LoginMessage);
 
         return "redirect:/admin/eventSetting/";
     }

@@ -31,12 +31,14 @@ public class RequestLoggingInterceptor extends HandlerInterceptorAdapter {
         if (modelAndView != null && !modelAndView.getModel().isEmpty()) {
             viewName = (String) modelAndView.getModel().get(ModelAttributeNames.VIEW_NAME);
         }
+
         String referer = request.getHeader("Referer");
 
         List<Object> objects = new ArrayList<>();
         objects.add(ipAddress);
         objects.add(requestMethod);
         objects.add(url);
+
         if (viewName != null) objects.add(viewName);
         if (referer != null) objects.add(referer);
 

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin/eventHistory")
 @Controller
 public class EventHistoryController {
+    private static final String VIEW_ADMIN_EVENT_HISTORY = "view/admin/eventHistory";
+    private static final String VIEW_ADMIN_EVENT_HISTORY_VIEW = "view/admin/eventHistoryView";
     private EventService eventService;
     private EventWinnerService eventWinnerService;
 
@@ -33,7 +35,7 @@ public class EventHistoryController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String eventHistory(Model model) {
         model.addAttribute("eventList", eventService.getEventList());
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventHistory");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_EVENT_HISTORY);
 
         return ViewNames.LAYOUT;
     }
@@ -41,7 +43,7 @@ public class EventHistoryController {
     @RequestMapping(value = "/view/{eventId}", method = RequestMethod.GET)
     public String eventHistory(Model model, @PathVariable int eventId) {
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(eventId));
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventHistoryView");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_EVENT_HISTORY_VIEW);
 
         return ViewNames.LAYOUT;
     }

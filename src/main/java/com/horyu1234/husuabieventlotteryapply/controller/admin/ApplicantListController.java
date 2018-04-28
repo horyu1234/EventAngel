@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/applicantList")
 @Controller
 public class ApplicantListController {
+    private static final String VIEW_ADMIN_APPLICANT_LIST = "view/admin/applicantList";
     private ApplicantService applicantService;
 
     @Autowired
@@ -26,7 +27,7 @@ public class ApplicantListController {
         model.addAttribute("applyCount", applicantService.getApplyCount());
         model.addAttribute("applicantList", applicantService.getRecent50ApplicantList());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/applicantList");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, VIEW_ADMIN_APPLICANT_LIST);
 
         return ViewNames.LAYOUT;
     }
