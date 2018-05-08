@@ -97,7 +97,7 @@ Horyu.View.Apply = function(options) {
                 suffix: '명'
             };
 
-            var countUp = new CountUp('applyCount', 0, _this.options.applyCount, 0, 5, options);
+            var countUp = new CountUp('applyCount', 0, _this.options.applyCount, 0, 3, options);
             if (!countUp.error) {
                 countUp.start();
             } else {
