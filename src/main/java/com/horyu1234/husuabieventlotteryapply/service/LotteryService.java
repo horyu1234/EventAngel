@@ -4,11 +4,11 @@ import com.horyu1234.husuabieventlotteryapply.constant.EventStatus;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.domain.EventWinner;
+import org.apache.commons.math3.random.MersenneTwister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,9 +48,10 @@ public class LotteryService {
         List<Applicant> applicantList = applicantService.getApplicantList();
         applicantList = removeLotteryedPeople(applicantList, currentEvent.getEventId());
 
-        Collections.shuffle(applicantList);
+        MersenneTwister mersenneTwister = new MersenneTwister();
+        int randomIndex = mersenneTwister.nextInt(applicantList.size());
 
-        Applicant lotteryedApplicant = applicantList.get(0);
+        Applicant lotteryedApplicant = applicantList.get(randomIndex);
         eventWinnerService.addEventWinner(eventId, prizeId, lotteryedApplicant);
 
         return lotteryedApplicant;
