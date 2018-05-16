@@ -2,7 +2,7 @@ package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
 import com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus;
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -62,8 +62,8 @@ public class LotteryController {
         model.addAttribute("applyCount", applicantService.getApplyCount());
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/lottery");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_LOTTERY.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 }

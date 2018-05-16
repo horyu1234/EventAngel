@@ -1,7 +1,7 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.form.EventSettingForm;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -34,9 +34,9 @@ public class EventSettingController {
         model.addAttribute(ModelAttributeNames.EVENT_START_TIME, currentEvent.getEventStartTime());
         model.addAttribute(ModelAttributeNames.EVENT_END_TIME, currentEvent.getEventEndTime());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventSetting");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_EVENT_SETTING.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     @RequestMapping(value = "/general", method = RequestMethod.POST)
@@ -51,6 +51,6 @@ public class EventSettingController {
 
         eventService.updateEvent(currentEvent);
 
-        return "redirect:/admin/eventSetting/";
+        return View.ADMIN_EVENT_SETTING.toRedirect();
     }
 }

@@ -2,7 +2,7 @@ package com.horyu1234.husuabieventlotteryapply.controller;
 
 import com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus;
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.form.ApplyForm;
@@ -64,9 +64,9 @@ public class ApplyController {
 
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/apply");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_APPLY.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
@@ -75,9 +75,9 @@ public class ApplyController {
         Applicant storedApplicant = applicantService.getApply(applyForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/reduplication");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_REDUPLICATION.toView());
 
-            return ViewNames.LAYOUT;
+            return View.LAYOUT.getTemplateName();
         }
 
         Event currentEvent = eventService.getCurrentEvent();
@@ -94,9 +94,9 @@ public class ApplyController {
         } else if (eventDetailStatus == EventDetailStatus.ALREADY_END) {
             LOGGER.info(String.format("[%s] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
 
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/alreadyEnd");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_ALREADY_END.toView());
 
-            return ViewNames.LAYOUT;
+            return View.LAYOUT.getTemplateName();
         }
 
         Applicant applicant = new Applicant();
@@ -108,19 +108,19 @@ public class ApplyController {
         applicant.setFingerprint2(StringUtils.isNullOrEmpty(applyForm.getFingerprint2()) ? null : applyForm.getFingerprint2());
 
         if (StringUtils.isNullOrEmpty(applicant.getEmail()) || StringUtils.isNullOrEmpty(applicant.getYoutubeNickname()) || !applicant.getEmail().contains("@")) {
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/invalidForm");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_INVALID_FORM.toView());
 
-            return ViewNames.LAYOUT;
+            return View.LAYOUT.getTemplateName();
         }
 
         applicantService.addApply(applicant);
 
         model.addAttribute("applicant", applicant);
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/apply/success");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_SUCCESS.toView());
 
         LOGGER.info(String.format("[%s] 새로운 응모 - %s / %s", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname()));
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     private String getClientIpAddress() {

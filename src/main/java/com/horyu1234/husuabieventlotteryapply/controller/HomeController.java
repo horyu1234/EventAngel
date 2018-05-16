@@ -1,5 +1,6 @@
 package com.horyu1234.husuabieventlotteryapply.controller;
 
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @RequestMapping("/")
     public String home() {
-        return "redirect:/apply";
+        return View.APPLY.toRedirect();
     }
 }

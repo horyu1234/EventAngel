@@ -1,5 +1,6 @@
 package com.horyu1234.husuabieventlotteryapply.config;
 
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.interceptor.AuthenticationInterceptor;
 import com.horyu1234.husuabieventlotteryapply.interceptor.RequestLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
 
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/login")
+                .excludePathPatterns(View.ADMIN_LOGIN.toPath())
                 .excludePathPatterns("/admin/register/**")
                 .excludePathPatterns("/admin/logout");
     }

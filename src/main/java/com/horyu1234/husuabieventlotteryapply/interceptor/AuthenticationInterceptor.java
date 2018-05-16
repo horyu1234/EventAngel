@@ -1,6 +1,7 @@
 package com.horyu1234.husuabieventlotteryapply.interceptor;
 
 import com.horyu1234.husuabieventlotteryapply.constant.SessionAttributeNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,7 +14,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String loginUsername = (String) request.getSession().getAttribute(SessionAttributeNames.LOGIN_USERNAME);
         if (loginUsername == null) {
-            response.sendRedirect("/admin/login");
+            response.sendRedirect(View.ADMIN_LOGIN.getTemplateName());
             return false;
         }
 

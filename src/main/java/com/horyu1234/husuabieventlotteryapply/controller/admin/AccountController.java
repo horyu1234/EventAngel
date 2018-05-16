@@ -2,7 +2,7 @@ package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.SessionAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Account;
 import com.horyu1234.husuabieventlotteryapply.form.LoginForm;
 import com.horyu1234.husuabieventlotteryapply.service.AccountService;
@@ -33,12 +33,12 @@ public class AccountController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
         if (session.getAttribute(SessionAttributeNames.LOGIN_USERNAME) != null) {
-            return "redirect:/admin/eventSetting/";
+            return View.ADMIN_EVENT_SETTING.toRedirect();
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/login");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_LOGIN.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -48,9 +48,9 @@ public class AccountController {
         if (account == null) {
             model.addAttribute("loginFailed", true);
             model.addAttribute(ModelAttributeNames.LOGIN_USERNAME, loginForm.getUsername());
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/login");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_LOGIN.toView());
 
-            return ViewNames.LAYOUT;
+            return View.LAYOUT.getTemplateName();
         }
 
         session.setAttribute(SessionAttributeNames.LOGIN_USERNAME, account.getUsername());
@@ -58,18 +58,18 @@ public class AccountController {
 
         LOGGER.info(loginForm.getUsername() + " 님이 로그인하셨습니다.");
 
-        return "redirect:/admin/eventSetting/";
+        return View.ADMIN_EVENT_SETTING.toRedirect();
     }
 
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session) {
         if (session.getAttribute(SessionAttributeNames.LOGIN_USERNAME) == null) {
-            return "redirect:/admin/login";
+            return View.ADMIN_LOGIN.toRedirect();
         }
 
         session.removeAttribute(SessionAttributeNames.LOGIN_USERNAME);
         session.removeAttribute(SessionAttributeNames.LOGIN_NICKNAME);
 
-        return "redirect:/admin/login";
+        return View.ADMIN_LOGIN.toRedirect();
     }
 }

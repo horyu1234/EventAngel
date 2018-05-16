@@ -1,7 +1,7 @@
 package com.horyu1234.husuabieventlotteryapply.controller;
 
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
 import com.horyu1234.husuabieventlotteryapply.form.CheckForm;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
@@ -25,9 +25,9 @@ public class CheckController {
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     public String check(Model model) {
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/check");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_CHECK.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
@@ -35,13 +35,13 @@ public class CheckController {
         Applicant storedApplicant = applicantService.getApply(checkForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/existApply");
+            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_EXIST_APPLY.toView());
 
-            return ViewNames.LAYOUT;
+            return View.LAYOUT.getTemplateName();
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/check/notExistApply");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_NOT_EXIST_APPLY.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 }

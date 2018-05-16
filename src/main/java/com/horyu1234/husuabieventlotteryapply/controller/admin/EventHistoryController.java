@@ -1,7 +1,7 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.ViewNames;
+import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
 import com.horyu1234.husuabieventlotteryapply.service.EventWinnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +33,16 @@ public class EventHistoryController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String eventHistory(Model model) {
         model.addAttribute("eventList", eventService.getEventList());
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventHistory");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_EVENT_HISTORY.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 
     @RequestMapping(value = "/view/{eventId}", method = RequestMethod.GET)
     public String eventHistory(Model model, @PathVariable int eventId) {
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(eventId));
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, "view/admin/eventHistoryView");
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_EVENT_HISTORY.toView());
 
-        return ViewNames.LAYOUT;
+        return View.LAYOUT.getTemplateName();
     }
 }
