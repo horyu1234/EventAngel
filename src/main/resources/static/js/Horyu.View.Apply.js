@@ -43,7 +43,7 @@ Horyu.View.Apply = function(options) {
     };
 
     _this.updateAlertBanner = function() {
-        if (_this.options.eventStatus.$name === 'START_SOON') {
+        if (_this.options.eventStatus === 'START_SOON') {
             $('.alert-banner').html('<a style="font-weight: bold; font-size: 20pt;">다음 시간 이후에 응모가 가능합니다.</a>' +
                 '<br/>' +
                 '<a id="time-countdown" style="font-weight: bold; font-size: 32pt;"></a>');
@@ -58,7 +58,7 @@ Horyu.View.Apply = function(options) {
                         '새로고침이 안될 경우, 직접 새로고침 버튼을 눌러주세요.</a>');
                     window.location.reload();
                 });
-        } else if (_this.options.eventStatus.$name === 'ALREADY_END') {
+        } else if (_this.options.eventStatus === 'ALREADY_END') {
             var options = {
                 useEasing: true,
                 useGrouping: true,
@@ -86,7 +86,7 @@ Horyu.View.Apply = function(options) {
             }).on('update.countdown', function(event) {
                 $(this).html(event.strftime('%D일 %H시간 %M분 %S초'));
             })
-        } else if (_this.options.eventStatus.$name === 'OPEN') {
+        } else if (_this.options.eventStatus === 'OPEN') {
             $('.alert-banner').html('<a style="font-size: 12pt;"><a id="time-countdown" style="font-weight: bold;"></a> 이후 응모 신청이 마감됩니다.</a>');
 
             var options = {
@@ -112,7 +112,7 @@ Horyu.View.Apply = function(options) {
                     $('.alert-banner').html('<a style="font-weight: bold; font-size: 20pt;">응모 신청이 마감되었습니다.</a>');
                     window.location.reload();
                 });
-        } else if (_this.options.eventStatus.$name === 'CLOSE') {
+        } else if (_this.options.eventStatus === 'CLOSE') {
             $('.alert-banner').text('현재 응모 신청을 받지 않습니다.');
         }
     };

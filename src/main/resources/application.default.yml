@@ -13,6 +13,8 @@ spring:
   profiles: dev
   session:
     store-type: jdbc
+    jdbc:
+      initialize-schema: always
   thymeleaf:
     cache: false
   datasource:
@@ -32,6 +34,8 @@ spring:
   profiles: production
   session:
     store-type: jdbc
+    jdbc:
+      initialize-schema: always
   thymeleaf:
     cache: true
   datasource:
