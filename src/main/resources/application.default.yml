@@ -1,9 +1,14 @@
 server:
-  port: 80
+  port: 443
   compression:
     enabled: true
     mime-types: text/html,text/css,application/javascript
     min-response-size: 2048
+  ssl:
+    key-store: <Path>/keystore.p12
+    key-store-password: <KeyStore Password>
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 spring:
   profiles:
     active: production

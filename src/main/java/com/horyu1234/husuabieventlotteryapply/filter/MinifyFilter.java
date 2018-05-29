@@ -1,6 +1,7 @@
-package com.horyu1234.husuabieventlotteryapply;
+package com.horyu1234.husuabieventlotteryapply.filter;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.horyu1234.husuabieventlotteryapply.CharResponseWrapper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

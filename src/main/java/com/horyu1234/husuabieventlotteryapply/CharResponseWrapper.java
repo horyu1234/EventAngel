@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 public class CharResponseWrapper extends HttpServletResponseWrapper {
     private final CharArrayWriter output = new CharArrayWriter();
 
-    CharResponseWrapper(HttpServletResponse response) {
+    public CharResponseWrapper(HttpServletResponse response) {
         super(response);
     }
 

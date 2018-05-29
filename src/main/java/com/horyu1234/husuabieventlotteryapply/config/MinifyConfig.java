@@ -1,6 +1,6 @@
 package com.horyu1234.husuabieventlotteryapply.config;
 
-import com.horyu1234.husuabieventlotteryapply.MinifyFilter;
+import com.horyu1234.husuabieventlotteryapply.filter.MinifyFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
