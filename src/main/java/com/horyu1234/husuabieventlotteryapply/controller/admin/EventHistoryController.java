@@ -41,7 +41,7 @@ public class EventHistoryController {
     @RequestMapping(value = "/view/{eventId}", method = RequestMethod.GET)
     public String eventHistory(Model model, @PathVariable int eventId) {
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(eventId));
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_EVENT_HISTORY.toView());
+        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_EVENT_HISTORY_VIEW.toView());
 
         return View.LAYOUT.getTemplateName();
     }
