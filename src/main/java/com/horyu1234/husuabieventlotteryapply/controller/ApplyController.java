@@ -86,11 +86,11 @@ public class ApplyController {
         if (eventDetailStatus == EventDetailStatus.START_SOON) {
             LOGGER.info(String.format("[%s] 곧 시작될 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
 
-            return "redirect:/apply";
+            return View.APPLY.toRedirect();
         } else if (eventDetailStatus == EventDetailStatus.CLOSE) {
             LOGGER.info(String.format("[%s] 비활성화된 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
 
-            return "redirect:/apply";
+            return View.APPLY.toRedirect();
         } else if (eventDetailStatus == EventDetailStatus.ALREADY_END) {
             LOGGER.info(String.format("[%s] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress()));
 
