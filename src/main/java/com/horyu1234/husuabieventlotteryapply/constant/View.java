@@ -22,6 +22,7 @@ public enum View {
     CHECK_CHECK("check/check"),
     CHECK_EXIST_APPLY("check/existApply"),
     CHECK_NOT_EXIST_APPLY("check/notExistApply"),
+    PRIVACY("privacy"),
     ERROR_404("error/404"),
     ERROR_500("error/500");
 
