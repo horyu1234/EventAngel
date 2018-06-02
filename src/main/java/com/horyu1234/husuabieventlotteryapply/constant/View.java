@@ -21,6 +21,7 @@ public enum View {
     APPLY_INVALID_FORM("apply/invalidForm"),
     APPLY_SUCCESS("apply/success"),
     CHECK_CHECK("check/check"),
+    CHECK_NOT_OPEN_EVENT("check/notOpenEvent"),
     CHECK_EXIST_APPLY("check/existApply"),
     CHECK_NOT_EXIST_APPLY("check/notExistApply"),
     PRIVACY("privacy"),
