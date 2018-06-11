@@ -47,6 +47,30 @@ public class EventWinnerService {
         return eventWinnerDAO.getWinnerList(eventId);
     }
 
+    public List<CompanyAndPrize> hidePrivacy(List<CompanyAndPrize> eventResult) {
+        return eventResult.stream().map(companyAndPrize -> {
+            Applicant applicant = companyAndPrize.getApplicant();
+            if (applicant == null) {
+                return companyAndPrize;
+            }
+
+            String email = applicant.getEmail();
+
+            String emailName = email.split("@")[0].replaceAll("$", "*");
+            String emailHost = email.split("@")[1].replaceAll("[a-zA-Z가-힣]", "*");
+
+            applicant.setEmail(emailName + '@' + emailHost);
+            applicant.setApplyTime(null);
+            applicant.setIpAddress("HIDDEN");
+            applicant.setUserAgent("HIDDEN");
+            applicant.setFingerprint2("HIDDEN");
+
+            companyAndPrize.setApplicant(applicant);
+
+            return companyAndPrize;
+        }).collect(Collectors.toList());
+    }
+
     public List<CompanyAndPrize> getCurrentEventResult(int eventId) {
         List<CompanyAndPrize> prizeList = prizeService.getPrizeList(eventId);
         prizeList = appendPrizeWithPrizeAmount(prizeList);

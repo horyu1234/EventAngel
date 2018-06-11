@@ -4,11 +4,12 @@ import com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus;
 import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
+import com.horyu1234.husuabieventlotteryapply.domain.CompanyAndPrize;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.form.ApplyForm;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
-import com.horyu1234.husuabieventlotteryapply.service.PrizeService;
+import com.horyu1234.husuabieventlotteryapply.service.EventWinnerService;
 import com.mysql.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by horyu on 2018-04-02
@@ -32,21 +34,13 @@ public class ApplyController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
     private ApplicantService applicantService;
     private EventService eventService;
-    private PrizeService prizeService;
+    private EventWinnerService eventWinnerService;
 
     @Autowired
-    public void setApplicantService(ApplicantService applicantService) {
+    public ApplyController(ApplicantService applicantService, EventService eventService, EventWinnerService eventWinnerService) {
         this.applicantService = applicantService;
-    }
-
-    @Autowired
-    public void setEventService(EventService eventService) {
         this.eventService = eventService;
-    }
-
-    @Autowired
-    public void setPrizeService(PrizeService prizeService) {
-        this.prizeService = prizeService;
+        this.eventWinnerService = eventWinnerService;
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
@@ -62,7 +56,10 @@ public class ApplyController {
         model.addAttribute(ModelAttributeNames.EVENT_START_TIME, currentEvent.getEventStartTime());
         model.addAttribute(ModelAttributeNames.EVENT_END_TIME, currentEvent.getEventEndTime());
 
-        model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
+        List<CompanyAndPrize> currentEventResult = eventWinnerService.getCurrentEventResult(currentEvent.getEventId());
+        currentEventResult = eventWinnerService.hidePrivacy(currentEventResult);
+
+        model.addAttribute("eventResult", currentEventResult);
 
         model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_APPLY.toView());
 

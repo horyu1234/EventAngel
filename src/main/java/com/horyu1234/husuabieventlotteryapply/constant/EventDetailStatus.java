@@ -7,5 +7,6 @@ public enum EventDetailStatus {
     START_SOON,
     ALREADY_END,
     OPEN,
-    CLOSE
+    CLOSE,
+    LOTTERY
 }

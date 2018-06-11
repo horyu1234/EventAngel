@@ -47,8 +47,10 @@ public class EventService {
     }
 
     public EventDetailStatus getEventDetailStatus(Event event) {
-        if (event.getEventStatus() != EventStatus.OPEN) {
+        if (event.getEventStatus() == EventStatus.CLOSE) {
             return EventDetailStatus.CLOSE;
+        } else if (event.getEventStatus() == EventStatus.LOTTERY) {
+            return EventDetailStatus.LOTTERY;
         }
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

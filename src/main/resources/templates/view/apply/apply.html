@@ -60,7 +60,7 @@
     </div>
 
     <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).CLOSE}">
+         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
         <div class="card-header">도움을 주신 회사와 상품 목록</div>
         <div class="card-body table-responsive">
             <table class="table company-gift-table" id="prize-table">
@@ -78,6 +78,44 @@
                 </thead>
                 <tbody></tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px"
+         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).ALREADY_END}">
+        <div class="card-header">현재 당첨자 목록</div>
+        <div class="card-body">
+            <div class="alert alert-success">
+                앞으로 있을 추첨 방송을 기대해주시기 바랍니다.
+                <br/><br/>
+                추첨 방송이 시작되면, 여기에도 당첨자 목록이 표시됩니다.
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px"
+         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).LOTTERY}">
+        <div class="card-header">현재 당첨자 목록</div>
+        <div class="card-body">
+            <div class="table-responsive" style="margin-top: 20px">
+                <table class="table company-gift-table" id="event-winner-table">
+                    <colgroup>
+                        <col width="200px"/>
+                        <col/>
+                        <col width="250px"/>
+                        <col width="250px"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>도움을 주신 회사</th>
+                        <th>상품</th>
+                        <th>당첨자 이메일</th>
+                        <th>당첨자 유튜브 닉네임</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -111,7 +149,7 @@
     var eventStatus = /*[[${eventStatus}]]*/'close';
     var eventStartTime = /*[[${eventStartTime}]]*/'0000-00-00 00:00';
     var eventEndTime = /*[[${eventEndTime}]]*/'0000-00-00 00:00';
-    var prizeList = /*[[${prizeList}]]*/[];
+    var eventResult = /*[[${eventResult}]]*/[];
 
     $(function() {
         var view = new Horyu.View.Apply({
@@ -119,7 +157,7 @@
             eventStatus: eventStatus,
             eventStartTime: eventStartTime,
             eventEndTime: eventEndTime,
-            prizeList: prizeList
+            prizeList: eventResult
         });
 
         view.init();
