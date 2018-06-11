@@ -113,10 +113,13 @@ Horyu.View.Lottery = function(options) {
                     }, randomTime);
                 }
             }).fail(function(msg) {
-                $('.lotteryBtn').html('추첨에 실패하였습니다.');
+                $('.lotteryBtn').html('<i class="fas fa-exclamation-triangle"></i>&nbsp; 추첨에 실패하였습니다.');
+                $('.lotteryBtn').removeClass('btn-success');
+                $('.lotteryBtn').addClass('btn-danger');
+
                 setTimeout(function() {
                     location.reload();
-                }, 3000);
+                }, 4000);
             });
         });
     };
