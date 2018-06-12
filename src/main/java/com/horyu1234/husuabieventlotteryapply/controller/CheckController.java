@@ -61,7 +61,7 @@ public class CheckController {
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         if (eventDetailStatus != EventDetailStatus.OPEN) {
-            LOGGER.info(String.format("[%s] 응모 중이 아닐 때 응모 확인을 시도하였습니다.", getClientIpAddress()));
+            LOGGER.info("[{}] 응모 중이 아닐 때 응모 확인을 시도하였습니다.", getClientIpAddress());
 
             model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
 

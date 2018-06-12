@@ -56,7 +56,7 @@ public class AccountController {
         session.setAttribute(SessionAttributeNames.LOGIN_USERNAME, account.getUsername());
         session.setAttribute(SessionAttributeNames.LOGIN_NICKNAME, account.getNickname());
 
-        LOGGER.info(loginForm.getUsername() + " 님이 로그인하셨습니다.");
+        LOGGER.info("{} 님이 로그인하셨습니다.", loginForm.getUsername());
 
         return View.ADMIN_EVENT_SETTING.toRedirect();
     }
