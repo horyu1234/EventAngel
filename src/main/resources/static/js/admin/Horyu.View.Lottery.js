@@ -89,6 +89,14 @@ Horyu.View.Lottery = function(options) {
 
     _this.bindEvents = function() {
         $('.lotteryBtn').click(function() {
+            if (_this.isIE()) {
+                $('#ie-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                return;
+            }
+
             $('.lotteryBtn').attr('disabled', '');
             $('.lotteryBtn').html('<i class="fas fa-spinner fa-pulse"></i>&nbsp; 추첨 중입니다...');
 
@@ -144,6 +152,17 @@ Horyu.View.Lottery = function(options) {
         var emailHost = email.split('@')[1].replace(/[a-zA-Z가-힣]/g, '*');
 
         return emailName + '@' + emailHost;
+    };
+
+    _this.isIE = function() {
+        var userAgent = window.navigator.userAgent.toLowerCase();
+        var appName = navigator.appName.toLowerCase();
+
+        if ((appName === 'netscape' && userAgent.search('trident') !== -1) || (userAgent.indexOf("msie") !== -1)) {
+            return true;
+        }
+
+        return false;
     };
 
     return {
