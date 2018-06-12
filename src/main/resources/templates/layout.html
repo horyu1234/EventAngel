@@ -30,7 +30,7 @@
     <script type="text/javascript" th:src="@{/lib/parsley-2.8.1/i18n/ko.js}"></script>
 
     <script type="text/javascript" th:src="@{/lib/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/whoareyou.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/whoareyou.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/countUp-1.9.3/countUp.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/moment-2.22.0/js/moment-with-locales.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/jquery.countdown/js/jquery.countdown.min.js}"></script>
@@ -40,20 +40,8 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-75680482-7"></script>
-    <script th:inline="javascript">
-        moment.locale('ko');
-        Sugar.extend();
 
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        gtag('config', 'UA-75680482-7');
-    </script>
-
+    <script type="text/javascript" th:src="@{/js/layout.js}"></script>
 </head>
 <body>
 <!--[if lte IE 8]>
