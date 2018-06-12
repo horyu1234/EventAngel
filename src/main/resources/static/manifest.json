@@ -1,0 +1,16 @@
+{
+  "short_name": "허수아비 이벤트",
+  "name": "허수아비 이벤트",
+  "icons": [
+    {
+      "src": "img/logo.jpg",
+      "type": "image/jpg",
+      "sizes": "176x176"
+    }
+  ],
+  "start_url": "/",
+  "theme_color": "#373a3c",
+  "background_color": "#2196f3",
+  "orientation": "portrait",
+  "display": "standalone"
+}
