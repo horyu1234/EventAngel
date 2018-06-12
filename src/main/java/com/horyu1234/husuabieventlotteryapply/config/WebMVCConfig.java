@@ -6,10 +6,10 @@ import com.horyu1234.husuabieventlotteryapply.interceptor.RequestLoggingIntercep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMVCConfig extends WebMvcConfigurerAdapter {
+public class WebMVCConfig implements WebMvcConfigurer {
     private RequestLoggingInterceptor requestLoggingInterceptor;
     private AuthenticationInterceptor authenticationInterceptor;
 
