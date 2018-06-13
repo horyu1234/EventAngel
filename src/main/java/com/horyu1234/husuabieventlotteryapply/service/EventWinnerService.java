@@ -56,7 +56,8 @@ public class EventWinnerService {
 
             String email = applicant.getEmail();
 
-            String emailName = email.split("@")[0].replaceAll("$", "*");
+            String originalEmailName = email.split("@")[0];
+            String emailName = originalEmailName.substring(0, originalEmailName.length() - 1) + "*";
             String emailHost = email.split("@")[1].replaceAll("[a-zA-Z가-힣]", "*");
 
             applicant.setEmail(emailName + '@' + emailHost);

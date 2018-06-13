@@ -148,7 +148,8 @@ Horyu.View.Lottery = function(options) {
     };
 
     _this.hideSomePartOfEmail = function(email) {
-        var emailName = email.split('@')[0].replace(/$/g, '*');
+        var originalEmailName = email.split('@')[0];
+        var emailName = originalEmailName.substr(0, originalEmailName.length - 1) + '*';
         var emailHost = email.split('@')[1].replace(/[a-zA-Z가-힣]/g, '*');
 
         return emailName + '@' + emailHost;

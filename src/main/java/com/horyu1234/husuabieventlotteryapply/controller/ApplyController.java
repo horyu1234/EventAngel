@@ -10,6 +10,7 @@ import com.horyu1234.husuabieventlotteryapply.form.ApplyForm;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
 import com.horyu1234.husuabieventlotteryapply.service.EventWinnerService;
+import com.horyu1234.husuabieventlotteryapply.service.PrizeService;
 import com.mysql.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +35,14 @@ public class ApplyController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
     private ApplicantService applicantService;
     private EventService eventService;
+    private PrizeService prizeService;
     private EventWinnerService eventWinnerService;
 
     @Autowired
-    public ApplyController(ApplicantService applicantService, EventService eventService, EventWinnerService eventWinnerService) {
+    public ApplyController(ApplicantService applicantService, EventService eventService, PrizeService prizeService, EventWinnerService eventWinnerService) {
         this.applicantService = applicantService;
         this.eventService = eventService;
+        this.prizeService = prizeService;
         this.eventWinnerService = eventWinnerService;
     }
 
@@ -56,9 +59,15 @@ public class ApplyController {
         model.addAttribute(ModelAttributeNames.EVENT_START_TIME, currentEvent.getEventStartTime());
         model.addAttribute(ModelAttributeNames.EVENT_END_TIME, currentEvent.getEventEndTime());
 
-        List<CompanyAndPrize> currentEventResult = eventWinnerService.getCurrentEventResult(currentEvent.getEventId());
-        currentEventResult = eventWinnerService.hidePrivacy(currentEventResult);
+        List<CompanyAndPrize> currentEventResult;
+        if (eventDetailStatus == EventDetailStatus.LOTTERY) {
+            currentEventResult = eventWinnerService.getCurrentEventResult(currentEvent.getEventId());
+            currentEventResult = eventWinnerService.hidePrivacy(currentEventResult);
+        } else {
+            currentEventResult = prizeService.getPrizeList(currentEvent.getEventId());
+        }
 
+        model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
         model.addAttribute("eventResult", currentEventResult);
 
         model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_APPLY.toView());
