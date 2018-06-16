@@ -116,8 +116,7 @@ Horyu.View.Apply = function(options) {
         } else if (_this.options.eventStatus === 'CLOSE') {
             $alertBanner.text('현재 응모 신청을 받지 않습니다.');
         } else if (_this.options.eventStatus === 'LOTTERY') {
-            $alertBanner.html('현재 추첨이 허수아비 유튜브 실시간 스트리밍에서 진행 중입니다.<br/><br/>' +
-                '또한, 아래에서도 당첨자 목록을 확인하실 수 있습니다.');
+            $alertBanner.html('아래에서 현재 이벤트 당첨자 목록을 확인하실 수 있습니다.');
             $alertBanner.removeClass('alert-warning');
             $alertBanner.addClass('alert-success');
 
