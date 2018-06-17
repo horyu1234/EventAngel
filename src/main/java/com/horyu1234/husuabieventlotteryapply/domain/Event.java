@@ -2,6 +2,8 @@ package com.horyu1234.husuabieventlotteryapply.domain;
 
 import com.horyu1234.husuabieventlotteryapply.constant.EventStatus;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by horyu on 2018-04-06
  */
@@ -10,8 +12,8 @@ public class Event {
     private String eventTitle;
     private String eventDetail;
     private EventStatus eventStatus;
-    private String eventStartTime;
-    private String eventEndTime;
+    private LocalDateTime eventStartTime;
+    private LocalDateTime eventEndTime;
 
     public int getEventId() {
         return eventId;
@@ -45,19 +47,19 @@ public class Event {
         this.eventStatus = eventStatus;
     }
 
-    public String getEventStartTime() {
+    public LocalDateTime getEventStartTime() {
         return eventStartTime;
     }
 
-    public void setEventStartTime(String eventStartTime) {
+    public void setEventStartTime(LocalDateTime eventStartTime) {
         this.eventStartTime = eventStartTime;
     }
 
-    public String getEventEndTime() {
+    public LocalDateTime getEventEndTime() {
         return eventEndTime;
     }
 
-    public void setEventEndTime(String eventEndTime) {
+    public void setEventEndTime(LocalDateTime eventEndTime) {
         this.eventEndTime = eventEndTime;
     }
 }

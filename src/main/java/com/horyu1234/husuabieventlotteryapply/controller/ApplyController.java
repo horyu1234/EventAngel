@@ -1,11 +1,11 @@
 package com.horyu1234.husuabieventlotteryapply.controller;
 
 import com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus;
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
 import com.horyu1234.husuabieventlotteryapply.domain.CompanyAndPrize;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.form.ApplyForm;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -24,6 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -53,11 +54,11 @@ public class ApplyController {
         Event currentEvent = eventService.getCurrentEvent();
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
-        model.addAttribute(ModelAttributeNames.EVENT_TITLE, currentEvent.getEventTitle());
-        model.addAttribute(ModelAttributeNames.EVENT_DETAIL, currentEvent.getEventDetail());
-        model.addAttribute(ModelAttributeNames.EVENT_STATUS, eventDetailStatus);
-        model.addAttribute(ModelAttributeNames.EVENT_START_TIME, currentEvent.getEventStartTime());
-        model.addAttribute(ModelAttributeNames.EVENT_END_TIME, currentEvent.getEventEndTime());
+        model.addAttribute(ModelAttributeNameFactory.EVENT_TITLE, currentEvent.getEventTitle());
+        model.addAttribute(ModelAttributeNameFactory.EVENT_DETAIL, currentEvent.getEventDetail());
+        model.addAttribute(ModelAttributeNameFactory.EVENT_STATUS, eventDetailStatus);
+        model.addAttribute(ModelAttributeNameFactory.EVENT_START_TIME, currentEvent.getEventStartTime().toInstant(ZoneOffset.ofHours(9)).toEpochMilli() / 1000);
+        model.addAttribute(ModelAttributeNameFactory.EVENT_END_TIME, currentEvent.getEventEndTime().toInstant(ZoneOffset.ofHours(9)).toEpochMilli() / 1000);
 
         List<CompanyAndPrize> currentEventResult;
         if (eventDetailStatus == EventDetailStatus.LOTTERY) {
@@ -70,7 +71,7 @@ public class ApplyController {
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
         model.addAttribute("eventResult", currentEventResult);
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_APPLY.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
 
         return View.LAYOUT.getTemplateName();
     }
@@ -81,7 +82,7 @@ public class ApplyController {
         Applicant storedApplicant = applicantService.getApply(applyForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_REDUPLICATION.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_REDUPLICATION.toView());
 
             return View.LAYOUT.getTemplateName();
         }
@@ -100,7 +101,7 @@ public class ApplyController {
         } else if (eventDetailStatus == EventDetailStatus.ALREADY_END) {
             LOGGER.info("[{}] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
 
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_ALREADY_END.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_ALREADY_END.toView());
 
             return View.LAYOUT.getTemplateName();
         }
@@ -114,7 +115,7 @@ public class ApplyController {
         applicant.setFingerprint2(StringUtils.isNullOrEmpty(applyForm.getFingerprint2()) ? null : applyForm.getFingerprint2());
 
         if (StringUtils.isNullOrEmpty(applicant.getEmail()) || StringUtils.isNullOrEmpty(applicant.getYoutubeNickname()) || !applicant.getEmail().contains("@")) {
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_INVALID_FORM.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_INVALID_FORM.toView());
 
             return View.LAYOUT.getTemplateName();
         }
@@ -122,7 +123,7 @@ public class ApplyController {
         applicantService.addApply(applicant);
 
         model.addAttribute("applicant", applicant);
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.APPLY_SUCCESS.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_SUCCESS.toView());
 
         LOGGER.info("[{}] 새로운 응모 - {} ({})", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname());
 

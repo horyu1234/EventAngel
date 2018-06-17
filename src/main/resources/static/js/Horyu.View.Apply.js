@@ -8,8 +8,8 @@ Horyu.View.Apply = function(options) {
     var defaultOptions = {
         applyCount: 0,
         eventStatus: 'CLOSE',
-        eventStartTime: '0000-00-00 00:00',
-        eventEndTime: '0000-00-00 00:00',
+        eventStartTime: 0,
+        eventEndTime: 0,
         prizeList: []
     };
 
@@ -49,7 +49,7 @@ Horyu.View.Apply = function(options) {
                 '<br/>' +
                 '<a id="time-countdown" style="font-weight: bold; font-size: 32pt;"></a>');
 
-            $('#time-countdown').countdown(_this.options.eventStartTime)
+            $('#time-countdown').countdown(moment.unix(_this.options.eventStartTime).toDate())
                 .on('update.countdown', function(event) {
                     $(this).html(event.strftime('%D일 %H시간 %M분 %S초'));
                 })
@@ -79,7 +79,7 @@ Horyu.View.Apply = function(options) {
                 '<br/>' +
                 '<a id="time-countdown" style="font-weight: bold; font-size: 32pt;"></a>');
 
-            var endTime = moment(_this.options.eventEndTime, 'YYYY-MM-DD HH:mm');
+            var endTime = moment.unix(_this.options.eventEndTime);
             var subtractedTime = endTime.subtract(new Date());
 
             $('#time-countdown').countdown(subtractedTime.toDate(), {
@@ -105,7 +105,7 @@ Horyu.View.Apply = function(options) {
                 console.error(countUp.error);
             }
 
-            $('#time-countdown').countdown(_this.options.eventEndTime)
+            $('#time-countdown').countdown(moment.unix(_this.options.eventEndTime).toDate())
                 .on('update.countdown', function(event) {
                     $(this).html(event.strftime('%D일 %H시간 %M분 %S초'));
                 })

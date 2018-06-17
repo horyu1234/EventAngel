@@ -1,10 +1,10 @@
 package com.horyu1234.husuabieventlotteryapply.controller;
 
 import com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus;
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Applicant;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.form.CheckForm;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -45,12 +45,12 @@ public class CheckController {
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         if (eventDetailStatus != EventDetailStatus.OPEN) {
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
 
             return View.LAYOUT.getTemplateName();
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_CHECK.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_CHECK.toView());
 
         return View.LAYOUT.getTemplateName();
     }
@@ -63,7 +63,7 @@ public class CheckController {
         if (eventDetailStatus != EventDetailStatus.OPEN) {
             LOGGER.info("[{}] 응모 중이 아닐 때 응모 확인을 시도하였습니다.", getClientIpAddress());
 
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
 
             return View.LAYOUT.getTemplateName();
         }
@@ -71,12 +71,12 @@ public class CheckController {
         Applicant storedApplicant = applicantService.getApply(checkForm.getEmail());
         if (storedApplicant != null) {
             model.addAttribute("applicant", storedApplicant);
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_EXIST_APPLY.toView());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_EXIST_APPLY.toView());
 
             return View.LAYOUT.getTemplateName();
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.CHECK_NOT_EXIST_APPLY.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_NOT_EXIST_APPLY.toView());
 
         return View.LAYOUT.getTemplateName();
     }

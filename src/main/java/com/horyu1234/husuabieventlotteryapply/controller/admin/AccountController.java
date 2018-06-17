@@ -1,9 +1,9 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
-import com.horyu1234.husuabieventlotteryapply.constant.SessionAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Account;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
+import com.horyu1234.husuabieventlotteryapply.factory.SessionAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.form.LoginForm;
 import com.horyu1234.husuabieventlotteryapply.service.AccountService;
 import org.slf4j.Logger;
@@ -32,11 +32,11 @@ public class AccountController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
-        if (session.getAttribute(SessionAttributeNames.LOGIN_USERNAME) != null) {
+        if (session.getAttribute(SessionAttributeNameFactory.LOGIN_USERNAME) != null) {
             return View.ADMIN_EVENT_SETTING.toRedirect();
         }
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_LOGIN.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_LOGIN.toView());
 
         return View.LAYOUT.getTemplateName();
     }
@@ -47,14 +47,14 @@ public class AccountController {
 
         if (account == null) {
             model.addAttribute("loginFailed", true);
-            model.addAttribute(ModelAttributeNames.LOGIN_USERNAME, loginForm.getUsername());
-            model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_LOGIN.toView());
+            model.addAttribute(ModelAttributeNameFactory.LOGIN_USERNAME, loginForm.getUsername());
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_LOGIN.toView());
 
             return View.LAYOUT.getTemplateName();
         }
 
-        session.setAttribute(SessionAttributeNames.LOGIN_USERNAME, account.getUsername());
-        session.setAttribute(SessionAttributeNames.LOGIN_NICKNAME, account.getNickname());
+        session.setAttribute(SessionAttributeNameFactory.LOGIN_USERNAME, account.getUsername());
+        session.setAttribute(SessionAttributeNameFactory.LOGIN_NICKNAME, account.getNickname());
 
         LOGGER.info("{} 님이 로그인하셨습니다.", loginForm.getUsername());
 
@@ -63,12 +63,12 @@ public class AccountController {
 
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session) {
-        if (session.getAttribute(SessionAttributeNames.LOGIN_USERNAME) == null) {
+        if (session.getAttribute(SessionAttributeNameFactory.LOGIN_USERNAME) == null) {
             return View.ADMIN_LOGIN.toRedirect();
         }
 
-        session.removeAttribute(SessionAttributeNames.LOGIN_USERNAME);
-        session.removeAttribute(SessionAttributeNames.LOGIN_NICKNAME);
+        session.removeAttribute(SessionAttributeNameFactory.LOGIN_USERNAME);
+        session.removeAttribute(SessionAttributeNameFactory.LOGIN_NICKNAME);
 
         return View.ADMIN_LOGIN.toRedirect();
     }

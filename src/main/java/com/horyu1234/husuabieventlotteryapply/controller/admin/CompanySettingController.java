@@ -1,9 +1,9 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Company;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.form.CompanySaveForm;
 import com.horyu1234.husuabieventlotteryapply.service.CompanyService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -37,9 +37,9 @@ public class CompanySettingController {
         Event currentEvent = eventService.getCurrentEvent();
 
         model.addAttribute("companyList", companyService.getCompanyList(currentEvent.getEventId()));
-        model.addAttribute(ModelAttributeNames.EVENT_STATUS, currentEvent.getEventStatus());
+        model.addAttribute(ModelAttributeNameFactory.EVENT_STATUS, currentEvent.getEventStatus());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_COMPANY_SETTING.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_COMPANY_SETTING.toView());
 
         return View.LAYOUT.getTemplateName();
     }

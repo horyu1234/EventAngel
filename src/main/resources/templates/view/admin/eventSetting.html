@@ -125,8 +125,8 @@
 </div>
 
 <script th:inline="javascript">
-    var eventStartTime = /*[[${eventStartTime}]]*/'0000-00-00 00:00';
-    var eventEndTime = /*[[${eventEndTime}]]*/'0000-00-00 00:00';
+    var eventStartTime = /*[[${eventStartTime}]]*/0;
+    var eventEndTime = /*[[${eventEndTime}]]*/0;
 
     $(function() {
         var view = new Horyu.View.EventSetting({

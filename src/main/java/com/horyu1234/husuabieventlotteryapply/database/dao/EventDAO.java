@@ -1,6 +1,8 @@
 package com.horyu1234.husuabieventlotteryapply.database.dao;
 
+import com.horyu1234.husuabieventlotteryapply.database.mapper.EventMapper;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
+import com.horyu1234.husuabieventlotteryapply.factory.DateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,7 +41,7 @@ public class EventDAO {
                 "SELECT * FROM `EVENT` " +
                         "ORDER BY EVENT_ID " +
                         "DESC LIMIT 1;",
-                new BeanPropertyRowMapper<>(Event.class));
+                new EventMapper());
     }
 
     public List<Event> getEventList() {
@@ -51,9 +53,12 @@ public class EventDAO {
     }
 
     public void updateOrInsertEvent(Event event) {
+        String eventStartTime = DateFactory.DATABASE_FORMAT.format(event.getEventStartTime());
+        String eventEndTime = DateFactory.DATABASE_FORMAT.format(event.getEventEndTime());
+
         jdbcTemplate.update("INSERT INTO `EVENT` (EVENT_ID, EVENT_TITLE, EVENT_DETAIL, EVENT_STATUS, EVENT_START_TIME, EVENT_END_TIME) VALUES (?, ?, ?, ?, ?, ?) " +
                         "ON DUPLICATE KEY UPDATE EVENT_TITLE = ?, EVENT_DETAIL = ?, EVENT_STATUS = ?, EVENT_START_TIME = ?, EVENT_END_TIME = ?;",
-                event.getEventId(), event.getEventTitle(), event.getEventDetail(), event.getEventStatus().name(), event.getEventStartTime(), event.getEventEndTime(),
-                event.getEventTitle(), event.getEventDetail(), event.getEventStatus().name(), event.getEventStartTime(), event.getEventEndTime());
+                event.getEventId(), event.getEventTitle(), event.getEventDetail(), event.getEventStatus().name(), eventStartTime, eventEndTime,
+                event.getEventTitle(), event.getEventDetail(), event.getEventStatus().name(), eventStartTime, eventEndTime);
     }
 }

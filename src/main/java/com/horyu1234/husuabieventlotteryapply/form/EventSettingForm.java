@@ -21,10 +21,10 @@ public class EventSettingForm {
     private EventStatus eventStatus;
 
     @NotNull
-    private String eventStartTime;
+    private long eventStartTime;
 
     @NotNull
-    private String eventEndTime;
+    private long eventEndTime;
 
     public int getEventId() {
         return eventId;
@@ -42,19 +42,19 @@ public class EventSettingForm {
         this.eventStatus = eventStatus;
     }
 
-    public String getEventStartTime() {
+    public long getEventStartTime() {
         return eventStartTime;
     }
 
-    public void setEventStartTime(String eventStartTime) {
+    public void setEventStartTime(long eventStartTime) {
         this.eventStartTime = eventStartTime;
     }
 
-    public String getEventEndTime() {
+    public long getEventEndTime() {
         return eventEndTime;
     }
 
-    public void setEventEndTime(String eventEndTime) {
+    public void setEventEndTime(long eventEndTime) {
         this.eventEndTime = eventEndTime;
     }
 

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -53,15 +52,10 @@ public class EventService {
             return EventDetailStatus.LOTTERY;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime startTime = LocalDateTime.parse(event.getEventStartTime(), dateTimeFormatter);
-        LocalDateTime endTime = LocalDateTime.parse(event.getEventEndTime(), dateTimeFormatter);
-
-        if (currentTime.isBefore(startTime)) {
+        if (currentTime.isBefore(event.getEventStartTime())) {
             return EventDetailStatus.START_SOON;
-        } else if (currentTime.isAfter(endTime)) {
+        } else if (currentTime.isAfter(event.getEventEndTime())) {
             return EventDetailStatus.ALREADY_END;
         } else {
             return EventDetailStatus.OPEN;
@@ -73,8 +67,8 @@ public class EventService {
         event.setEventTitle("허수아비 X차 이벤트");
         event.setEventDetail("이벤트 세부 일정");
         event.setEventStatus(EventStatus.CLOSE);
-        event.setEventStartTime("2018-01-01 01:00");
-        event.setEventEndTime("2018-01-01 01:00");
+        event.setEventStartTime(LocalDateTime.now());
+        event.setEventEndTime(LocalDateTime.now());
 
         updateEvent(event);
     }

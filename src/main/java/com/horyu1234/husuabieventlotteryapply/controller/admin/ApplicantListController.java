@@ -1,7 +1,7 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.service.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class ApplicantListController {
         model.addAttribute("applyCount", applicantService.getApplyCount());
         model.addAttribute("applicantList", applicantService.getRecent50ApplicantList());
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_APPLICANT_LIST.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_APPLICANT_LIST.toView());
 
         return View.LAYOUT.getTemplateName();
     }

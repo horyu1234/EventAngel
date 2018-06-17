@@ -6,8 +6,8 @@ Horyu.View.EventSetting = function(options) {
     var _this = this;
 
     var defaultOptions = {
-        eventStartTime: '0000-00-00 00:00',
-        eventEndTime: '0000-00-00 00:00'
+        eventStartTime: 0,
+        eventEndTime: 0
     };
 
     _this.options = $.extend(defaultOptions, options);
@@ -22,17 +22,17 @@ Horyu.View.EventSetting = function(options) {
     _this.initDateRangePicker = function() {
         $('#eventTerm').daterangepicker({
             timePicker: true,
-            timePickerIncrement: 5,
+            timePickerIncrement: 1,
+            timePickerSeconds: true,
             showDropdowns: true,
             todayHighlight: true,
-            minDate: moment(),
-            startDate: moment(_this.options.eventStartTime, 'YYYY-MM-DD HH:mm'),
-            endDate: moment(_this.options.eventEndTime, 'YYYY-MM-DD HH:mm'),
+            startDate: moment.unix(_this.options.eventStartTime),
+            endDate: moment.unix(_this.options.eventEndTime),
             dateLimit: {
                 year: 1
             },
             locale: {
-                format: 'YYYY년 MM월 DD일 A h시 mm분',
+                format: 'YYYY년 MM월 DD일 A h시 mm분 ss초',
                 applyLabel: "적용",
                 cancelLabel: "취소",
                 daysOfWeek: [
@@ -54,8 +54,8 @@ Horyu.View.EventSetting = function(options) {
             var daterangepicker = $('#eventTerm').data('daterangepicker');
 
             $('#eventStatus').val(_this.getOpenEventBtnId());
-            $('#eventStartTime').val(daterangepicker.startDate.format('YYYY-MM-DD HH:mm'));
-            $('#eventEndTime').val(daterangepicker.endDate.format('YYYY-MM-DD HH:mm'));
+            $('#eventStartTime').val(daterangepicker.startDate.unix());
+            $('#eventEndTime').val(daterangepicker.endDate.unix());
 
             $('#eventSettingForm').submit();
         });

@@ -1,9 +1,9 @@
 package com.horyu1234.husuabieventlotteryapply.controller.admin;
 
-import com.horyu1234.husuabieventlotteryapply.constant.ModelAttributeNames;
 import com.horyu1234.husuabieventlotteryapply.constant.View;
 import com.horyu1234.husuabieventlotteryapply.domain.Event;
 import com.horyu1234.husuabieventlotteryapply.domain.Prize;
+import com.horyu1234.husuabieventlotteryapply.factory.ModelAttributeNameFactory;
 import com.horyu1234.husuabieventlotteryapply.form.PrizeSaveForm;
 import com.horyu1234.husuabieventlotteryapply.service.CompanyService;
 import com.horyu1234.husuabieventlotteryapply.service.EventService;
@@ -43,11 +43,11 @@ public class PrizeController {
     public String prizeSetting(Model model) {
         Event currentEvent = eventService.getCurrentEvent();
 
-        model.addAttribute(ModelAttributeNames.EVENT_STATUS, currentEvent.getEventStatus());
+        model.addAttribute(ModelAttributeNameFactory.EVENT_STATUS, currentEvent.getEventStatus());
         model.addAttribute("companyList", companyService.getCompanyList(currentEvent.getEventId()));
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
 
-        model.addAttribute(ModelAttributeNames.VIEW_NAME, View.ADMIN_PRIZE_SETTING.toView());
+        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_PRIZE_SETTING.toView());
 
         return View.LAYOUT.getTemplateName();
     }
