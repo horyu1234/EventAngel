@@ -36,6 +36,7 @@ dependencies {
     compile group: 'de.svenkubiak', name: 'jBCrypt', version: '0.4.1'
     compile group: 'com.google.guava', name: 'guava', version: '24.1-jre'
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+    compile group: 'com.yahoo.platform.yui', name: 'yuicompressor', version: '2.4.8'
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
 

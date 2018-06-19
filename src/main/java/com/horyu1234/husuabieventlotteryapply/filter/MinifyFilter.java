@@ -1,6 +1,8 @@
 package com.horyu1234.husuabieventlotteryapply.filter;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
+import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
 import com.horyu1234.husuabieventlotteryapply.CharResponseWrapper;
 
 import javax.servlet.*;
@@ -16,6 +18,12 @@ public class MinifyFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         htmlCompressor = new HtmlCompressor();
+
+        htmlCompressor.setCssCompressor(new YuiCssCompressor());
+        htmlCompressor.setJavaScriptCompressor(new YuiJavaScriptCompressor());
+
+        htmlCompressor.setCompressCss(true);
+        htmlCompressor.setCompressJavaScript(true);
     }
 
     @Override
