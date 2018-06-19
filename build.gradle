@@ -1,3 +1,6 @@
+import com.eriwen.gradle.css.tasks.MinifyCssTask
+import com.eriwen.gradle.js.tasks.MinifyJsTask
+
 buildscript {
     ext {
         springBootVersion = '2.0.2.RELEASE'
@@ -10,19 +13,78 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.eriwen.gradle.css" version "2.14.0"
+    id "com.eriwen.gradle.js" version "2.14.1"
+}
+
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'css'
+apply plugin: 'js'
 
-version = '1.4.6'
+version = '1.4.7'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+css.source {
+    custom {
+        css {
+            srcDir "src/main/resources/static/css"
+            include "**/*.css"
+            exclude "**/*.min.css"
+        }
+    }
+}
+
+javascript.source {
+    custom {
+        js {
+            srcDir "src/main/resources/static/js"
+            include "**/*.js"
+            exclude "**/*.min.js"
+        }
+    }
+}
+
+css.source.custom.css.files.eachWithIndex { cssFile, idx ->
+    tasks.create(name: "minifyCss_${cssFile.getName().replaceFirst(/[.][^.]+$/, "")}", type: MinifyCssTask) {
+        source = cssFile
+        dest = cssFile.getAbsolutePath().replace('.css', '.min.css')
+        yuicompressor {
+            lineBreakPos = -1
+        }
+    }
+}
+
+javascript.source.custom.js.files.eachWithIndex { jsFile, idx ->
+    tasks.create(name: "minifyJs_${jsFile.getName().replaceFirst(/[.][^.]+$/, "")}", type: MinifyJsTask) {
+        source = jsFile
+        dest = jsFile.getAbsolutePath().replace('.js', '.min.js')
+        yuicompressor {
+            lineBreakPos = -1
+        }
+    }
+}
+
+task minifyAllCss(dependsOn: tasks.matching { Task task ->
+    task.name.startsWith("minifyCss_")
+})
+
+task minifyAllJs(dependsOn: tasks.matching { Task task ->
+    task.name.startsWith("minifyJs_")
+})
+
+task minify(dependsOn: [minifyAllCss, minifyAllJs])
+
+bootJar.dependsOn minify
+
+
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter'
