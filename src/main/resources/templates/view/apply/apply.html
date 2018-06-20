@@ -2,7 +2,7 @@
 <script type="text/javascript" th:src="@{/js/Horyu.View.Apply.min.js}"></script>
 
 <div class="alert alert-info"
-     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN or eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).ALREADY_END }">
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN or eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END }">
     현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
 </div>
 
@@ -12,7 +12,7 @@
             <div class="alert alert-warning alert-banner"></div>
 
             <div th:remove="tag"
-                 th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+                 th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
                 <a id="event-title" th:text="${eventTitle}"></a>
                 <br/>
                 <a id="event-detail" th:text="${eventDetail}"></a>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).OPEN}">
+         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
         <div class="card-header">도움을 주신 회사와 상품 목록</div>
         <div class="card-body table-responsive">
             <table class="table company-gift-table" id="prize-table">
@@ -82,7 +82,7 @@
     </div>
 
     <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).ALREADY_END}">
+         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END}">
         <div class="card-header">현재 당첨자 목록</div>
         <div class="card-body">
             <div class="alert alert-success">
@@ -94,7 +94,7 @@
     </div>
 
     <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventDetailStatus).LOTTERY}">
+         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
         <div class="card-header">현재 당첨자 목록</div>
         <div class="card-body">
             <div class="table-responsive" style="margin-top: 20px">

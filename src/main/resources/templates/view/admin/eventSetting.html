@@ -5,7 +5,7 @@
 </div>
 
 <div class="alert alert-warning"
-     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).LOTTERY}">
     추첨이 시작되었으므로, 더 이상 설정 변경이 불가능합니다.
     <br/><br/>
     <button type="button" class="btn btn-primary endEventBtn">현재 이벤트 종료 후 새로운 이벤트 시작</button>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="col-md-10 offset-md-1"
-     th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+     th:if="${eventStatus != T(com.horyu1234.eventangel.constant.EventStatus).LOTTERY}">
     <div class="card bg-light">
         <div class="card-body">
             <a style="font-weight: bold; font-size: 22pt;">현재 이벤트 설정</a>
@@ -29,17 +29,17 @@
                 <div class="form-group">
                     <div class="btn-group btn-group-toggle eventStatusBtnGroup" data-toggle="buttons">
                         <label class="btn btn-outline-success"
-                               th:classappend="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).OPEN} ? active">
+                               th:classappend="${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).OPEN} ? active">
                             <input class="eventStatusButton" type="radio" id="OPEN"
                                    autocomplete="off"
-                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).OPEN} ? ''"/>
+                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).OPEN} ? ''"/>
                             현재 응모 신청을 받습니다.
                         </label>
                         <label class="btn btn-outline-danger"
-                               th:classappend="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).CLOSE} ? active">
+                               th:classappend="${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).CLOSE} ? active">
                             <input class="eventStatusButton" type="radio" id="CLOSE"
                                    autocomplete="off"
-                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).CLOSE} ? ''"/>
+                                   th:attrappend="checked=${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).CLOSE} ? ''"/>
                             현재 응모 신청을 받지 않습니다.
                         </label>
                     </div>

@@ -5,14 +5,14 @@
 </div>
 
 <div class="alert alert-warning"
-     th:if="${eventStatus == T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventStatus).LOTTERY}">
     추첨이 시작되었으므로, 더 이상 설정 변경이 불가능합니다.
     <br/><br/>
     새로운 이벤트 시작은 "현재 이벤트 설정" 메뉴를 이용해주세요.
 </div>
 
 <div class="col-md-10 offset-md-1"
-     th:if="${eventStatus != T(com.horyu1234.husuabieventlotteryapply.constant.EventStatus).LOTTERY}">
+     th:if="${eventStatus != T(com.horyu1234.eventangel.constant.EventStatus).LOTTERY}">
     <div class="card" style="margin-top: 20px">
         <div class="card-header">상품 추가</div>
         <div class="card-body">
