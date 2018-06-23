@@ -7,5 +7,11 @@
 
 ---
 
+어플리케이션 실행 환경
+- Java 8 이상
+- MariaDB
+
+---
+
 프로그램 소스 사용은 [라이선스](https://github.com/horyu1234/EventAngel/blob/master/LICENSE.md)를 반드시 확인해주세요.  
 프로그램에 버그 또는 문제가 있다면 [이슈 생성](https://github.com/horyu1234/EventAngel/issues/new) 으로 제보 부탁드립니다.
