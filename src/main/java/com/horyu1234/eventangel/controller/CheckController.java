@@ -4,6 +4,7 @@ import com.horyu1234.eventangel.constant.EventDetailStatus;
 import com.horyu1234.eventangel.constant.View;
 import com.horyu1234.eventangel.domain.Applicant;
 import com.horyu1234.eventangel.domain.Event;
+import com.horyu1234.eventangel.factory.DateFactory;
 import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.form.CheckForm;
 import com.horyu1234.eventangel.service.ApplicantService;
@@ -68,9 +69,12 @@ public class CheckController {
             return View.LAYOUT.getTemplateName();
         }
 
-        Applicant storedApplicant = applicantService.getApply(checkForm.getEmail());
+        Applicant storedApplicant = applicantService.getApply(currentEvent.getEventId(), checkForm.getEmail());
         if (storedApplicant != null) {
-            model.addAttribute("applicant", storedApplicant);
+            model.addAttribute("applyTime", DateFactory.PRETTY_FORMAT.format(storedApplicant.getApplyTime()));
+            model.addAttribute("youtubeNickname", storedApplicant.getYoutubeNickname());
+            model.addAttribute("applyEmail", storedApplicant.getApplyEmail());
+
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_EXIST_APPLY.toView());
 
             return View.LAYOUT.getTemplateName();

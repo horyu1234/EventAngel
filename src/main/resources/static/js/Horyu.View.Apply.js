@@ -186,7 +186,7 @@ Horyu.View.Apply = function(options) {
                         _this.nextLotteryPrize = prize;
                     }
                 } else {
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.email + '</a>'));
+                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.applyEmail + '</a>'));
                     $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.youtubeNickname + '</a>'));
                 }
 

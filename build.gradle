@@ -24,7 +24,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'css'
 apply plugin: 'js'
 
-version = '1.5.0'
+version = '1.6.0'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8

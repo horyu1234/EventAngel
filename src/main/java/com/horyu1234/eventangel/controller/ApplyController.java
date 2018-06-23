@@ -5,6 +5,7 @@ import com.horyu1234.eventangel.constant.View;
 import com.horyu1234.eventangel.domain.Applicant;
 import com.horyu1234.eventangel.domain.CompanyAndPrize;
 import com.horyu1234.eventangel.domain.Event;
+import com.horyu1234.eventangel.factory.DateFactory;
 import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.form.ApplyForm;
 import com.horyu1234.eventangel.service.ApplicantService;
@@ -24,8 +25,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,9 +50,8 @@ public class ApplyController {
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
     public String apply(Model model) {
-        model.addAttribute("applyCount", applicantService.getApplyCount());
-
         Event currentEvent = eventService.getCurrentEvent();
+
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         model.addAttribute(ModelAttributeNameFactory.EVENT_TITLE, currentEvent.getEventTitle());
@@ -68,6 +68,7 @@ public class ApplyController {
             currentEventResult = prizeService.getPrizeList(currentEvent.getEventId());
         }
 
+        model.addAttribute("applyCount", applicantService.getApplyCount(currentEvent.getEventId(), true));
         model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
         model.addAttribute("eventResult", currentEventResult);
 
@@ -79,15 +80,18 @@ public class ApplyController {
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public String applyReceive(Model model, ApplyForm applyForm,
                                @RequestHeader(value = "User-Agent", required = false) String useragent) {
-        Applicant storedApplicant = applicantService.getApply(applyForm.getEmail());
+        Event currentEvent = eventService.getCurrentEvent();
+
+        Applicant storedApplicant = applicantService.getApply(currentEvent.getEventId(), applyForm.getEmail());
         if (storedApplicant != null) {
-            model.addAttribute("applicant", storedApplicant);
+            model.addAttribute("applyTime", DateFactory.PRETTY_FORMAT.format(storedApplicant.getApplyTime()));
+            model.addAttribute("youtubeNickname", storedApplicant.getYoutubeNickname());
+            model.addAttribute("applyEmail", storedApplicant.getApplyEmail());
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_REDUPLICATION.toView());
 
             return View.LAYOUT.getTemplateName();
         }
 
-        Event currentEvent = eventService.getCurrentEvent();
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         if (eventDetailStatus == EventDetailStatus.START_SOON) {
@@ -107,14 +111,15 @@ public class ApplyController {
         }
 
         Applicant applicant = new Applicant();
-        applicant.setApplyTime(new Date());
-        applicant.setEmail(applyForm.getEmail());
+        applicant.setEventId(currentEvent.getEventId());
+        applicant.setApplyTime(LocalDateTime.now());
+        applicant.setApplyEmail(applyForm.getEmail());
         applicant.setYoutubeNickname(applyForm.getYoutubeNickname());
         applicant.setIpAddress(getClientIpAddress());
         applicant.setUserAgent(useragent);
         applicant.setFingerprint2(StringUtils.isNullOrEmpty(applyForm.getFingerprint2()) ? null : applyForm.getFingerprint2());
 
-        if (StringUtils.isNullOrEmpty(applicant.getEmail()) || StringUtils.isNullOrEmpty(applicant.getYoutubeNickname()) || !applicant.getEmail().contains("@")) {
+        if (StringUtils.isNullOrEmpty(applicant.getApplyEmail()) || StringUtils.isNullOrEmpty(applicant.getYoutubeNickname()) || !applicant.getApplyEmail().contains("@")) {
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_INVALID_FORM.toView());
 
             return View.LAYOUT.getTemplateName();
@@ -122,10 +127,12 @@ public class ApplyController {
 
         applicantService.addApply(applicant);
 
-        model.addAttribute("applicant", applicant);
+        model.addAttribute("applyTime", DateFactory.PRETTY_FORMAT.format(applicant.getApplyTime()));
+        model.addAttribute("youtubeNickname", applicant.getYoutubeNickname());
+        model.addAttribute("applyEmail", applicant.getApplyEmail());
         model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_SUCCESS.toView());
 
-        LOGGER.info("[{}] 새로운 응모 - {} ({})", getClientIpAddress(), applicant.getEmail(), applicant.getYoutubeNickname());
+        LOGGER.info("[{}] 새로운 응모 - {} ({})", getClientIpAddress(), applicant.getApplyEmail(), applicant.getYoutubeNickname());
 
         return View.LAYOUT.getTemplateName();
     }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by horyu on 2018-04-16
@@ -41,7 +42,8 @@ public class LotteryService {
             eventService.updateEvent(currentEvent);
         }
 
-        List<Applicant> applicantList = applicantService.getApplicantList();
+        List<Applicant> applicantList = applicantService.getApplicantList(currentEvent.getEventId());
+        applicantList = applicantList.stream().filter(applicant -> !applicant.isDuplicated()).collect(Collectors.toList());
 
         MersenneTwister mersenneTwister = new MersenneTwister();
         int randomIndex = mersenneTwister.nextInt(applicantList.size());
@@ -49,7 +51,7 @@ public class LotteryService {
         Applicant lotteryedApplicant = applicantList.get(randomIndex);
 
         int eventId = currentEvent.getEventId();
-        eventWinnerService.addEventWinner(eventId, prizeId, lotteryedApplicant);
+        eventWinnerService.addEventWinner(eventId, prizeId, lotteryedApplicant.getApplyEmail());
 
         return lotteryedApplicant;
     }

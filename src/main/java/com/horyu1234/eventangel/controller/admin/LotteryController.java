@@ -49,9 +49,12 @@ public class LotteryController {
         Event currentEvent = eventService.getCurrentEvent();
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
+        long notDupApplyCount = applicantService.getApplyCount(currentEvent.getEventId(), false);
+        long dupApplyCount = applicantService.getApplyCount(currentEvent.getEventId(), true) - notDupApplyCount;
+
         boolean canStartLottery = true;
         String cantStartMessage = "";
-        if (prizeService.getTotalPrizeAmount(currentEvent.getEventId()) > applicantService.getApplyCount()) {
+        if (prizeService.getTotalPrizeAmount(currentEvent.getEventId()) > notDupApplyCount) {
             canStartLottery = false;
             cantStartMessage = "존재하는 상품의 수보다 응모 신청을 한 사람의 수가 적습니다.";
         }
@@ -59,7 +62,8 @@ public class LotteryController {
         model.addAttribute("cantApply", eventDetailStatus == EventDetailStatus.ALREADY_END || eventDetailStatus == EventDetailStatus.CLOSE);
         model.addAttribute("canStartLottery", canStartLottery);
         model.addAttribute("cantStartMessage", cantStartMessage);
-        model.addAttribute("applyCount", applicantService.getApplyCount());
+        model.addAttribute("notDupApplyCount", notDupApplyCount);
+        model.addAttribute("dupApplyCount", dupApplyCount);
         model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(currentEvent.getEventId()));
 
         model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_LOTTERY.toView());

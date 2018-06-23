@@ -1,6 +1,5 @@
 package com.horyu1234.eventangel.database.dao;
 
-import com.horyu1234.eventangel.domain.Applicant;
 import com.horyu1234.eventangel.domain.EventWinner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -25,12 +24,8 @@ public class EventWinnerDAO {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `EVENT_WINNER` ( " +
                 "`EVENT_ID` INT(11) NOT NULL, " +
                 "`PRIZE_ID` INT(11) NOT NULL, " +
-                "`APPLY_EMAIL` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`APPLY_YOUTUBE_NICKNAME` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`APPLY_TIME` DATETIME NOT NULL, " +
-                "`APPLY_IP_ADDRESS` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`APPLY_USER_AGENT` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`APPLY_FINGERPRINT2` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci' " +
+                "`APPLY_EMAIL` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
+                "PRIMARY KEY (`EVENT_ID`, `PRIZE_ID`, `APPLY_EMAIL`) " +
                 ") " +
                 "COLLATE='utf8mb4_unicode_ci' " +
                 "ENGINE=InnoDB;");
@@ -44,9 +39,9 @@ public class EventWinnerDAO {
                 new BeanPropertyRowMapper<>(EventWinner.class));
     }
 
-    public void insertEventWinner(int eventId, int prizeId, Applicant applicant) {
-        jdbcTemplate.update("INSERT INTO `EVENT_WINNER` (EVENT_ID, PRIZE_ID, APPLY_EMAIL, APPLY_YOUTUBE_NICKNAME, APPLY_TIME, APPLY_IP_ADDRESS, APPLY_USER_AGENT, APPLY_FINGERPRINT2) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-                eventId, prizeId, applicant.getEmail(), applicant.getYoutubeNickname(), applicant.getApplyTime(), applicant.getIpAddress(), applicant.getUserAgent(), applicant.getFingerprint2());
+    public void insertEventWinner(int eventId, int prizeId, String applyEmail) {
+        jdbcTemplate.update("INSERT INTO `EVENT_WINNER` (EVENT_ID, PRIZE_ID, APPLY_EMAIL) VALUES (?, ?, ?);",
+                eventId, prizeId, applyEmail);
     }
 
     public void resetEventWinner(int eventId) {

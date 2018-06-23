@@ -1,17 +1,15 @@
 <script type="text/javascript" th:src="@{/js/admin/Horyu.View.Lottery.min.js}"></script>
 
-<div class="alert alert-dismissible alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <strong>주의: 추첨을 시작하면, 다음 이벤트를 시작하거나 현재 이벤트의 당첨자 목록을 초기화하기 전까지는 모든 설정 수정이 불가능합니다!</strong>
-</div>
-
 <div class="alert alert-danger" th:unless="${cantApply}" style="font-size: 14pt">
     <strong>주의: 응모 신청이 마감되지 않았습니다. 실제 추첨 시에는 응모 신청을 마감해주세요.</strong>
 </div>
 
 <div class="alert alert-info" style="font-size: 14pt">
-    현재 시간은 <a id="currentTime" style="font-weight: bold;"></a> 이며, <a id="applyCount" style="font-weight: bold;">0</a>이
-    이벤트 응모를 하였습니다.
+    현재 시간: <a id="currentTime" style="font-weight: bold;"></a>
+    <br/>
+    정상 응모 수: <a id="notDupApplyCount" style="font-weight: bold;">0</a>개
+    <br/>
+    중복 응모 수: <a id="dupApplyCount" style="font-weight: bold;">0</a>개 (포함되지 않은 수가 존재할 수 있습니다)
 </div>
 
 <div class="card bg-light">
@@ -104,12 +102,14 @@
 </div>
 
 <script th:inline="javascript">
-    var applyCount = /*[[${applyCount}]]*/0;
+    var notDupApplyCount = /*[[${notDupApplyCount}]]*/0;
+    var dupApplyCount = /*[[${dupApplyCount}]]*/0;
     var eventResult = /*[[${eventResult}]]*/[];
 
     $(function() {
         var view = new Horyu.View.Lottery({
-            applyCount: applyCount,
+            notDupApplyCount: notDupApplyCount,
+            dupApplyCount: dupApplyCount,
             prizeList: eventResult
         });
 

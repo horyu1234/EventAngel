@@ -38,7 +38,6 @@ public class EventSettingRestController {
     @RequestMapping(value = "/endEvent", method = RequestMethod.GET)
     public String endEvent() {
         eventService.newEvent();
-        applicantService.truncate();
 
         return "success";
     }

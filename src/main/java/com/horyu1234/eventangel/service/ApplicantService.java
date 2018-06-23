@@ -30,24 +30,20 @@ public class ApplicantService {
         applicantDAO.insertApplicant(applicant);
     }
 
-    public Applicant getApply(String email) {
-        List<Applicant> applicantList = applicantDAO.getApplicant(email);
+    public Applicant getApply(int eventId, String email) {
+        List<Applicant> applicantList = applicantDAO.getApplicant(eventId, email);
         return applicantList.isEmpty() ? null : applicantList.get(0);
     }
 
-    public long getApplyCount() {
-        return applicantDAO.getApplicantCount();
+    public long getApplyCount(int eventId, boolean includeDuplicated) {
+        return applicantDAO.getApplicantCount(eventId, includeDuplicated);
     }
 
-    public List<Applicant> getRecent50ApplicantList() {
-        return Lists.newArrayList(applicantDAO.getRecent50Applicant());
+    public List<Applicant> getRecent50ApplicantList(int eventId) {
+        return Lists.newArrayList(applicantDAO.getRecent50Applicant(eventId));
     }
 
-    public List<Applicant> getApplicantList() {
-        return Lists.newArrayList(applicantDAO.getApplicant());
-    }
-
-    public void truncate() {
-        applicantDAO.truncate();
+    public List<Applicant> getApplicantList(int eventId) {
+        return Lists.newArrayList(applicantDAO.getApplicant(eventId));
     }
 }

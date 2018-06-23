@@ -19,28 +19,26 @@ import java.util.stream.Collectors;
 public class EventWinnerService {
     private EventWinnerDAO eventWinnerDAO;
     private PrizeService prizeService;
+    private ApplicantService applicantService;
+
+    @Autowired
+    public EventWinnerService(EventWinnerDAO eventWinnerDAO, PrizeService prizeService, ApplicantService applicantService) {
+        this.eventWinnerDAO = eventWinnerDAO;
+        this.prizeService = prizeService;
+        this.applicantService = applicantService;
+    }
 
     @PostConstruct
     public void init() {
         eventWinnerDAO.createTableIfNotExist();
     }
 
-    @Autowired
-    public void setPrizeService(PrizeService prizeService) {
-        this.prizeService = prizeService;
-    }
-
-    @Autowired
-    public void setEventWinnerDAO(EventWinnerDAO eventWinnerDAO) {
-        this.eventWinnerDAO = eventWinnerDAO;
-    }
-
     public void resetEventWinner(int eventId) {
         eventWinnerDAO.resetEventWinner(eventId);
     }
 
-    public void addEventWinner(int eventId, int prizeId, Applicant applicant) {
-        eventWinnerDAO.insertEventWinner(eventId, prizeId, applicant);
+    public void addEventWinner(int eventId, int prizeId, String applyEmail) {
+        eventWinnerDAO.insertEventWinner(eventId, prizeId, applyEmail);
     }
 
     public List<EventWinner> getWinnerList(int eventId) {
@@ -54,13 +52,13 @@ public class EventWinnerService {
                 return companyAndPrize;
             }
 
-            String email = applicant.getEmail();
+            String email = applicant.getApplyEmail();
 
             String originalEmailName = email.split("@")[0];
             String emailName = originalEmailName.substring(0, originalEmailName.length() - 1) + "*";
-            String emailHost = email.split("@")[1].replaceAll("[a-zA-Z가-힣]", "*");
+            String emailHost = email.split("@")[1].replaceAll("[a-zA-Z가-힣0-9\\-]", "*");
 
-            applicant.setEmail(emailName + '@' + emailHost);
+            applicant.setApplyEmail(emailName + '@' + emailHost);
             applicant.setApplyTime(null);
             applicant.setIpAddress("HIDDEN");
             applicant.setUserAgent("HIDDEN");
@@ -81,7 +79,9 @@ public class EventWinnerService {
             EventWinner eventWinner = popWinner(winnerList, eventId, companyAndPrize.getPrizeId());
 
             if (eventWinner != null) {
-                companyAndPrize.setApplicant(eventWinner.toApplicant());
+                Applicant apply = applicantService.getApply(eventId, eventWinner.getApplyEmail());
+
+                companyAndPrize.setApplicant(apply);
             }
         }).collect(Collectors.toList());
     }

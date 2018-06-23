@@ -1,32 +1,43 @@
 package com.horyu1234.eventangel.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by horyu on 2018-04-03
  */
 public class Applicant {
-    private String email;
+    private int eventId;
+    private String applyEmail;
     private String youtubeNickname;
-    private Date applyTime;
+    private LocalDateTime applyTime;
     private String ipAddress;
     private String userAgent;
     private String fingerprint2;
+    private boolean duplicated;
+    private String dupCheckAdminName;
 
-    public Date getApplyTime() {
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+
+    public LocalDateTime getApplyTime() {
         return applyTime;
     }
 
-    public void setApplyTime(Date applyTime) {
+    public void setApplyTime(LocalDateTime applyTime) {
         this.applyTime = applyTime;
     }
 
-    public String getEmail() {
-        return email;
+    public String getApplyEmail() {
+        return applyEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setApplyEmail(String applyEmail) {
+        this.applyEmail = applyEmail;
     }
 
     public String getYoutubeNickname() {
@@ -59,5 +70,21 @@ public class Applicant {
 
     public void setFingerprint2(String fingerprint2) {
         this.fingerprint2 = fingerprint2;
+    }
+
+    public boolean isDuplicated() {
+        return duplicated;
+    }
+
+    public void setDuplicated(boolean duplicated) {
+        this.duplicated = duplicated;
+    }
+
+    public String getDupCheckAdminName() {
+        return dupCheckAdminName;
+    }
+
+    public void setDupCheckAdminName(String dupCheckAdminName) {
+        this.dupCheckAdminName = dupCheckAdminName;
     }
 }

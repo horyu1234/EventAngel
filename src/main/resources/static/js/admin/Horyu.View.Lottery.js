@@ -7,6 +7,8 @@ Horyu.View.Lottery = function(options) {
     _this.nextLotteryPrize = null;
 
     var defaultOptions = {
+        notDupApplyCount: 0,
+        dupApplyCount: 0,
         prizeList: []
     };
 
@@ -24,16 +26,21 @@ Horyu.View.Lottery = function(options) {
             useEasing: true,
             useGrouping: true,
             separator: ',',
-            decimal: '.',
-            prefix: '총 ',
-            suffix: '명'
+            decimal: '.'
         };
 
-        var countUp = new CountUp('applyCount', 0, _this.options.applyCount, 0, 3, options);
-        if (!countUp.error) {
-            countUp.start();
+        var notDupApplyCountUp = new CountUp('notDupApplyCount', 0, _this.options.notDupApplyCount, 0, 3, options);
+        if (!notDupApplyCountUp.error) {
+            notDupApplyCountUp.start();
         } else {
-            console.error(countUp.error);
+            console.error(notDupApplyCountUp.error);
+        }
+
+        var dupApplyCountUp = new CountUp('dupApplyCount', 0, _this.options.dupApplyCount, 0, 3, options);
+        if (!dupApplyCountUp.error) {
+            dupApplyCountUp.start();
+        } else {
+            console.error(dupApplyCountUp.error);
         }
     };
 
@@ -70,7 +77,7 @@ Horyu.View.Lottery = function(options) {
                         _this.nextLotteryPrize = prize;
                     }
                 } else {
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + _this.hideSomePartOfEmail(prize.applicant.email) + '</a>'));
+                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + _this.hideSomePartOfEmail(prize.applicant.applyEmail) + '</a>'));
                     $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.youtubeNickname + '</a>'));
                 }
 
@@ -139,7 +146,7 @@ Horyu.View.Lottery = function(options) {
         $('#modal-companyDetail').text(_this.nextLotteryPrize.companyDetail);
         $('#modal-prizeName').text(_this.nextLotteryPrize.prizeName);
         $('#modal-youtubeNickname').text(result.youtubeNickname);
-        $('#modal-email').text(_this.hideSomePartOfEmail(result.email));
+        $('#modal-email').text(_this.hideSomePartOfEmail(result.applyEmail));
 
         $('#lottery-modal').modal({
             backdrop: 'static',
@@ -150,7 +157,7 @@ Horyu.View.Lottery = function(options) {
     _this.hideSomePartOfEmail = function(email) {
         var originalEmailName = email.split('@')[0];
         var emailName = originalEmailName.substr(0, originalEmailName.length - 1) + '*';
-        var emailHost = email.split('@')[1].replace(/[a-zA-Z가-힣]/g, '*');
+        var emailHost = email.split('@')[1].replace(/[a-zA-Z가-힣0-9\-]/g, '*');
 
         return emailName + '@' + emailHost;
     };

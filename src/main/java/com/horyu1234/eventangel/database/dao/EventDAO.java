@@ -16,10 +16,12 @@ import java.util.List;
 @Repository
 public class EventDAO {
     private JdbcTemplate jdbcTemplate;
+    private EventMapper eventMapper;
 
     @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public EventDAO(JdbcTemplate jdbcTemplate, EventMapper eventMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.eventMapper = eventMapper;
     }
 
     public void createTableIfNotExist() {
@@ -41,7 +43,7 @@ public class EventDAO {
                 "SELECT * FROM `EVENT` " +
                         "ORDER BY EVENT_ID " +
                         "DESC LIMIT 1;",
-                new EventMapper());
+                eventMapper);
     }
 
     public List<Event> getEventList() {

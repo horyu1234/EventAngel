@@ -6,6 +6,10 @@
     최근 응모한 50명만 표시됩니다.
 </div>
 
+<div class="alert alert-warning">
+    본 메뉴는 개선 준비 중인 메뉴이므로, 기능들이 불안정할 수 있습니다.
+</div>
+
 <div class="table-responsive">
     <table class="table">
         <colgroup>
@@ -28,8 +32,8 @@
         </thead>
         <tbody>
         <tr th:each="applicant : ${applicantList}">
-            <td th:text="${#dates.format(applicant.getApplyTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${applicant.getEmail()}"></td>
+            <td th:text="${applicant.getApplyTime()}"></td>
+            <td th:text="${applicant.getApplyEmail()}"></td>
             <td th:text="${applicant.getYoutubeNickname()}"></td>
             <td th:text="${applicant.getIpAddress()}"></td>
             <!--<td th:text="${applicant.getUserAgent()}"></td>-->
