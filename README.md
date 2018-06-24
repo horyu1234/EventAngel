@@ -5,11 +5,15 @@
 허수아비 이벤트 사이트입니다.  
 공정성을 위하여 사이트 소스 전체를 공개합니다.  
 
----
 
-어플리케이션 실행 환경
+### 어플리케이션 실행 환경
 - Java 8 이상
 - MariaDB
+
+
+### 데이터베이스 구조
+![works badge](https://raw.githubusercontent.com/horyu1234/EventAngel/master/img/EventAngel-DatabaseStruct.PNG)
+
 
 ---
 
