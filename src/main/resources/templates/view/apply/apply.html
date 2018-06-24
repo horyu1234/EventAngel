@@ -6,116 +6,114 @@
     현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
 </div>
 
-<div class="col-md-10 offset-md-1">
-    <div class="card bg-light">
-        <div class="card-body">
-            <div class="alert alert-warning alert-banner"></div>
+<div class="card bg-light">
+    <div class="card-body">
+        <div class="alert alert-warning alert-banner"></div>
 
-            <div th:remove="tag"
-                 th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
-                <a id="event-title" th:text="${eventTitle}"></a>
+        <div th:remove="tag"
+             th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
+            <a id="event-title" th:text="${eventTitle}"></a>
+            <br/>
+            <a id="event-detail" th:text="${eventDetail}"></a>
+
+            <form id="applyForm" method="post" action="#" th:action="@{/apply}" th:object="${applyForm}"
+                  accept-charset="utf-8">
+                <input class="hidden-input" name="fingerprint2" id="fingerprint2"/>
+
+                <div class="form-group">
+                    <label for="youtubeNickname" class="control-label">유튜브 닉네임</label>
+                    <input class="form-control" name="youtubeNickname" id="youtubeNickname"
+                           placeholder="유튜브 닉네임을 입력해주세요."
+                           data-parsley-trigger="change" data-parsley-required=""
+                           data-parsley-length="[1, 100]"
+                           data-parsley-errors-container="#youtubeNickname-errors"/>
+                    <div class="invalid-feedback" id="youtubeNickname-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="control-label">이메일</label>
+                    <input class="form-control" name="email" id="email"
+                           placeholder="이메일을 입력해주세요."
+                           data-parsley-trigger="change" data-parsley-required=""
+                           data-parsley-type="email"
+                           data-parsley-errors-container="#email-errors"/>
+                    <div class="invalid-feedback" id="email-errors"></div>
+                </div>
+
                 <br/>
-                <a id="event-detail" th:text="${eventDetail}"></a>
+                <p id="subscribe-notice-title">허수아비 유튜브 구독자이신가요?</p>
+                <p id="subscribe-notice-detail">채널 구독자분을 대상으로 하는 이벤트라 이해 부탁드리겠습니다.</p>
 
-                <form id="applyForm" method="post" action="#" th:action="@{/apply}" th:object="${applyForm}"
-                      accept-charset="utf-8">
-                    <input class="hidden-input" name="fingerprint2" id="fingerprint2"/>
+                <button type="submit" class="btn btn-success">구독자입니다! (자동 응모)</button>
+                <button type="button" class="btn btn-warning" onclick="$('#submit-modal').modal()">구독자가 아닙니다 :(
+                </button>
 
-                    <div class="form-group">
-                        <label for="youtubeNickname" class="control-label">유튜브 닉네임</label>
-                        <input class="form-control" name="youtubeNickname" id="youtubeNickname"
-                               placeholder="유튜브 닉네임을 입력해주세요."
-                               data-parsley-trigger="change" data-parsley-required=""
-                               data-parsley-length="[1, 100]"
-                               data-parsley-errors-container="#youtubeNickname-errors"/>
-                        <div class="invalid-feedback" id="youtubeNickname-errors"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" class="control-label">이메일</label>
-                        <input class="form-control" name="email" id="email"
-                               placeholder="이메일을 입력해주세요."
-                               data-parsley-trigger="change" data-parsley-required=""
-                               data-parsley-type="email"
-                               data-parsley-errors-container="#email-errors"/>
-                        <div class="invalid-feedback" id="email-errors"></div>
-                    </div>
-
-                    <br/>
-                    <p id="subscribe-notice-title">허수아비 유튜브 구독자이신가요?</p>
-                    <p id="subscribe-notice-detail">채널 구독자분을 대상으로 하는 이벤트라 이해 부탁드리겠습니다.</p>
-
-                    <button type="submit" class="btn btn-success">구독자입니다! (자동 응모)</button>
-                    <button type="button" class="btn btn-warning" onclick="$('#submit-modal').modal()">구독자가 아닙니다 :(
-                    </button>
-
-                    <small class="form-text text-muted" style="font-weight: bold">
-                        중복 응모하시면 처음에 응모하신 것만 정상 응모되며, 나머지는 중복 처리됩니다.<br/>
-                        "구독자입니다! (자동 응모)" 버튼을 클릭하시면 <a th:href="@{/privacy}" target="_blank">개인정보 처리방침</a>에 동의한 것으로
-                        간주합니다.
-                    </small>
-                </form>
-            </div>
+                <small class="form-text text-muted" style="font-weight: bold">
+                    중복 응모하시면 처음에 응모하신 것만 정상 응모되며, 나머지는 중복 처리됩니다.<br/>
+                    "구독자입니다! (자동 응모)" 버튼을 클릭하시면 <a th:href="@{/privacy}" target="_blank">개인정보 처리방침</a>에 동의한 것으로
+                    간주합니다.
+                </small>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
-        <div class="card-header">도움을 주신 회사와 상품 목록</div>
-        <div class="card-body table-responsive">
-            <table class="table company-gift-table" id="prize-table">
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
+    <div class="card-header">도움을 주신 회사와 상품 목록</div>
+    <div class="card-body table-responsive">
+        <table class="table company-gift-table" id="prize-table">
+            <colgroup>
+                <col width="200px"/>
+                <col width="100%"/>
+                <col width="20px"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>도움을 주신 회사</th>
+                <th>상품</th>
+                <th>개수</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END}">
+    <div class="card-header">현재 당첨자 목록</div>
+    <div class="card-body">
+        <div class="alert alert-success">
+            앞으로 있을 추첨 방송을 기대해주시기 바랍니다.
+            <br/><br/>
+            추첨 방송이 시작되면, 여기에도 당첨자 목록이 표시됩니다.
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
+    <div class="card-header">현재 당첨자 목록</div>
+    <div class="card-body">
+        <div class="table-responsive" style="margin-top: 20px">
+            <table class="table company-gift-table" id="event-winner-table">
                 <colgroup>
                     <col width="200px"/>
-                    <col width="100%"/>
-                    <col width="20px"/>
+                    <col/>
+                    <col width="250px"/>
+                    <col width="250px"/>
                 </colgroup>
                 <thead>
                 <tr>
                     <th>도움을 주신 회사</th>
                     <th>상품</th>
-                    <th>개수</th>
+                    <th>당첨자 이메일</th>
+                    <th>당첨자 유튜브 닉네임</th>
                 </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END}">
-        <div class="card-header">현재 당첨자 목록</div>
-        <div class="card-body">
-            <div class="alert alert-success">
-                앞으로 있을 추첨 방송을 기대해주시기 바랍니다.
-                <br/><br/>
-                추첨 방송이 시작되면, 여기에도 당첨자 목록이 표시됩니다.
-            </div>
-        </div>
-    </div>
-
-    <div class="card" style="margin-top: 20px"
-         th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
-        <div class="card-header">현재 당첨자 목록</div>
-        <div class="card-body">
-            <div class="table-responsive" style="margin-top: 20px">
-                <table class="table company-gift-table" id="event-winner-table">
-                    <colgroup>
-                        <col width="200px"/>
-                        <col/>
-                        <col width="250px"/>
-                        <col width="250px"/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>도움을 주신 회사</th>
-                        <th>상품</th>
-                        <th>당첨자 이메일</th>
-                        <th>당첨자 유튜브 닉네임</th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
         </div>
     </div>
 </div>
