@@ -53,6 +53,7 @@ css.source.custom.css.files.eachWithIndex { cssFile, idx ->
     tasks.create(name: "minifyCss_${cssFile.getName().replaceFirst(/[.][^.]+$/, "")}", type: MinifyCssTask) {
         source = cssFile
         dest = cssFile.getAbsolutePath().replace('.css', '.min.css')
+
         yuicompressor {
             lineBreakPos = -1
         }
@@ -61,10 +62,20 @@ css.source.custom.css.files.eachWithIndex { cssFile, idx ->
 
 javascript.source.custom.js.files.eachWithIndex { jsFile, idx ->
     tasks.create(name: "minifyJs_${jsFile.getName().replaceFirst(/[.][^.]+$/, "")}", type: MinifyJsTask) {
+        def absolutePath = jsFile.getAbsolutePath()
+
         source = jsFile
-        dest = jsFile.getAbsolutePath().replace('.js', '.min.js')
-        yuicompressor {
-            lineBreakPos = -1
+        dest = absolutePath.replace('.js', '.min.js')
+        sourceMap = absolutePath.replace('.js', '.min.js.map')
+
+        closure {
+            warningLevel = 'QUIET'
+        }
+        doLast {
+            def sourceMapFile = file(absolutePath.replace('.js', '.min.js.map'))
+            sourceMapFile.write(sourceMapFile.text.replaceAll("\\[\".*src/main/resources/static", "[\""))
+
+            file(absolutePath.replace('.js', '.min.js')) << "\n//# sourceMappingURL=" + jsFile.getName().replace('.js', '.min.js.map')
         }
     }
 }
