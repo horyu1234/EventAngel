@@ -1,5 +1,6 @@
 .gradle
 /build/
+/out/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -27,3 +28,4 @@ nbdist/
 
 /src/main/resources/application.yml
 /src/test/resource/application.yml
+*.p12
