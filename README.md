@@ -12,7 +12,7 @@
 
 
 ### 데이터베이스 구조
-![works badge](https://raw.githubusercontent.com/horyu1234/EventAngel/master/img/EventAngel-DatabaseStruct.PNG)
+![works badge](https://raw.githubusercontent.com/horyu1234/EventAngel/master/img/EventAngel-DatabaseStruct v1.7.0.PNG)
 
 
 ---
