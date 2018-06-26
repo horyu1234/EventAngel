@@ -10,7 +10,6 @@ public class CompanyAndPrize {
     private String companyDetail;
     private String prizeName;
     private int prizeAmount;
-    private Applicant applicant;
 
     public CompanyAndPrize() {
     }
@@ -72,14 +71,6 @@ public class CompanyAndPrize {
         this.prizeAmount = prizeAmount;
     }
 
-    public Applicant getApplicant() {
-        return applicant;
-    }
-
-    public void setApplicant(Applicant applicant) {
-        this.applicant = applicant;
-    }
-
     public CompanyAndPrize copy() {
         CompanyAndPrize companyAndPrize = new CompanyAndPrize();
         companyAndPrize.setPrizeId(this.prizeId);
@@ -88,7 +79,6 @@ public class CompanyAndPrize {
         companyAndPrize.setPrizeName(this.prizeName);
         companyAndPrize.setCompanyDetail(this.companyDetail);
         companyAndPrize.setPrizeAmount(this.prizeAmount);
-        companyAndPrize.setApplicant(this.applicant);
 
         return companyAndPrize;
     }

@@ -45,7 +45,7 @@ public class PrizeController {
 
         model.addAttribute(ModelAttributeNameFactory.EVENT_STATUS, currentEvent.getEventStatus());
         model.addAttribute("companyList", companyService.getCompanyList(currentEvent.getEventId()));
-        model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
+        model.addAttribute("prizeList", prizeService.getCompanyGiftData(currentEvent.getEventId()));
 
         model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_PRIZE_SETTING.toView());
 

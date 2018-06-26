@@ -1,9 +1,5 @@
 <script type="text/javascript" th:src="@{/js/admin/Horyu.View.Lottery.min.js}"></script>
 
-<div class="alert alert-danger" th:unless="${cantApply}" style="font-size: 14pt">
-    <strong>주의: 응모 신청이 마감되지 않았습니다. 실제 추첨 시에는 응모 신청을 마감해주세요.</strong>
-</div>
-
 <div class="alert alert-info" style="font-size: 14pt">
     현재 시간: <a id="currentTime" style="font-weight: bold;"></a>
     <br/>
@@ -14,6 +10,9 @@
 
 <div class="card bg-light">
     <div class="card-body">
+        <div class="alert alert-primary next-gift-alert" style="text-align: center;font-size: 16pt">
+            다음 상품: <a class="next-gift-name" style="font-weight: bold"></a>
+        </div>
         <button th:if="${canStartLottery}" type="button" class="btn btn-success btn-lg btn-block lotteryBtn"><i
                 class="fas fa-random"></i>&nbsp; 다음 상품 추첨하기
         </button>
@@ -23,25 +22,7 @@
     </div>
 </div>
 
-<div class="table-responsive" style="margin-top: 20px">
-    <table class="table company-gift-table" id="prize-table">
-        <colgroup>
-            <col width="200px"/>
-            <col/>
-            <col width="250px"/>
-            <col width="250px"/>
-        </colgroup>
-        <thead>
-        <tr>
-            <th>도움을 주신 회사</th>
-            <th>상품</th>
-            <th>당첨자 이메일</th>
-            <th>당첨자 유튜브 닉네임</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+<div style="margin-top: 20px" th:include="view/component/companyGiftTable"></div>
 
 <div class="modal fade" id="lottery-modal">
     <div class="modal-dialog modal-lg" role="document">
@@ -104,13 +85,15 @@
 <script th:inline="javascript">
     var notDupApplyCount = /*[[${notDupApplyCount}]]*/0;
     var dupApplyCount = /*[[${dupApplyCount}]]*/0;
-    var eventResult = /*[[${eventResult}]]*/[];
+    var companyGiftData = /*[[${companyGiftData}]]*/[];
+    var eventWinnerData = /*[[${eventWinnerData}]]*/[];
 
     $(function() {
         var view = new Horyu.View.Lottery({
             notDupApplyCount: notDupApplyCount,
             dupApplyCount: dupApplyCount,
-            prizeList: eventResult
+            companyGiftData: companyGiftData,
+            eventWinnerData: eventWinnerData
         });
 
         view.init();

@@ -4,13 +4,15 @@ var Horyu = window.Horyu || {};
 Horyu.View = window.Horyu.View || {};
 Horyu.View.Apply = function(options) {
     var _this = this;
+    _this.companyGiftTable = null;
 
     var defaultOptions = {
         applyCount: 0,
         eventStatus: 'CLOSE',
         eventStartTime: 0,
         eventEndTime: 0,
-        prizeList: []
+        companyGiftData: [],
+        eventWinnerData: []
     };
 
     _this.options = $.extend(defaultOptions, options);
@@ -19,7 +21,6 @@ Horyu.View.Apply = function(options) {
         _this.initFingerprint2();
         _this.initParsley();
         _this.updateAlertBanner();
-        _this.updateTable();
     };
 
     _this.initFingerprint2 = function() {
@@ -113,6 +114,13 @@ Horyu.View.Apply = function(options) {
                     $('.alert-banner').html('<a style="font-weight: bold; font-size: 20pt;">응모 신청이 마감되었습니다.</a>');
                     window.location.reload();
                 });
+
+            _this.companyGiftTable = new Horyu.View.CompanyGiftTable({
+                includeEventWinner: false
+            });
+            _this.companyGiftTable.init();
+
+            _this.companyGiftTable.updateTable(_this.options.companyGiftData, _this.options.eventWinnerData);
         } else if (_this.options.eventStatus === 'CLOSE') {
             $alertBanner.text('현재 응모 신청을 받지 않습니다.');
         } else if (_this.options.eventStatus === 'LOTTERY') {
@@ -120,80 +128,11 @@ Horyu.View.Apply = function(options) {
             $alertBanner.removeClass('alert-warning');
             $alertBanner.addClass('alert-success');
 
-            _this.updateEventWinnerTable();
+            _this.companyGiftTable = new Horyu.View.CompanyGiftTable();
+            _this.companyGiftTable.init();
+
+            _this.companyGiftTable.updateTable(_this.options.companyGiftData, _this.options.eventWinnerData);
         }
-    };
-
-    _this.updateTable = function() {
-        var $prizeTableBody = $('#prize-table tbody');
-        $prizeTableBody.empty();
-
-        var groupedPrizeList = _this.options.prizeList.groupBy('companyId');
-        Object.forEach(groupedPrizeList, function(prizeList) {
-            var prizeIndex = 0;
-
-            Object.forEach(prizeList, function(prize) {
-                var $tr = $('<tr>');
-
-                if (prizeIndex === 0) {
-                    var $companyLogoTr = $('<td class="company-cell" rowspan="' + prizeList.length + '">' +
-                        '<a style="font-size: 16pt;font-weight: bold;">' + prize.companyName + '</a>' +
-                        '<br/>' +
-                        '<a style="color: gray">' + prize.companyDetail + '</a>' +
-                        '</td>');
-                    $tr.append($companyLogoTr);
-                }
-
-                $tr.append($('<td>').text(prize.prizeName));
-                $tr.append($('<td>').text(prize.prizeAmount));
-
-                $prizeTableBody.append($tr);
-                prizeIndex++;
-            });
-        });
-    };
-
-    _this.updateEventWinnerTable = function() {
-        _this.nextLotteryPrize = null;
-
-        var $prizeTableBody = $('#event-winner-table tbody');
-        $prizeTableBody.empty();
-
-        var groupedPrizeList = _this.options.prizeList.groupBy('companyId');
-        Object.forEach(groupedPrizeList, function(prizeList) {
-            prizeList = prizeList.sortBy('prizeId');
-
-            var prizeIndex = 0;
-            Object.forEach(prizeList, function(prize) {
-                var $tr = $('<tr>');
-
-                if (prizeIndex === 0) {
-                    var $companyLogoTr = $('<td class="company-cell" rowspan="' + prizeList.length + '">' +
-                        '<a style="font-size: 16pt;font-weight: bold;">' + prize.companyName + '</a>' +
-                        '<br/>' +
-                        '<a style="color: gray">' + prize.companyDetail + '</a>' +
-                        '</td>');
-                    $tr.append($companyLogoTr);
-                }
-
-                $tr.append($('<td>').text(prize.prizeName));
-
-                if (prize.applicant === null) {
-                    $tr.append($('<td>').html('<a style="color:gray">추첨 대기 중</a>'));
-                    $tr.append($('<td>').html('<a style="color:gray">추첨 대기 중</a>'));
-
-                    if (_this.nextLotteryPrize === null) {
-                        _this.nextLotteryPrize = prize;
-                    }
-                } else {
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.applyEmail + '</a>'));
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.youtubeNickname + '</a>'));
-                }
-
-                $prizeTableBody.append($tr);
-                prizeIndex++;
-            });
-        });
     };
 
     return {

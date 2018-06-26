@@ -61,23 +61,7 @@
 <div class="card" style="margin-top: 20px"
      th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
     <div class="card-header">도움을 주신 회사와 상품 목록</div>
-    <div class="card-body table-responsive">
-        <table class="table company-gift-table" id="prize-table">
-            <colgroup>
-                <col width="200px"/>
-                <col width="100%"/>
-                <col width="20px"/>
-            </colgroup>
-            <thead>
-            <tr>
-                <th>도움을 주신 회사</th>
-                <th>상품</th>
-                <th>개수</th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+    <div th:include="view/component/companyGiftTable"></div>
 </div>
 
 <div class="card" style="margin-top: 20px"
@@ -96,25 +80,7 @@
      th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
     <div class="card-header">현재 당첨자 목록</div>
     <div class="card-body">
-        <div class="table-responsive" style="margin-top: 20px">
-            <table class="table company-gift-table" id="event-winner-table">
-                <colgroup>
-                    <col width="200px"/>
-                    <col/>
-                    <col width="250px"/>
-                    <col width="250px"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>도움을 주신 회사</th>
-                    <th>상품</th>
-                    <th>당첨자 이메일</th>
-                    <th>당첨자 유튜브 닉네임</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+        <div style="margin-top: 20px" th:include="view/component/companyGiftTable"></div>
     </div>
 </div>
 
@@ -147,7 +113,8 @@
     var eventStatus = /*[[${eventStatus}]]*/'close';
     var eventStartTime = /*[[${eventStartTime}]]*/0;
     var eventEndTime = /*[[${eventEndTime}]]*/0;
-    var eventResult = /*[[${eventResult}]]*/[];
+    var companyGiftData = /*[[${companyGiftData}]]*/[];
+    var eventWinnerData = /*[[${eventWinnerData}]]*/[];
 
     $(function() {
         var view = new Horyu.View.Apply({
@@ -155,7 +122,8 @@
             eventStatus: eventStatus,
             eventStartTime: eventStartTime,
             eventEndTime: eventEndTime,
-            prizeList: eventResult
+            companyGiftData: companyGiftData,
+            eventWinnerData: eventWinnerData
         });
 
         view.init();

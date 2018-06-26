@@ -11,12 +11,29 @@
     font-size: 13pt !important;
 }
 
+.company-gift-table {
+    min-width: 800px;
+}
+
 .company-gift-table td {
     vertical-align: middle;
 }
 
 .company-gift-table .company-cell {
     min-width: 300px;
+}
+
+.company-gift-table .gift-cell {
+    min-width: 200px
+}
+
+.company-gift-table .event-winner-pending-cell {
+    color: #9e9e9e !important;
+}
+
+.company-gift-table .event-winner-cell {
+    color: #0043ff !important;
+    font-weight: bold;
 }
 
 #copyright {

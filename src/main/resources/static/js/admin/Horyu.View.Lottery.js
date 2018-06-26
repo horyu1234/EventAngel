@@ -4,17 +4,22 @@ var Horyu = window.Horyu || {};
 Horyu.View = window.Horyu.View || {};
 Horyu.View.Lottery = function(options) {
     var _this = this;
-    _this.nextLotteryPrize = null;
+    _this.companyGiftTable = null;
+    _this.currentEventWinnerData = [];
 
     var defaultOptions = {
         notDupApplyCount: 0,
         dupApplyCount: 0,
-        prizeList: []
+        companyGiftData: [],
+        eventWinnerData: []
     };
 
     _this.options = $.extend(defaultOptions, options);
 
     _this.init = function() {
+        _this.companyGiftTable = new Horyu.View.CompanyGiftTable();
+        _this.companyGiftTable.init();
+
         _this.updateTable();
         _this.bindEvents();
 
@@ -45,52 +50,21 @@ Horyu.View.Lottery = function(options) {
     };
 
     _this.updateTable = function() {
-        _this.nextLotteryPrize = null;
+        _this.companyGiftTable.updateTable(_this.options.companyGiftData, _this.options.eventWinnerData);
 
-        var $prizeTableBody = $('#prize-table tbody');
-        $prizeTableBody.empty();
+        var $nextGiftAlert = $('.next-gift-alert');
+        var $nextGiftName = $('.next-gift-name');
+        var $lotteryBtn = $('.lotteryBtn');
 
-        var groupedPrizeList = _this.options.prizeList.groupBy('companyId');
-        Object.forEach(groupedPrizeList, function(prizeList) {
-            prizeList = prizeList.sortBy('prizeId');
+        var nextLotteryGift = _this.companyGiftTable.getNextLotteryGift();
+        if (nextLotteryGift === null) {
+            $nextGiftAlert.remove();
 
-            var prizeIndex = 0;
-            Object.forEach(prizeList, function(prize) {
-                var $tr = $('<tr>');
-
-                if (prizeIndex === 0) {
-                    var $companyLogoTr = $('<td class="company-cell" rowspan="' + prizeList.length + '">' +
-                        '<a style="font-size: 16pt;font-weight: bold;">' + prize.companyName + '</a>' +
-                        '<br/>' +
-                        '<a style="color: gray">' + prize.companyDetail + '</a>' +
-                        '</td>');
-                    $tr.append($companyLogoTr);
-                }
-
-                $tr.append($('<td>').text(prize.prizeName));
-
-                if (prize.applicant === null) {
-                    $tr.append($('<td>').html('<a style="color:gray">추첨 대기 중</a>'));
-                    $tr.append($('<td>').html('<a style="color:gray">추첨 대기 중</a>'));
-
-                    if (_this.nextLotteryPrize === null) {
-                        _this.nextLotteryPrize = prize;
-                    }
-                } else {
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + _this.hideSomePartOfEmail(prize.applicant.applyEmail) + '</a>'));
-                    $tr.append($('<td>').html('<a style="color:blue;font-weight: bold">' + prize.applicant.youtubeNickname + '</a>'));
-                }
-
-                $prizeTableBody.append($tr);
-                prizeIndex++;
-            });
-        });
-
-        if (_this.nextLotteryPrize === null) {
-            $('.lotteryBtn').attr('disabled', '');
-            $('.lotteryBtn').html('<i class="fas fa-random"></i>&nbsp; [추첨 불가] 모든 상품 추첨이 완료되었습니다.')
+            $lotteryBtn.attr('disabled', '');
+            $lotteryBtn.html('<i class="fas fa-random"></i>&nbsp; [추첨 불가] 모든 상품 추첨이 완료되었습니다.')
         } else {
-            $('.lotteryBtn').html('<i class="fas fa-random"></i>&nbsp; 다음 상품 (' + _this.nextLotteryPrize.companyName + ' - ' + _this.nextLotteryPrize.prizeName + ') 추첨하기')
+            $nextGiftName.text(nextLotteryGift.prizeName);
+            $lotteryBtn.html('<i class="fas fa-random"></i>&nbsp; 다음 상품 추첨하기')
         }
     };
 
@@ -112,7 +86,7 @@ Horyu.View.Lottery = function(options) {
                 type: 'POST',
                 url: './lottery',
                 data: {
-                    prizeId: _this.nextLotteryPrize.prizeId
+                    prizeId: _this.companyGiftTable.getNextLotteryGift().prizeId
                 },
                 timeout: 120000
             }).done(function(result) {
@@ -142,24 +116,18 @@ Horyu.View.Lottery = function(options) {
     _this.lotteryOut = function(result) {
         $('.lotteryBtn').html('열린 창을 확인해주세요.');
 
-        $('#modal-companyName').text(_this.nextLotteryPrize.companyName);
-        $('#modal-companyDetail').text(_this.nextLotteryPrize.companyDetail);
-        $('#modal-prizeName').text(_this.nextLotteryPrize.prizeName);
+        var nextLotteryGift = _this.companyGiftTable.getNextLotteryGift();
+
+        $('#modal-companyName').text(nextLotteryGift.companyName);
+        $('#modal-companyDetail').text(nextLotteryGift.companyDetail);
+        $('#modal-prizeName').text(nextLotteryGift.prizeName);
         $('#modal-youtubeNickname').text(result.youtubeNickname);
-        $('#modal-email').text(_this.hideSomePartOfEmail(result.applyEmail));
+        $('#modal-email').text(result.applyEmail);
 
         $('#lottery-modal').modal({
             backdrop: 'static',
             keyboard: false
         });
-    };
-
-    _this.hideSomePartOfEmail = function(email) {
-        var originalEmailName = email.split('@')[0];
-        var emailName = originalEmailName.substr(0, originalEmailName.length - 1) + '*';
-        var emailHost = email.split('@')[1].replace(/[a-zA-Z가-힣0-9\-]/g, '*');
-
-        return emailName + '@' + emailHost;
     };
 
     _this.isIE = function() {

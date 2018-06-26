@@ -3,6 +3,7 @@ package com.horyu1234.eventangel.controller.admin;
 import com.horyu1234.eventangel.constant.EventDetailStatus;
 import com.horyu1234.eventangel.constant.View;
 import com.horyu1234.eventangel.domain.Event;
+import com.horyu1234.eventangel.domain.EventWinnerDetail;
 import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.service.ApplicantService;
 import com.horyu1234.eventangel.service.EventService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * Created by horyu on 2018-04-14
@@ -60,11 +63,18 @@ public class LotteryController {
         }
 
         model.addAttribute("cantApply", eventDetailStatus == EventDetailStatus.ALREADY_END || eventDetailStatus == EventDetailStatus.CLOSE);
+
         model.addAttribute("canStartLottery", canStartLottery);
         model.addAttribute("cantStartMessage", cantStartMessage);
+
         model.addAttribute("notDupApplyCount", notDupApplyCount);
         model.addAttribute("dupApplyCount", dupApplyCount);
-        model.addAttribute("eventResult", eventWinnerService.getCurrentEventResult(currentEvent.getEventId()));
+
+        List<EventWinnerDetail> winnerList = eventWinnerService.getWinnerList(currentEvent.getEventId());
+        winnerList = eventWinnerService.hidePrivacy(winnerList);
+
+        model.addAttribute("companyGiftData", prizeService.getCompanyGiftData(currentEvent.getEventId()));
+        model.addAttribute("eventWinnerData", winnerList);
 
         model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.ADMIN_LOTTERY.toView());
 

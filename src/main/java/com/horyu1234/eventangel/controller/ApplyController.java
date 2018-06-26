@@ -5,6 +5,7 @@ import com.horyu1234.eventangel.constant.View;
 import com.horyu1234.eventangel.domain.Applicant;
 import com.horyu1234.eventangel.domain.CompanyAndPrize;
 import com.horyu1234.eventangel.domain.Event;
+import com.horyu1234.eventangel.domain.EventWinnerDetail;
 import com.horyu1234.eventangel.factory.DateFactory;
 import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.form.ApplyForm;
@@ -27,6 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,17 +62,22 @@ public class ApplyController {
         model.addAttribute(ModelAttributeNameFactory.EVENT_START_TIME, currentEvent.getEventStartTime().toInstant(ZoneOffset.ofHours(9)).toEpochMilli() / 1000);
         model.addAttribute(ModelAttributeNameFactory.EVENT_END_TIME, currentEvent.getEventEndTime().toInstant(ZoneOffset.ofHours(9)).toEpochMilli() / 1000);
 
-        List<CompanyAndPrize> currentEventResult;
-        if (eventDetailStatus == EventDetailStatus.LOTTERY) {
-            currentEventResult = eventWinnerService.getCurrentEventResult(currentEvent.getEventId());
-            currentEventResult = eventWinnerService.hidePrivacy(currentEventResult);
-        } else {
-            currentEventResult = prizeService.getPrizeList(currentEvent.getEventId());
+        model.addAttribute("applyCount", applicantService.getApplyCount(currentEvent.getEventId(), true));
+
+        List<CompanyAndPrize> companyGiftData = new ArrayList<>();
+        List<EventWinnerDetail> winnerList = new ArrayList<>();
+
+        if (eventDetailStatus == EventDetailStatus.OPEN || eventDetailStatus == EventDetailStatus.LOTTERY) {
+            companyGiftData = prizeService.getCompanyGiftData(currentEvent.getEventId());
         }
 
-        model.addAttribute("applyCount", applicantService.getApplyCount(currentEvent.getEventId(), true));
-        model.addAttribute("prizeList", prizeService.getPrizeList(currentEvent.getEventId()));
-        model.addAttribute("eventResult", currentEventResult);
+        if (eventDetailStatus == EventDetailStatus.LOTTERY) {
+            winnerList = eventWinnerService.getWinnerList(currentEvent.getEventId());
+            winnerList = eventWinnerService.hidePrivacy(winnerList);
+        }
+
+        model.addAttribute("companyGiftData", companyGiftData);
+        model.addAttribute("eventWinnerData", winnerList);
 
         model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
 

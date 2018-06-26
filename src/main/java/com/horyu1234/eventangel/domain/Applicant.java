@@ -87,4 +87,18 @@ public class Applicant {
     public void setDupCheckAdminName(String dupCheckAdminName) {
         this.dupCheckAdminName = dupCheckAdminName;
     }
+
+    public void hidePrivacy() {
+        String email = getApplyEmail();
+
+        String originalEmailName = email.split("@")[0];
+        String emailName = originalEmailName.substring(0, originalEmailName.length() - 1) + "*";
+        String emailHost = email.split("@")[1].replaceAll("[a-zA-Z가-힣0-9\\-]", "*");
+
+        setApplyEmail(emailName + '@' + emailHost);
+        setApplyTime(null);
+        setIpAddress(null);
+        setUserAgent(null);
+        setFingerprint2(null);
+    }
 }

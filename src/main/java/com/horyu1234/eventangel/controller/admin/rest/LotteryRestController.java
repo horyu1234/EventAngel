@@ -22,6 +22,9 @@ public class LotteryRestController {
 
     @RequestMapping(value = "/lottery", method = RequestMethod.POST)
     public Applicant lottery(int prizeId) {
-        return lotteryService.lottery(prizeId);
+        Applicant applicant = lotteryService.lottery(prizeId);
+        applicant.hidePrivacy();
+
+        return applicant;
     }
 }

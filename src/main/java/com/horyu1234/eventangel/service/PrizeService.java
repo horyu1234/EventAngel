@@ -37,7 +37,7 @@ public class PrizeService {
         this.prizeDAO = prizeDAO;
     }
 
-    @CacheEvict(value = {"prize.list", "prize.total_amount"}, allEntries = true)
+    @CacheEvict(value = {"prizeService.companyGiftData", "prizeService.totalPrizeAmount"}, allEntries = true)
     public void savePrize(Prize prize) {
         int eventId = prize.getEventId();
 
@@ -53,18 +53,18 @@ public class PrizeService {
         prizeDAO.updateOrInsertPrize(prize);
     }
 
-    @CacheEvict(value = {"prize.list", "prize.total_amount"}, allEntries = true)
+    @CacheEvict(value = {"prizeService.companyGiftData", "prizeService.totalPrizeAmount"}, allEntries = true)
     public void deletePrize(int eventId, int prizeId) {
         prizeDAO.deletePrize(eventId, prizeId);
     }
 
-    @CacheEvict(value = {"prize.list", "prize.total_amount"}, allEntries = true)
+    @CacheEvict(value = {"prizeService.companyGiftData", "prizeService.totalPrizeAmount"}, allEntries = true)
     public void deletePrizeByCompanyId(int eventId, int companyId) {
         prizeDAO.deletePrizeByCompanyId(eventId, companyId);
     }
 
-    @Cacheable(value = "prize.list")
-    public List<CompanyAndPrize> getPrizeList(int eventId) {
+    @Cacheable(value = "prizeService.companyGiftData")
+    public List<CompanyAndPrize> getCompanyGiftData(int eventId) {
         List<Prize> prizeList = prizeDAO.getPrizeList(eventId);
 
         List<CompanyAndPrize> companyAndPrizeList = new ArrayList<>();
@@ -78,10 +78,10 @@ public class PrizeService {
         return companyAndPrizeList;
     }
 
-    @Cacheable(value = "prize.total_amount")
+    @Cacheable(value = "prizeService.totalPrizeAmount")
     public int getTotalPrizeAmount(int eventId) {
         int totalAmount = 0;
-        for (CompanyAndPrize companyAndPrize : getPrizeList(eventId)) {
+        for (CompanyAndPrize companyAndPrize : getCompanyGiftData(eventId)) {
             totalAmount += companyAndPrize.getPrizeAmount();
         }
 
