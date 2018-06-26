@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class EventWinnerService {
     }
 
     public void addEventWinner(int eventId, int prizeId, String applyEmail) {
-        eventWinnerDAO.insertEventWinner(eventId, prizeId, applyEmail);
+        eventWinnerDAO.insertEventWinner(eventId, prizeId, applyEmail, LocalDateTime.now());
     }
 
     public List<EventWinnerDetail> getWinnerList(int eventId) {

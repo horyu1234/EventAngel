@@ -109,6 +109,10 @@ Horyu.View.CompanyGiftTable = function(options) {
             return eventWinner.prizeId === prizeId;
         });
 
+        eventWinnerDataFilteredByPrizeId = eventWinnerDataFilteredByPrizeId.sortBy(function(eventWinner) {
+            return moment(eventWinner.winTime).unix();
+        });
+
         if (eventWinnerDataFilteredByPrizeId.length === 0) {
             return null;
         }

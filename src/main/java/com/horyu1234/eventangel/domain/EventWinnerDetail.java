@@ -1,5 +1,7 @@
 package com.horyu1234.eventangel.domain;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by horyu on 2018-04-16
  */
@@ -7,11 +9,13 @@ public class EventWinnerDetail {
     private int eventId;
     private int prizeId;
     private Applicant applicant;
+    private LocalDateTime winTime;
 
     public static EventWinnerDetail fromEventWinner(EventWinner eventWinner) {
         EventWinnerDetail eventWinnerDetail = new EventWinnerDetail();
         eventWinnerDetail.setEventId(eventWinner.getEventId());
         eventWinnerDetail.setPrizeId(eventWinner.getPrizeId());
+        eventWinnerDetail.setWinTime(eventWinner.getWinTime());
 
         return eventWinnerDetail;
     }
@@ -38,5 +42,13 @@ public class EventWinnerDetail {
 
     public void setApplicant(Applicant applicant) {
         this.applicant = applicant;
+    }
+
+    public LocalDateTime getWinTime() {
+        return winTime;
+    }
+
+    public void setWinTime(LocalDateTime winTime) {
+        this.winTime = winTime;
     }
 }
