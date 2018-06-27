@@ -102,15 +102,15 @@ public class ApplyController {
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
         if (eventDetailStatus == EventDetailStatus.START_SOON) {
-            LOGGER.info("[{}] 곧 시작될 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+            LOGGER.info("[{}] 곧 시작될 이벤트에 응모를 시도하였습니다. {} ({})", getClientIpAddress(), applyForm.getEmail(), applyForm.getYoutubeNickname());
 
             return View.APPLY.toRedirect();
-        } else if (eventDetailStatus == EventDetailStatus.CLOSE) {
-            LOGGER.info("[{}] 비활성화된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+        } else if (eventDetailStatus == EventDetailStatus.CLOSE || eventDetailStatus == EventDetailStatus.LOTTERY) {
+            LOGGER.info("[{}] 비활성화된 이벤트에 응모를 시도하였습니다. {} ({})", getClientIpAddress(), applyForm.getEmail(), applyForm.getYoutubeNickname());
 
             return View.APPLY.toRedirect();
         } else if (eventDetailStatus == EventDetailStatus.ALREADY_END) {
-            LOGGER.info("[{}] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다.", getClientIpAddress());
+            LOGGER.info("[{}] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다. {} ({})", getClientIpAddress(), applyForm.getEmail(), applyForm.getYoutubeNickname());
 
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_ALREADY_END.toView());
 
