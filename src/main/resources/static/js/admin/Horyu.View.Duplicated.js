@@ -19,6 +19,11 @@ Horyu.View.Duplicated = function() {
     };
 
     _this.updateTable = function(columnName) {
+        $('#loading-modal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
         $.ajax({
             type: 'POST',
             url: './getDuplicated',
@@ -27,6 +32,8 @@ Horyu.View.Duplicated = function() {
             },
             timeout: 10000
         }).done(function(result) {
+            $('#loading-modal').modal('hide');
+
             _this.updatePagination(result);
         });
     };

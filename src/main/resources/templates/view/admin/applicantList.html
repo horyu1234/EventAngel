@@ -19,6 +19,21 @@
 
 <div class="table-pagination" style="display: table; margin: 0 auto"></div>
 
+<div class="modal" id="loading-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">데이터를 불러오는 중</h5>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-spinner fa-spin"></i>&nbsp; 서버로 부터 데이터를 불러오는 중입니다...</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:inline="javascript">
     $(function() {
         var view = new Horyu.View.ApplicantList();

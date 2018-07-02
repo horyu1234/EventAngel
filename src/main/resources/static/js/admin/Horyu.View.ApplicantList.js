@@ -10,13 +10,18 @@ Horyu.View.ApplicantList = function() {
     };
 
     _this.updateTable = function() {
+        $('#loading-modal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
         $.ajax({
             type: 'POST',
             url: './getApplicant',
             data: {},
             timeout: 10000
         }).done(function(result) {
-            console.log(result);
+            $('#loading-modal').modal('hide');
 
             _this.updatePagination(result);
         });
