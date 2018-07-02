@@ -2,8 +2,10 @@ package com.horyu1234.eventangel.database.dao;
 
 import com.horyu1234.eventangel.database.mapper.ApplicantMapper;
 import com.horyu1234.eventangel.domain.Applicant;
+import com.horyu1234.eventangel.domain.DuplicatedApplicant;
 import com.horyu1234.eventangel.factory.DateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -79,6 +81,19 @@ public class ApplicantDAO {
                         "ORDER BY APPLY_TIME;",
                 new Object[]{eventId},
                 applicantMapper);
+    }
+
+    public List<DuplicatedApplicant> getDuplicatedApplicant(int eventId, String columnName) {
+        return jdbcTemplate.query("SELECT " +
+                        columnName + " AS columnName, " +
+                        "COUNT(*) AS duplicatedCount " +
+                        "FROM `APPLICANT` " +
+                        "WHERE EVENT_ID = ? " +
+                        "GROUP BY " + columnName + " " +
+                        "HAVING duplicatedCount > 1 " +
+                        "ORDER BY COUNT(*) DESC;",
+                new Object[]{eventId},
+                new BeanPropertyRowMapper<>(DuplicatedApplicant.class));
     }
 
     public void insertApplicant(Applicant applicant) {

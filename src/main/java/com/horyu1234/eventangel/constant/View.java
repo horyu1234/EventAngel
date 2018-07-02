@@ -9,6 +9,7 @@ public enum View {
     ADMIN_EVENT_SETTING("admin/eventSetting"),
     ADMIN_COMPANY_SETTING("admin/companySetting"),
     ADMIN_APPLICANT_LIST("admin/applicantList"),
+    ADMIN_DUPLICATED("admin/duplicated"),
     ADMIN_EVENT_HISTORY("admin/eventHistory"),
     ADMIN_EVENT_HISTORY_VIEW("admin/eventHistoryView"),
     ADMIN_LOTTERY("admin/lottery"),

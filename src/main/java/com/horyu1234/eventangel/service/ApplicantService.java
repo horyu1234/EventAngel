@@ -3,6 +3,7 @@ package com.horyu1234.eventangel.service;
 import com.google.common.collect.Lists;
 import com.horyu1234.eventangel.database.dao.ApplicantDAO;
 import com.horyu1234.eventangel.domain.Applicant;
+import com.horyu1234.eventangel.domain.DuplicatedApplicant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,9 @@ public class ApplicantService {
 
     public List<Applicant> getApplicantList(int eventId) {
         return Lists.newArrayList(applicantDAO.getApplicant(eventId));
+    }
+
+    public List<DuplicatedApplicant> getDuplicatedApplicant(int eventId, String columnName) {
+        return applicantDAO.getDuplicatedApplicant(eventId, columnName);
     }
 }

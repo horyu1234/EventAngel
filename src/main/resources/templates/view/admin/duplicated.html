@@ -1,0 +1,44 @@
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.Duplicated.min.js}"></script>
+
+<div class="alert alert-secondary">
+    <strong>현재 이벤트에서 다음 타입의 값이 중복되는 목록입니다.</strong>
+    <br/><br/>
+
+    <div class="btn-group btn-group-toggle columnNameBtnGroup" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input class="columnNameButton" type="radio" name="유튜브 닉네임" id="YOUTUBE_NICKNAME" autocomplete="off"
+                   checked=""> 유튜브 닉네임
+        </label>
+        <label class="btn btn-primary">
+            <input class="columnNameButton" type="radio" name="아이피" id="IP_ADDRESS" autocomplete="off"> 아이피
+        </label>
+        <label class="btn btn-primary">
+            <input class="columnNameButton" type="radio" name="유저 에이전트" id="USER_AGENT" autocomplete="off"> 유저 에이전트
+        </label>
+        <label class="btn btn-primary">
+            <input class="columnNameButton" type="radio" name="핑거프린트" id="FINGERPRINT2" autocomplete="off"> 핑거프린트
+        </label>
+    </div>
+</div>
+
+<div class="table-responsive" style="margin-top: 20px">
+    <table class="table duplicated-table">
+        <thead>
+        <tr>
+            <th class="tableColumnName">로딩 중</th>
+            <th>중복 개수</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="table-pagination" style="display: table; margin: 0 auto"></div>
+
+<script th:inline="javascript">
+    $(function() {
+        var view = new Horyu.View.Duplicated();
+
+        view.init();
+    });
+</script>
