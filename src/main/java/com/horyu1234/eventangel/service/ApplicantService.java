@@ -40,10 +40,6 @@ public class ApplicantService {
         return applicantDAO.getApplicantCount(eventId, includeDuplicated);
     }
 
-    public List<Applicant> getRecent50ApplicantList(int eventId) {
-        return Lists.newArrayList(applicantDAO.getRecent50Applicant(eventId));
-    }
-
     public List<Applicant> getApplicantList(int eventId) {
         return Lists.newArrayList(applicantDAO.getApplicant(eventId));
     }

@@ -1,3 +1,31 @@
+.applicant-list-table .apply-time {
+    min-width: 185px;
+}
+
+.applicant-list-table .apply-email {
+    min-width: 200px;
+}
+
+.applicant-list-table .apply-youtubeNickname {
+    min-width: 150px;
+}
+
+.applicant-list-table .apply-ipAddress {
+    min-width: 100px;
+}
+
+.applicant-list-table .apply-userAgent {
+    min-width: 300px;
+}
+
+.applicant-list-table .apply-fingerprint2 {
+    min-width: 150px;
+}
+
+.applicant-list-table .apply-duplicated {
+    min-width: 50px;
+}
+
 .duplicated-table .duplicated-count {
-    width: 100px
+    width: 100px;
 }

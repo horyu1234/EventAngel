@@ -64,21 +64,12 @@ public class ApplicantDAO {
                 applicantMapper);
     }
 
-    public List<Applicant> getRecent50Applicant(int eventId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM `APPLICANT` " +
-                        "WHERE EVENT_ID = ? " +
-                        "ORDER BY APPLY_TIME " +
-                        "DESC LIMIT 50;",
-                new Object[]{eventId},
-                applicantMapper);
-    }
-
     public List<Applicant> getApplicant(int eventId) {
         return jdbcTemplate.query(
                 "SELECT * FROM `APPLICANT` " +
                         "WHERE EVENT_ID = ? " +
-                        "ORDER BY APPLY_TIME;",
+                        "ORDER BY APPLY_TIME " +
+                        "DESC;",
                 new Object[]{eventId},
                 applicantMapper);
     }

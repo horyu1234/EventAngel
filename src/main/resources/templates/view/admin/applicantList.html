@@ -1,44 +1,28 @@
-<div class="alert alert-info">
-    현재 <a style="font-weight: bold;"><a th:remove="tag" th:text="${applyCount}">0</a>명</a>이 이벤트 응모를 하였습니다.
-</div>
-
-<div class="alert alert-info">
-    최근 응모한 50명만 표시됩니다.
-</div>
-
-<div class="alert alert-warning">
-    본 메뉴는 개선 준비 중인 메뉴이므로, 기능들이 불안정할 수 있습니다.
-</div>
+<script type="text/javascript" th:src="@{/js/admin/Horyu.View.ApplicantList.min.js}"></script>
 
 <div class="table-responsive">
-    <table class="table">
-        <colgroup>
-            <col width="180px"/>
-            <col/><!--<col width="200px"/>-->
-            <col/><!--<col width="200px"/>-->
-            <col/>
-            <!--<col/>-->
-            <!--<col width="100px"/>-->
-        </colgroup>
+    <table class="table applicant-list-table">
         <thead>
         <tr>
             <td>응모 일자</td>
             <td>이메일</td>
             <td>유튜브 닉네임</td>
             <td>아이피</td>
-            <!--<td>UserAgent</td>-->
-            <!--<td>사용자 브라우저 핑거프린트2</td>-->
+            <td>UserAgent</td>
+            <td>핑거프린트</td>
+            <td>중복 응모 여부</td>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="applicant : ${applicantList}">
-            <td th:text="${applicant.getApplyTime()}"></td>
-            <td th:text="${applicant.getApplyEmail()}"></td>
-            <td th:text="${applicant.getYoutubeNickname()}"></td>
-            <td th:text="${applicant.getIpAddress()}"></td>
-            <!--<td th:text="${applicant.getUserAgent()}"></td>-->
-            <!--<td th:text="${applicant.getFingerprint2()}"></td>-->
-        </tr>
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
+
+<div class="table-pagination" style="display: table; margin: 0 auto"></div>
+
+<script th:inline="javascript">
+    $(function() {
+        var view = new Horyu.View.ApplicantList();
+
+        view.init();
+    });
+</script>
