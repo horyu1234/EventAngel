@@ -54,7 +54,7 @@ Horyu.View.Duplicated = function() {
         pageData.forEach(function(data) {
             var $tr = $('<tr></tr>');
             $tr.append($('<td>').text(data.columnName));
-            $tr.append($('<td style="width: 100px">').text(data.duplicatedCount + '개'));
+            $tr.append($('<td class="duplicated-count">').text(data.duplicatedCount + '개'));
 
             $tableBody.append($tr);
         });

@@ -47,3 +47,9 @@
     padding-top: 2px;
     z-index: 1000;
 }
+
+.table-responsive {
+    border-left: 1px solid #dddddd !important;
+    border-right: 1px solid #dddddd !important;
+    border-bottom: 1px solid #dddddd !important;
+}
