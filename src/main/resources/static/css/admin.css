@@ -29,3 +29,7 @@
 .duplicated-table .duplicated-count {
     width: 100px;
 }
+
+.duplicated-table .remarks {
+    width: 200px;
+}
