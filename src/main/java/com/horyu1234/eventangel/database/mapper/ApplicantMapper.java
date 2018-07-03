@@ -9,10 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-
-/**
- * Created by horyu on 2018-06-22.
- */
 @Component
 public class ApplicantMapper implements RowMapper<Applicant> {
     @Override
@@ -23,6 +19,7 @@ public class ApplicantMapper implements RowMapper<Applicant> {
         applicant.setYoutubeNickname(rs.getString("YOUTUBE_NICKNAME"));
         applicant.setApplyTime(LocalDateTime.parse(rs.getString("APPLY_TIME"), DateFactory.DATABASE_FORMAT));
         applicant.setIpAddress(rs.getString("IP_ADDRESS"));
+        applicant.setReferer(rs.getString("REFERER"));
         applicant.setUserAgent(rs.getString("USER_AGENT"));
         applicant.setFingerprint2(rs.getString("FINGERPRINT2"));
         applicant.setDuplicated("Y".equals(rs.getString("DUPLICATED_YN")));

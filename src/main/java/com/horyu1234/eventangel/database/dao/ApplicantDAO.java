@@ -32,6 +32,7 @@ public class ApplicantDAO {
                 "`YOUTUBE_NICKNAME` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`APPLY_TIME` DATETIME NOT NULL, " +
                 "`IP_ADDRESS` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
+                "`REFERER` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`USER_AGENT` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`FINGERPRINT2` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`DUPLICATED_YN` VARCHAR(1) NOT NULL DEFAULT 'N' COLLATE 'utf8mb4_unicode_ci', " +
@@ -98,8 +99,8 @@ public class ApplicantDAO {
     }
 
     public void insertApplicant(Applicant applicant) {
-        jdbcTemplate.update("INSERT INTO `APPLICANT` (EVENT_ID, APPLY_EMAIL, YOUTUBE_NICKNAME, APPLY_TIME, IP_ADDRESS, USER_AGENT, FINGERPRINT2, DUPLICATED_YN, DUP_CHECK_ADMIN_NAME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                applicant.getEventId(), applicant.getApplyEmail(), applicant.getYoutubeNickname(), DateFactory.DATABASE_FORMAT.format(applicant.getApplyTime()), applicant.getIpAddress(), applicant.getUserAgent(), applicant.getFingerprint2(), applicant.isDuplicated() ? "Y" : "N", applicant.getDupCheckAdminName());
+        jdbcTemplate.update("INSERT INTO `APPLICANT` (EVENT_ID, APPLY_EMAIL, YOUTUBE_NICKNAME, APPLY_TIME, IP_ADDRESS, REFERER, USER_AGENT, FINGERPRINT2, DUPLICATED_YN, DUP_CHECK_ADMIN_NAME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                applicant.getEventId(), applicant.getApplyEmail(), applicant.getYoutubeNickname(), DateFactory.DATABASE_FORMAT.format(applicant.getApplyTime()), applicant.getIpAddress(), applicant.getReferer(), applicant.getUserAgent(), applicant.getFingerprint2(), applicant.isDuplicated() ? "Y" : "N", applicant.getDupCheckAdminName());
     }
 
     public void updateApplicantNotDuplicated(int eventId, String applyEmail) {

@@ -11,6 +11,7 @@ public class Applicant {
     private String youtubeNickname;
     private LocalDateTime applyTime;
     private String ipAddress;
+    private String referer;
     private String userAgent;
     private String fingerprint2;
     private boolean duplicated;
@@ -54,6 +55,14 @@ public class Applicant {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public String getReferer() {
+        return referer;
+    }
+
+    public void setReferer(String referer) {
+        this.referer = referer;
     }
 
     public String getUserAgent() {

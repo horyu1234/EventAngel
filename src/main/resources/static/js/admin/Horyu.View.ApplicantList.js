@@ -81,6 +81,7 @@ Horyu.View.ApplicantList = function(options) {
             $tr.append($('<td class="apply-email">').text(data.applyEmail));
             $tr.append($('<td class="apply-youtubeNickname">').text(data.youtubeNickname));
             $tr.append($('<td class="apply-ipAddress">').text(data.ipAddress));
+            $tr.append($('<td class="apply-referer">').text(data.referer));
             $tr.append($('<td class="apply-userAgent">').text(data.userAgent));
             $tr.append($('<td class="apply-fingerprint2">').text(data.fingerprint2));
             $tr.append($('<td class="apply-duplicated">').text(data.duplicated));
@@ -109,8 +110,8 @@ Horyu.View.ApplicantList = function(options) {
             timeout: 10000
         }).done(function() {
             var $targetTr = $('tr[data-apply-email=\'' + applyEmail + '\']');
-            var $dupManageTd = $targetTr.find('td:eq(7)');
-            var $dupManageAdminTd = $targetTr.find('td:eq(8)');
+            var $dupManageTd = $targetTr.find('td:eq(8)');
+            var $dupManageAdminTd = $targetTr.find('td:eq(9)');
 
             if (isDuplicated) {
                 $targetTr.addClass('table-warning');

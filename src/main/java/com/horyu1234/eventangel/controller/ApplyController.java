@@ -123,6 +123,7 @@ public class ApplyController {
         applicant.setApplyEmail(applyForm.getEmail());
         applicant.setYoutubeNickname(applyForm.getYoutubeNickname());
         applicant.setIpAddress(getClientIpAddress());
+        applicant.setReferer(getReferer());
         applicant.setUserAgent(useragent);
         applicant.setFingerprint2(StringUtils.isNullOrEmpty(applyForm.getFingerprint2()) ? null : applyForm.getFingerprint2());
 
@@ -145,7 +146,7 @@ public class ApplyController {
     }
 
     private String getClientIpAddress() {
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest req = getCurrentServletRequest();
 
         String ip;
         if (req.getHeader("HTTP_CF_CONNECTING_IP") != null) {
@@ -157,5 +158,14 @@ public class ApplyController {
         }
 
         return ip;
+    }
+
+    private String getReferer() {
+        HttpServletRequest req = getCurrentServletRequest();
+        return req.getHeader("Referer");
+    }
+
+    private HttpServletRequest getCurrentServletRequest() {
+        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     }
 }

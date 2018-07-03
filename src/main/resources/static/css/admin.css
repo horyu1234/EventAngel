@@ -19,6 +19,10 @@
     min-width: 100px;
 }
 
+.applicant-list-table .apply-referer {
+    min-width: 100px;
+}
+
 .applicant-list-table .apply-userAgent {
     min-width: 300px;
 }
