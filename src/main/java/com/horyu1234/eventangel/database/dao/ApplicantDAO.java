@@ -74,6 +74,16 @@ public class ApplicantDAO {
                 applicantMapper);
     }
 
+    public List<Applicant> getApplicant(int eventId, String whereKey, String whereValue) {
+        return jdbcTemplate.query(
+                "SELECT * FROM `APPLICANT` " +
+                        "WHERE EVENT_ID = ? AND " + whereKey + " = ? " +
+                        "ORDER BY APPLY_TIME " +
+                        "DESC;",
+                new Object[]{eventId, whereValue},
+                applicantMapper);
+    }
+
     public List<DuplicatedApplicant> getDuplicatedApplicant(int eventId, String columnName) {
         return jdbcTemplate.query("SELECT " +
                         columnName + " AS columnName, " +
@@ -90,5 +100,19 @@ public class ApplicantDAO {
     public void insertApplicant(Applicant applicant) {
         jdbcTemplate.update("INSERT INTO `APPLICANT` (EVENT_ID, APPLY_EMAIL, YOUTUBE_NICKNAME, APPLY_TIME, IP_ADDRESS, USER_AGENT, FINGERPRINT2, DUPLICATED_YN, DUP_CHECK_ADMIN_NAME) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
                 applicant.getEventId(), applicant.getApplyEmail(), applicant.getYoutubeNickname(), DateFactory.DATABASE_FORMAT.format(applicant.getApplyTime()), applicant.getIpAddress(), applicant.getUserAgent(), applicant.getFingerprint2(), applicant.isDuplicated() ? "Y" : "N", applicant.getDupCheckAdminName());
+    }
+
+    public void updateApplicantNotDuplicated(int eventId, String applyEmail) {
+        jdbcTemplate.update("UPDATE `APPLICANT` " +
+                        "SET DUPLICATED_YN = 'N', DUP_CHECK_ADMIN_NAME = NULL " +
+                        "WHERE EVENT_ID = ? AND APPLY_EMAIL = ?;",
+                eventId, applyEmail);
+    }
+
+    public void updateApplicantDuplicated(int eventId, String applyEmail, String dupCheckAdminName) {
+        jdbcTemplate.update("UPDATE `APPLICANT` " +
+                        "SET DUPLICATED_YN = 'Y', DUP_CHECK_ADMIN_NAME = ? " +
+                        "WHERE EVENT_ID = ? AND APPLY_EMAIL = ?;",
+                dupCheckAdminName, eventId, applyEmail);
     }
 }

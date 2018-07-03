@@ -1,7 +1,11 @@
 <script type="text/javascript" th:src="@{/js/admin/Horyu.View.ApplicantList.min.js}"></script>
 
+<div class="alert alert-info">
+    현재 필터에 해당하는 응모 수: <a id="applyCount" style="font-weight: bold;"></a>개
+</div>
+
 <div class="table-responsive">
-    <table class="table applicant-list-table">
+    <table class="table table-striped applicant-list-table">
         <thead>
         <tr>
             <td>응모 일자</td>
@@ -11,6 +15,8 @@
             <td>UserAgent</td>
             <td>핑거프린트</td>
             <td>중복 응모 여부</td>
+            <td>중복 응모 처리</td>
+            <td>중복 응모 처리자</td>
         </tr>
         </thead>
         <tbody></tbody>
@@ -35,8 +41,14 @@
 </div>
 
 <script th:inline="javascript">
+    var columnId = /*[[${columnId}]]*/'';
+    var columnName = /*[[${columnName}]]*/'';
+
     $(function() {
-        var view = new Horyu.View.ApplicantList();
+        var view = new Horyu.View.ApplicantList({
+            columnId: columnId,
+            columnName: columnName
+        });
 
         view.init();
     });

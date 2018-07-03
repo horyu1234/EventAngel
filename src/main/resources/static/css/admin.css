@@ -1,3 +1,8 @@
+.container-full {
+    margin: 0 auto;
+    width: 100%;
+}
+
 .applicant-list-table .apply-time {
     min-width: 185px;
 }
@@ -23,6 +28,10 @@
 }
 
 .applicant-list-table .apply-duplicated {
+    min-width: 50px;
+}
+
+.applicant-list-table .apply-dupCheckAdminName {
     min-width: 50px;
 }
 

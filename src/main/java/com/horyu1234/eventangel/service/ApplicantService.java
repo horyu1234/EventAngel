@@ -44,7 +44,19 @@ public class ApplicantService {
         return Lists.newArrayList(applicantDAO.getApplicant(eventId));
     }
 
+    public List<Applicant> getApplicantList(int eventId, String whereKey, String whereValue) {
+        return Lists.newArrayList(applicantDAO.getApplicant(eventId, whereKey, whereValue));
+    }
+
     public List<DuplicatedApplicant> getDuplicatedApplicant(int eventId, String columnName) {
         return applicantDAO.getDuplicatedApplicant(eventId, columnName);
+    }
+
+    public void updateApplicantNotDuplicated(int eventId, String applyEmail) {
+        applicantDAO.updateApplicantNotDuplicated(eventId, applyEmail);
+    }
+
+    public void updateApplicantDuplicated(int eventId, String applyEmail, String dupCheckAdminName) {
+        applicantDAO.updateApplicantDuplicated(eventId, applyEmail, dupCheckAdminName);
     }
 }

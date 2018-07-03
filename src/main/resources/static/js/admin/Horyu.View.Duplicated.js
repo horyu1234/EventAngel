@@ -60,7 +60,7 @@ Horyu.View.Duplicated = function() {
 
         pageData.forEach(function(data) {
             var $tr = $('<tr></tr>');
-            $tr.append($('<td>').text(data.columnName));
+            $tr.append($('<td>').html('<a href="/admin/applicantList/?columnId=' + _this.getCurrentColumnId() + '&columnName=' + data.columnName + '">' + data.columnName + '</a>'));
             $tr.append($('<td class="duplicated-count">').text(data.duplicatedCount + '개'));
 
             if (_this.getCurrentColumnId() === 'IP_ADDRESS') {
