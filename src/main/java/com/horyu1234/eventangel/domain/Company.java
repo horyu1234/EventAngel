@@ -8,6 +8,7 @@ public class Company {
     private int companyId;
     private String companyName;
     private String companyDetail;
+    private String companyLogoImageFileName;
 
     public int getEventId() {
         return eventId;
@@ -39,5 +40,13 @@ public class Company {
 
     public void setCompanyDetail(String companyDetail) {
         this.companyDetail = companyDetail;
+    }
+
+    public String getCompanyLogoImageFileName() {
+        return companyLogoImageFileName;
+    }
+
+    public void setCompanyLogoImageFileName(String companyLogoImageFileName) {
+        this.companyLogoImageFileName = companyLogoImageFileName;
     }
 }

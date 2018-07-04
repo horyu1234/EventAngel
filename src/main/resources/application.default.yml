@@ -16,6 +16,9 @@ spring:
 ---
 spring:
   profiles: dev
+  servlet:
+    multipart:
+      max-file-size: 5MB
   session:
     store-type: jdbc
     jdbc:
@@ -33,10 +36,15 @@ spring:
     max-idle: 100
     min-idle: 20
     max-wait: 1000
+  upload-dir:
+    company-logo-image: <File Save Dir>
 
 ---
 spring:
   profiles: production
+  servlet:
+    multipart:
+      max-file-size: 5MB
   session:
     store-type: jdbc
     jdbc:
@@ -54,3 +62,5 @@ spring:
     max-idle: 100
     min-idle: 20
     max-wait: 1000
+  upload-dir:
+    company-logo-image: <File Save Dir>

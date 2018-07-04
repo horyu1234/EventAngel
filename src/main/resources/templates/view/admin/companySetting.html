@@ -16,23 +16,39 @@
     <div class="card border-info">
         <div class="card-header">도움을 주신 회사 추가</div>
         <div class="card-body">
-            <form method="post" action="#" th:action="@{/admin/companySetting/saveCompany}"
-                  th:object="${companySaveForm}"
-                  accept-charset="utf-8">
+            <form method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8"
+                  th:action="@{/admin/companySetting/saveCompany}"
+                  th:object="${companySaveForm}">
                 <input name="companyId" id="companyId" hidden="" style="visibility: hidden" value="0"/>
 
                 <div class="form-group">
-                    <label for="companyName" class="control-label">회사 이름</label>
+                    <label for="companyName" class="control-label">회사 이름 (필수)</label>
                     <input class="form-control" name="companyName" id="companyName"
                            placeholder="회사 이름을 입력해주세요."
                            required=""/>
                 </div>
 
                 <div class="form-group">
-                    <label for="companyDetail" class="control-label">회사 정보</label>
+                    <label for="companyDetail" class="control-label">회사 정보 (필수)</label>
                     <input class="form-control" name="companyDetail" id="companyDetail"
                            placeholder="회사 정보를 입력해주세요."
                            required=""/>
+                </div>
+
+                <div class="form-group companyLogoFormInput">
+                    <label for="companyLogoFile" class="control-label">회사 로고 이미지 (선택)</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" accept="image/*"
+                                   name="companyLogoFile" id="companyLogoFile"/>
+                            <label class="custom-file-label" for="companyLogoFile">
+                                회사 로고 이미지 파일을 선택해주세요.
+                            </label>
+                        </div>
+                    </div>
+                    <a style="color: #FF0039">회사 로고 이미지는 처음 회사를 추가할 때를 제외하고 수정이 불가능합니다. 신중히 결정해주세요.</a>
+                    <br/>
+                    <img class="companyLogoPreview" src=""/>
                 </div>
 
                 <button type="submit" class="btn btn-success" id="submitBtn">회사 추가</button>
@@ -48,12 +64,14 @@
                 <col width="10px"/>
                 <col width="150px"/>
                 <col width="150px"/>
+                <col width="150px"/>
                 <col width="20px"/>
                 <col width="20px"/>
             </colgroup>
             <thead>
             <tr>
                 <td>#</td>
+                <td>회사 로고</td>
                 <td>회사 이름</td>
                 <td>회사 정보</td>
                 <td>수정</td>
@@ -63,6 +81,10 @@
             <tbody>
             <tr th:each="company : ${companyList}">
                 <td class="company-id" th:text="${company.getCompanyId()}"></td>
+                <td>
+                    <img class="company-logo" th:if="${company.getCompanyLogoImageFileName() != null}"
+                         th:src="'/companyLogo?companyId=' + ${company.getCompanyId()}">
+                </td>
                 <td class="company-name" style="min-width: 150px" th:text="${company.getCompanyName()}"></td>
                 <td class="company-detail" style="min-width: 150px" th:text="${company.getCompanyDetail()}"></td>
                 <td>
@@ -93,6 +115,22 @@
             <div class="modal-footer">
                 <button type="button" id="deleteBtn" class="btn btn-danger">제거</button>
                 <button type="button" id="deleteAbortBtn" class="btn btn-primary" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="warning-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">경고</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" id="warning-modal-text"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
             </div>
         </div>
     </div>

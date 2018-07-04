@@ -8,6 +8,7 @@ public class CompanyAndPrize {
     private int companyId;
     private String companyName;
     private String companyDetail;
+    private String companyLogoImageFileName;
     private String prizeName;
     private int prizeAmount;
 
@@ -19,6 +20,7 @@ public class CompanyAndPrize {
         this.companyId = prize.getCompanyId();
         this.companyName = company.getCompanyName();
         this.companyDetail = company.getCompanyDetail();
+        this.companyLogoImageFileName = company.getCompanyLogoImageFileName();
         this.prizeName = prize.getPrizeName();
         this.prizeAmount = prize.getPrizeAmount();
     }
@@ -61,6 +63,14 @@ public class CompanyAndPrize {
 
     public void setCompanyDetail(String companyDetail) {
         this.companyDetail = companyDetail;
+    }
+
+    public String getCompanyLogoImageFileName() {
+        return companyLogoImageFileName;
+    }
+
+    public void setCompanyLogoImageFileName(String companyLogoImageFileName) {
+        this.companyLogoImageFileName = companyLogoImageFileName;
     }
 
     public int getPrizeAmount() {

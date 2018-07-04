@@ -117,12 +117,7 @@ Horyu.View.PrizeSetting = function(options) {
                 var $tr = $('<tr>');
 
                 if (prizeIndex === 0) {
-                    var $companyLogoTr = $('<td class="company-cell" rowspan="' + prizeList.length + '">' +
-                        '<a style="font-size: 16pt;font-weight: bold;">' + prize.companyName + '</a>' +
-                        '<br/>' +
-                        '<a style="color: gray">' + prize.companyDetail + '</a>' +
-                        '</td>');
-                    $tr.append($companyLogoTr);
+                    $tr.append(_this.makeCompanyCell(prizeList.length, prize));
                 }
 
                 $tr.append($('<td class="prize-name">').attr('data-prize-id', prize.prizeId).attr('data-company-id', prize.companyId).text(prize.prizeName));
@@ -138,6 +133,25 @@ Horyu.View.PrizeSetting = function(options) {
                 prizeIndex++;
             });
         });
+    };
+
+    _this.makeCompanyCell = function(rowspan, gift) {
+        var $td = $('<td class="company-cell">').attr('rowspan', rowspan);
+
+        var $companyLogo = $('<img class="company-logo" src="/companyLogo?companyId=' + gift.companyId + '"/>');
+        var $companyName = $('<a style="font-size: 16pt;font-weight: bold;">' + gift.companyName + '</a>');
+        var $companyDetail = $('<a style="color: gray">' + gift.companyDetail + '</a>');
+
+        if (gift.companyLogoImageFileName !== null) {
+            $td.append($companyLogo);
+        } else {
+            $td.append($companyName);
+        }
+
+        $td.append('<br/>');
+        $td.append($companyDetail);
+
+        return $td;
     };
 
     return {

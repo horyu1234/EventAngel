@@ -39,6 +39,8 @@ public class CompanySettingRestController {
         Event currentEvent = eventService.getCurrentEvent();
 
         prizeService.deletePrizeByCompanyId(currentEvent.getEventId(), companyId);
+
+        companyService.deleteCompanyLogoImage(currentEvent.getEventId(), companyId);
         companyService.deleteCompany(currentEvent.getEventId(), companyId);
 
         return "success";

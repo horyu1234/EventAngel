@@ -118,6 +118,14 @@ Horyu.View.Lottery = function(options) {
 
         var nextLotteryGift = _this.companyGiftTable.getNextLotteryGift();
 
+        var $companyLogo = $('#modal-company-logo');
+        if (nextLotteryGift.companyLogoImageFileName !== null) {
+            $companyLogo.show();
+            $companyLogo.attr('src', '/companyLogo?companyId=' + nextLotteryGift.companyId);
+        } else {
+            $companyLogo.hide();
+        }
+
         $('#modal-companyName').text(nextLotteryGift.companyName);
         $('#modal-companyDetail').text(nextLotteryGift.companyDetail);
         $('#modal-prizeName').text(nextLotteryGift.prizeName);

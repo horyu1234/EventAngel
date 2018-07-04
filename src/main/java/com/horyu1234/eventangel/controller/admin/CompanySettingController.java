@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by horyu on 2018-04-04
@@ -45,16 +47,24 @@ public class CompanySettingController {
     }
 
     @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
-    public String saveCompany(CompanySaveForm companySaveForm) {
+    public String saveCompany(CompanySaveForm companySaveForm,
+                              @RequestParam("companyLogoFile") MultipartFile multipartFile) {
         Event currentEvent = eventService.getCurrentEvent();
 
+        int eventId = currentEvent.getEventId();
+        int companyId = companySaveForm.getCompanyId();
+
         Company company = new Company();
-        company.setEventId(currentEvent.getEventId());
-        company.setCompanyId(companySaveForm.getCompanyId());
+        company.setEventId(eventId);
+        company.setCompanyId(companyId);
         company.setCompanyName(companySaveForm.getCompanyName());
         company.setCompanyDetail(companySaveForm.getCompanyDetail());
 
         companyService.saveCompany(company);
+
+        if (companyId == 0 && multipartFile.getContentType() != null && multipartFile.getContentType().startsWith("image/")) {
+            companyService.saveCompanyLogoImage(eventId, company.getCompanyId(), multipartFile);
+        }
 
         return View.ADMIN_COMPANY_SETTING.toRedirect();
     }

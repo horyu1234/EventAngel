@@ -82,7 +82,7 @@ Horyu.View.CompanyGiftTable = function(options) {
                     var $tr = $('<tr></tr>');
 
                     if (totalGiftIndex === 0) {
-                        $tr.append(_this.makeCompanyCell(_this.getTotalGiftAmount(companyId), gift));
+                        $tr.append(_this.makeCompanyCell(_this.getTotalGiftSize(companyId), gift));
                     }
 
                     $tr.append($('<td>').text(gift.prizeName));
@@ -97,11 +97,22 @@ Horyu.View.CompanyGiftTable = function(options) {
     };
 
     _this.makeCompanyCell = function(rowspan, gift) {
-        return '<td class="company-cell" rowspan="' + rowspan + '">' +
-            '<a style="font-size: 16pt;font-weight: bold;">' + gift.companyName + '</a>' +
-            '<br/>' +
-            '<a style="color: gray">' + gift.companyDetail + '</a>' +
-            '</td>';
+        var $td = $('<td class="company-cell">').attr('rowspan', rowspan);
+
+        var $companyLogo = $('<img class="company-logo" src="/companyLogo?companyId=' + gift.companyId + '"/>');
+        var $companyName = $('<a style="font-size: 16pt;font-weight: bold;">' + gift.companyName + '</a>');
+        var $companyDetail = $('<a style="color: gray">' + gift.companyDetail + '</a>');
+
+        if (gift.companyLogoImageFileName !== null) {
+            $td.append($companyLogo);
+        } else {
+            $td.append($companyName);
+        }
+
+        $td.append('<br/>');
+        $td.append($companyDetail);
+
+        return $td;
     };
 
     _this.popEventWinner = function(prizeId) {
@@ -125,6 +136,20 @@ Horyu.View.CompanyGiftTable = function(options) {
         return targetEventWinner;
     };
 
+    _this.getTotalGiftSize = function(companyId) {
+        var totalGiftAmount = 0;
+
+        var giftDataFilteredByCompanyId = _this.companyGiftData.filter(function(companyGift) {
+            return companyGift.companyId === Number(companyId);
+        });
+
+        giftDataFilteredByCompanyId.forEach(function(gift) {
+            totalGiftAmount++;
+        });
+
+        return totalGiftAmount;
+    };
+
     _this.getTotalGiftAmount = function(companyId) {
         var totalGiftAmount = 0;
 
@@ -133,11 +158,7 @@ Horyu.View.CompanyGiftTable = function(options) {
         });
 
         giftDataFilteredByCompanyId.forEach(function(gift) {
-            var giftAmount = gift.prizeAmount;
-
-            for (var giftIndex = 0; giftIndex < giftAmount; giftIndex++) {
-                totalGiftAmount++;
-            }
+            totalGiftAmount += gift.prizeAmount;
         });
 
         return totalGiftAmount;

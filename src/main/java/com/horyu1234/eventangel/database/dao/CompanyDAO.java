@@ -1,23 +1,22 @@
 package com.horyu1234.eventangel.database.dao;
 
+import com.horyu1234.eventangel.database.mapper.CompanyMapper;
 import com.horyu1234.eventangel.domain.Company;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by horyu on 2018-04-15
- */
 @Repository
 public class CompanyDAO {
     private JdbcTemplate jdbcTemplate;
+    private CompanyMapper companyMapper;
 
     @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public CompanyDAO(JdbcTemplate jdbcTemplate, CompanyMapper companyMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.companyMapper = companyMapper;
     }
 
     public void createTableIfNotExist() {
@@ -26,6 +25,7 @@ public class CompanyDAO {
                 "`COMPANY_ID` INT(11) NOT NULL, " +
                 "`COMPANY_NAME` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`COMPANY_DETAIL` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
+                "`COMP_LOGO_IMG_FNAME` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "PRIMARY KEY (`EVENT_ID`, `COMPANY_ID`) " +
                 ") " +
                 "COLLATE='utf8mb4_unicode_ci' " +
@@ -39,7 +39,7 @@ public class CompanyDAO {
                         "ORDER BY `COMPANY_ID` " +
                         "DESC;",
                 new Object[]{eventId, companyId},
-                new BeanPropertyRowMapper<>(Company.class));
+                companyMapper);
     }
 
     public List<Company> getCompanyList(int eventId) {
@@ -49,7 +49,7 @@ public class CompanyDAO {
                         "ORDER BY `COMPANY_ID` " +
                         "ASC;",
                 new Object[]{eventId},
-                new BeanPropertyRowMapper<>(Company.class));
+                companyMapper);
     }
 
     public int getMaxCompanyId(int eventId) {
@@ -66,6 +66,13 @@ public class CompanyDAO {
                         "ON DUPLICATE KEY UPDATE COMPANY_ID = ?, COMPANY_NAME = ?, COMPANY_DETAIL = ?;",
                 company.getEventId(), company.getCompanyId(), company.getCompanyName(), company.getCompanyDetail(),
                 company.getCompanyId(), company.getCompanyName(), company.getCompanyDetail());
+    }
+
+    public void updateCompanyLogo(int eventId, int companyId, String fileName) {
+        jdbcTemplate.update("UPDATE `COMPANY` " +
+                        "SET COMP_LOGO_IMG_FNAME = ? " +
+                        "WHERE EVENT_ID = ? AND COMPANY_ID = ?",
+                fileName, eventId, companyId);
     }
 
     public void deleteCompany(int eventId, int companyId) {

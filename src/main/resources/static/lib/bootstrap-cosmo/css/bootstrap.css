@@ -3786,6 +3786,10 @@ tbody.collapse.show {
     content: "Browse";
 }
 
+.custom-file-input:lang(ko) ~ .custom-file-label::after {
+    content: "파일선택";
+}
+
 .custom-file-label {
     position: absolute;
     top: 0;
