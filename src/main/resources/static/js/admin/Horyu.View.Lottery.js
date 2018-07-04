@@ -90,6 +90,17 @@ Horyu.View.Lottery = function(options) {
                 },
                 timeout: 120000
             }).done(function(result) {
+                if (typeof result !== 'object') {
+                    $('.lotteryBtn').html('<i class="fas fa-exclamation-triangle"></i>&nbsp; 추첨에 실패하였습니다.');
+                    $('.lotteryBtn').removeClass('btn-success');
+                    $('.lotteryBtn').addClass('btn-danger');
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 4000);
+                    return;
+                }
+
                 var endTime = moment();
                 var duration = moment.duration(endTime.diff(startTime));
 

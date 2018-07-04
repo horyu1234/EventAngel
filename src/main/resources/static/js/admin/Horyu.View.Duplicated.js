@@ -34,6 +34,18 @@ Horyu.View.Duplicated = function() {
         }).done(function(result) {
             $('#loading-modal').modal('hide');
 
+            if (!Array.isArray(result)) {
+                $('#fail-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                setTimeout(function() {
+                    location.reload();
+                }, 4000);
+                return;
+            }
+
             _this.updatePagination(result);
         });
     };

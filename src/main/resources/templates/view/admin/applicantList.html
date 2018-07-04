@@ -41,6 +41,21 @@
     </div>
 </div>
 
+<div class="modal" id="fail-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">데이터 불러오기 실패</h5>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong><i class="fas fa-exclamation-triangle"></i>&nbsp; 서버로 부터 데이터를 불러오지 못하였습니다.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:inline="javascript">
     var columnId = /*[[${columnId}]]*/'';
     var columnName = /*[[${columnName}]]*/'';
