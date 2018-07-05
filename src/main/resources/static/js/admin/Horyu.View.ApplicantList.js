@@ -89,7 +89,7 @@ Horyu.View.ApplicantList = function(options) {
 
         pageData.forEach(function(data) {
             var $tr = $('<tr></tr>').attr('data-apply-email', data.applyEmail);
-            $tr.append($('<td class="apply-time">').text(data.applyTime));
+            $tr.append($('<td class="apply-time">').html(moment(data.applyTime).format('YYYY년 MMMM D일 dddd<br/>A h시 mm분 ss초')));
             $tr.append($('<td class="apply-email">').text(data.applyEmail));
             $tr.append($('<td class="apply-youtubeNickname">').text(data.youtubeNickname));
             $tr.append($('<td class="apply-ipAddress">').text(data.ipAddress));
