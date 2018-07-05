@@ -68,13 +68,13 @@ Horyu.View.CompanySetting = function() {
 
     _this.resetImageInput = function() {
         $('#companyLogoFile').next('.custom-file-label').text('회사 로고 이미지 파일을 선택해주세요.');
-        $('.companyLogoPreview').attr('src', '');
+        $('#companyLogoPreview').attr('src', '');
     };
 
     _this.previewCompanyLogo = function(file) {
         var fileReader = new FileReader();
         fileReader.onload = function(e) {
-            $('.companyLogoPreview').attr('src', e.target.result);
+            $('#companyLogoPreview').attr('src', e.target.result);
         };
 
         fileReader.readAsDataURL(file);
