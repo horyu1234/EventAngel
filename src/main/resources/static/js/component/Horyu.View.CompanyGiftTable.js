@@ -105,10 +105,10 @@ Horyu.View.CompanyGiftTable = function(options) {
 
         if (gift.companyLogoImageFileName !== null) {
             $td.append($companyLogo);
-        } else {
-            $td.append($companyName);
+            $td.append('<br/>');
         }
 
+        $td.append($companyName);
         $td.append('<br/>');
         $td.append($companyDetail);
 
