@@ -63,6 +63,7 @@ public class ApplyController {
         model.addAttribute(ModelAttributeNameFactory.EVENT_END_TIME, currentEvent.getEventEndTime().toInstant(ZoneOffset.ofHours(9)).toEpochMilli() / 1000);
 
         model.addAttribute("applyCount", applicantService.getApplyCount(currentEvent.getEventId(), true));
+        model.addAttribute("dupApplyCount", applicantService.getApplyCount(currentEvent.getEventId(), getClientIpAddress()));
 
         List<CompanyAndPrize> companyGiftData = new ArrayList<>();
         List<EventWinnerDetail> winnerList = new ArrayList<>();
@@ -113,6 +114,15 @@ public class ApplyController {
             LOGGER.info("[{}] 이미 기간이 종료된 이벤트에 응모를 시도하였습니다. {} ({})", getClientIpAddress(), applyForm.getEmail(), applyForm.getYoutubeNickname());
 
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_ALREADY_END.toView());
+
+            return View.LAYOUT.getTemplateName();
+        }
+
+        long dupApplyCount = applicantService.getApplyCount(currentEvent.getEventId(), getClientIpAddress());
+        if (dupApplyCount >= 5) {
+            LOGGER.info("[{}] 5번 초과로 응모를 시도하였습니다. {} ({})", getClientIpAddress(), applyForm.getEmail(), applyForm.getYoutubeNickname());
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_MAX_COUNT.toView());
 
             return View.LAYOUT.getTemplateName();
         }

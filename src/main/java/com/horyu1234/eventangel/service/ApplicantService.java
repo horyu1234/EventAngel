@@ -40,6 +40,10 @@ public class ApplicantService {
         return applicantDAO.getApplicantCount(eventId, includeDuplicated);
     }
 
+    public long getApplyCount(int eventId, String ip) {
+        return applicantDAO.getApplicantCount(eventId, ip);
+    }
+
     public List<Applicant> getApplicantList(int eventId) {
         return Lists.newArrayList(applicantDAO.getApplicant(eventId));
     }

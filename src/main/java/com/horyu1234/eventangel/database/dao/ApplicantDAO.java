@@ -57,6 +57,15 @@ public class ApplicantDAO {
                 Integer.class);
     }
 
+    public int getApplicantCount(int eventId, String ip) {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) " +
+                        "FROM `APPLICANT` " +
+                        "WHERE EVENT_ID = ? AND IP_ADDRESS = ?",
+                new Object[]{eventId, ip},
+                Integer.class);
+    }
+
     public List<Applicant> getApplicant(int eventId, String email) {
         return jdbcTemplate.query(
                 "SELECT * FROM `APPLICANT` " +
