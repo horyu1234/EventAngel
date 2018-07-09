@@ -10,14 +10,16 @@
     <div class="card-body">
         <div class="alert alert-warning alert-banner"></div>
         <div class="alert alert-danger" th:if="${dupApplyCount} &gt;= 3 and ${dupApplyCount} &lt; 5">
-            <strong>고의적으로 중복 응모를 진행하여 당첨될 경우, 당첨이 취소될 수 있음을 알려드립니다.</strong>
+            <strong>중복 응모를 진행하여 당첨될 경우, 해당 당첨이 무효화될 수 있음을 알려드립니다.</strong>
         </div>
 
         <div class="alert alert-danger" th:if="${dupApplyCount} &gt;= 5" style="font-size: 16pt;">
             <strong>
-                <i class="fas fa-exclamation-triangle"></i> 중복 응모가 의심되는 상황입니다.
+                <i class="fas fa-exclamation-triangle"></i> 중복 응모를 하신 것으로 보입니다.
                 <br/><br/>
-                현재 이벤트의 응모가 더 이상 불가능합니다.
+                보다 공정한 이벤트 진행을 위하여 부득이하게 이번 이벤트에서 추가적인 응모를 제한하게 되었습니다.
+                <br/><br/>
+                이용에 불편을 드려 죄송합니다.
             </strong>
         </div>
 
