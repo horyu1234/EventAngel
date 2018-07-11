@@ -30,8 +30,8 @@ public class EventDAO {
                 "`EVENT_TITLE` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`EVENT_DETAIL` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
                 "`EVENT_STATUS` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`EVENT_START_TIME` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
-                "`EVENT_END_TIME` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_ci', " +
+                "`EVENT_START_TIME` DATETIME NOT NULL, " +
+                "`EVENT_END_TIME` DATETIME NOT NULL, " +
                 "PRIMARY KEY (`EVENT_ID`) " +
                 ") " +
                 "COLLATE='utf8mb4_unicode_ci' " +
