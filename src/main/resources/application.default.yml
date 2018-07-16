@@ -9,6 +9,9 @@ server:
     key-store-password: <KeyStore Password>
     keyStoreType: PKCS12
     keyAlias: tomcat
+google:
+  recaptcha:
+    secret: <ReCaptcha Secret Key>
 spring:
   profiles:
     active: production

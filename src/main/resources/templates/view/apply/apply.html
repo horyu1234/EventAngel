@@ -53,12 +53,20 @@
                     <div class="invalid-feedback" id="email-errors"></div>
                 </div>
 
-                <br/>
+                <div class="form-group">
+                    <div type="hidden"
+                         class="g-recaptcha"
+                         data-sitekey="6Lemh1AUAAAAAF2gz_0q5jquWdvHFskttKegThep"
+                         data-callback="onReCaptchaCallback"
+                         data-size="invisible"
+                         data-badge="inline"></div>
+                </div>
+
                 <p id="subscribe-notice-title">허수아비 유튜브 구독자이신가요?</p>
                 <p id="subscribe-notice-detail">채널 구독자분을 대상으로 하는 이벤트라 이해 부탁드리겠습니다.</p>
 
-                <button type="submit" class="btn btn-success">구독자입니다! (자동 응모)</button>
-                <button type="button" class="btn btn-warning" onclick="$('#submit-modal').modal()">구독자가 아닙니다 :(
+                <button type="button" class="btn btn-success submitBtn">구독자입니다! (자동 응모)</button>
+                <button type="button" class="btn btn-warning notSubscriberBtn">구독자가 아닙니다 :(
                 </button>
 
                 <small class="form-text text-muted" style="font-weight: bold">

@@ -21,6 +21,7 @@ Horyu.View.Apply = function(options) {
         _this.initFingerprint2();
         _this.initParsley();
         _this.updateAlertBanner();
+        _this.bindEvents();
     };
 
     _this.initFingerprint2 = function() {
@@ -135,9 +136,26 @@ Horyu.View.Apply = function(options) {
         }
     };
 
+    _this.bindEvents = function() {
+        $('.submitBtn').click(function() {
+            var isFormValidate = $('#applyForm').parsley().validate();
+            if (isFormValidate) {
+                grecaptcha.execute();
+            }
+        });
+
+        $('.notSubscriberBtn').click(function() {
+            $('#submit-modal').modal();
+        });
+    };
+
     return {
         init: function() {
             _this.init();
         }
     };
 };
+
+function onReCaptchaCallback() {
+    $('#applyForm').submit();
+}

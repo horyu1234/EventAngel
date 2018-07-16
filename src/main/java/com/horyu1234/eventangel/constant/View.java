@@ -21,6 +21,7 @@ public enum View {
     APPLY_REDUPLICATION("apply/reduplication"),
     APPLY_ALREADY_END("apply/alreadyEnd"),
     APPLY_INVALID_FORM("apply/invalidForm"),
+    APPLY_FAIL_RECAPTCHA("apply/failReCaptcha"),
     APPLY_MAX_COUNT("apply/maxCount"),
     APPLY_SUCCESS("apply/success"),
     CHECK_CHECK("check/check"),
