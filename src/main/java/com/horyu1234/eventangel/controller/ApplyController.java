@@ -128,15 +128,6 @@ public class ApplyController {
             return View.LAYOUT.getTemplateName();
         }
 
-        long dupApplyCount = applicantService.getApplyCount(currentEvent.getEventId(), clientIpAddress);
-        if (dupApplyCount >= 5) {
-            LOGGER.info("[{}] 5번 초과로 응모를 시도하였습니다. {} ({})", clientIpAddress, applyForm.getEmail(), applyForm.getYoutubeNickname());
-
-            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_MAX_COUNT.toView());
-
-            return View.LAYOUT.getTemplateName();
-        }
-
         Applicant applicant = new Applicant();
         applicant.setEventId(currentEvent.getEventId());
         applicant.setApplyTime(LocalDateTime.now());
