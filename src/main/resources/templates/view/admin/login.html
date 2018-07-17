@@ -26,7 +26,16 @@
                        type="password" required=""/>
             </div>
 
-            <button type="submit" class="btn btn-primary loginBtn">로그인</button>
+            <div class="form-group">
+                <div type="hidden"
+                     class="g-recaptcha"
+                     data-sitekey="6Lemh1AUAAAAAF2gz_0q5jquWdvHFskttKegThep"
+                     data-callback="onReCaptchaCallback"
+                     data-size="invisible"
+                     data-badge="inline"></div>
+            </div>
+
+            <button type="button" class="btn btn-primary loginBtn">로그인</button>
         </form>
     </div>
 </div>

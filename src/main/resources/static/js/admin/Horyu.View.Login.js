@@ -11,10 +11,7 @@ Horyu.View.Login = function() {
 
     _this.bindEvents = function() {
         $('.loginBtn').click(function() {
-            $('.loginBtn').attr('disabled', '');
-            $('.loginBtn').html('<i class="fas fa-spinner fa-spin"></i> 비밀번호를 암호화하는 중입니다...');
-
-            $('#loginForm').submit();
+            grecaptcha.execute();
         });
     };
 
@@ -24,3 +21,7 @@ Horyu.View.Login = function() {
         }
     };
 };
+
+function onReCaptchaCallback() {
+    $('#loginForm').submit();
+}

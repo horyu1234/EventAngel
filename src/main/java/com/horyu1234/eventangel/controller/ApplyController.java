@@ -87,12 +87,12 @@ public class ApplyController {
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public String applyReceive(Model model, ApplyForm applyForm,
-                               @RequestParam(name = "g-recaptcha-response") String recaptchaResponse,
+                               @RequestParam(name = "g-recaptcha-response") String reCaptchaResponse,
                                @RequestHeader(value = "User-Agent", required = false) String useragent) {
         Event currentEvent = eventService.getCurrentEvent();
 
         String clientIpAddress = getClientIpAddress();
-        if (!reCaptchaService.verifyReCaptcha(clientIpAddress, recaptchaResponse)) {
+        if (!reCaptchaService.verifyReCaptcha(clientIpAddress, reCaptchaResponse)) {
             LOGGER.info("[{}] ReCaptcha 인증에 실패하였습니다. {} ({})", clientIpAddress, applyForm.getEmail(), applyForm.getYoutubeNickname());
 
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_FAIL_RECAPTCHA.toView());

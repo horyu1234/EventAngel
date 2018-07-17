@@ -28,6 +28,7 @@ public enum View {
     CHECK_EXIST_APPLY("check/existApply"),
     CHECK_NOT_EXIST_APPLY("check/notExistApply"),
     PRIVACY("privacy"),
+    FAIL_RECAPTCHA("failReCaptcha"),
     ERROR_404("error/404"),
     ERROR_500("error/500");
 

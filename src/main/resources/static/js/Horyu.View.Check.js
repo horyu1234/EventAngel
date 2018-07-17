@@ -7,6 +7,7 @@ Horyu.View.Check = function() {
 
     _this.init = function() {
         _this.initParsley();
+        _this.bindEvents();
     };
 
     _this.initParsley = function() {
@@ -19,9 +20,22 @@ Horyu.View.Check = function() {
         });
     };
 
+    _this.bindEvents = function() {
+        $('.submitBtn').click(function() {
+            var isFormValidate = $('#checkForm').parsley().validate();
+            if (isFormValidate) {
+                grecaptcha.execute();
+            }
+        });
+    };
+
     return {
         init: function() {
             _this.init();
         }
     };
 };
+
+function onReCaptchaCallback() {
+    $('#checkForm').submit();
+}

@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Service
 public class ReCaptchaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReCaptchaService.class);
     private static final String GOOGLE_RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
     @Value("${google.recaptcha.secret}")
@@ -43,15 +43,15 @@ public class ReCaptchaService {
         body.put("remoteip", ip);
 
         LOGGER.debug("Request body for recaptcha: {}", body);
-        ResponseEntity<Map> recaptchaResponseEntity =
+        ResponseEntity<Map> reCaptchaResponseEntity =
                 restTemplateBuilder.build()
                         .postForEntity(GOOGLE_RECAPTCHA_VERIFY_URL +
                                         "?secret={secret}&response={response}&remoteip={remoteip}",
                                 body, Map.class, body);
 
-        LOGGER.debug("Response from recaptcha: {}", recaptchaResponseEntity);
+        LOGGER.debug("Response from recaptcha: {}", reCaptchaResponseEntity);
 
-        Map<String, Object> responseBody = recaptchaResponseEntity.getBody();
+        Map<String, Object> responseBody = reCaptchaResponseEntity.getBody();
 
         return (boolean) responseBody.get("success");
     }

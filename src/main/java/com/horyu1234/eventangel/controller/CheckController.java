@@ -9,6 +9,7 @@ import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.form.CheckForm;
 import com.horyu1234.eventangel.service.ApplicantService;
 import com.horyu1234.eventangel.service.EventService;
+import com.horyu1234.eventangel.service.ReCaptchaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,16 +29,14 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class CheckController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckController.class);
+    private ReCaptchaService reCaptchaService;
     private EventService eventService;
     private ApplicantService applicantService;
 
     @Autowired
-    public void setEventService(EventService eventService) {
+    public CheckController(ReCaptchaService reCaptchaService, EventService eventService, ApplicantService applicantService) {
+        this.reCaptchaService = reCaptchaService;
         this.eventService = eventService;
-    }
-
-    @Autowired
-    public void setApplicantService(ApplicantService applicantService) {
         this.applicantService = applicantService;
     }
 
@@ -57,12 +57,22 @@ public class CheckController {
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
-    public String checkReceive(Model model, CheckForm checkForm) {
+    public String checkReceive(Model model, CheckForm checkForm,
+                               @RequestParam(name = "g-recaptcha-response") String reCaptchaResponse) {
         Event currentEvent = eventService.getCurrentEvent();
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
 
+        String clientIpAddress = getClientIpAddress();
+        if (!reCaptchaService.verifyReCaptcha(clientIpAddress, reCaptchaResponse)) {
+            LOGGER.info("[{}] ReCaptcha 인증에 실패하였습니다. {}", clientIpAddress, checkForm.getEmail());
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.FAIL_RECAPTCHA.toView());
+
+            return View.LAYOUT.getTemplateName();
+        }
+
         if (eventDetailStatus != EventDetailStatus.OPEN) {
-            LOGGER.info("[{}] 응모 중이 아닐 때 응모 확인을 시도하였습니다.", getClientIpAddress());
+            LOGGER.info("[{}] 응모 중이 아닐 때 응모 확인을 시도하였습니다. {}", clientIpAddress, checkForm.getEmail());
 
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.CHECK_NOT_OPEN_EVENT.toView());
 

@@ -6,6 +6,7 @@ import com.horyu1234.eventangel.factory.ModelAttributeNameFactory;
 import com.horyu1234.eventangel.factory.SessionAttributeNameFactory;
 import com.horyu1234.eventangel.form.LoginForm;
 import com.horyu1234.eventangel.service.AccountService;
+import com.horyu1234.eventangel.service.ReCaptchaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +14,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by horyu on 2018-04-03
- */
 @RequestMapping("/admin")
 @Controller
 public class AccountController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+    private ReCaptchaService reCaptchaService;
     private AccountService accountService;
 
     @Autowired
-    public void setAccountService(AccountService accountService) {
+    public AccountController(ReCaptchaService reCaptchaService, AccountService accountService) {
+        this.reCaptchaService = reCaptchaService;
         this.accountService = accountService;
     }
 
@@ -42,7 +46,17 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginReceive(Model model, LoginForm loginForm, HttpSession session) {
+    public String loginReceive(Model model, LoginForm loginForm, HttpSession session,
+                               @RequestParam(name = "g-recaptcha-response") String reCaptchaResponse) {
+        String clientIpAddress = getClientIpAddress();
+        if (!reCaptchaService.verifyReCaptcha(clientIpAddress, reCaptchaResponse)) {
+            LOGGER.info("[{}] ReCaptcha 인증에 실패하였습니다. {}", clientIpAddress, loginForm.getUsername());
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.FAIL_RECAPTCHA.toView());
+
+            return View.LAYOUT.getTemplateName();
+        }
+
         Account account = accountService.login(loginForm.getUsername(), loginForm.getPassword());
 
         if (account == null) {
@@ -71,5 +85,20 @@ public class AccountController {
         session.removeAttribute(SessionAttributeNameFactory.LOGIN_NICKNAME);
 
         return View.ADMIN_LOGIN.toRedirect();
+    }
+
+    private String getClientIpAddress() {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
+        String ip;
+        if (req.getHeader("HTTP_CF_CONNECTING_IP") != null) {
+            ip = req.getHeader("HTTP_CF_CONNECTING_IP");
+        } else if (req.getHeader("X-FORWARDED-FOR") != null) {
+            ip = req.getHeader("X-FORWARDED-FOR");
+        } else {
+            ip = req.getRemoteAddr();
+        }
+
+        return ip;
     }
 }
