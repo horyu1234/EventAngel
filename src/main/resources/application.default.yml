@@ -1,5 +1,6 @@
 server:
   port: 443
+  http-port: 80
   compression:
     enabled: true
     mime-types: text/html,text/css,application/javascript
