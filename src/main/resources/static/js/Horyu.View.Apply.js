@@ -77,6 +77,11 @@ Horyu.View.Apply = function(options) {
                 console.error(countUp.error);
             }
 
+            var totalGiftAmount = _this.options.companyGiftData.sum('prizeAmount');
+            var competitionRate = (_this.options.applyCount / totalGiftAmount).toFixed(2);
+
+            $('#competitionRate').text(competitionRate + ' : 1');
+
             $alertBanner.html('<a style="font-weight: bold; font-size: 20pt;">다음 시간 전에 이미 응모 신청이 마감되었습니다.</a>' +
                 '<br/>' +
                 '<a id="time-countdown" style="font-weight: bold; font-size: 32pt;"></a>');
@@ -106,6 +111,11 @@ Horyu.View.Apply = function(options) {
             } else {
                 console.error(countUp.error);
             }
+
+            var totalGiftAmount = _this.options.companyGiftData.sum('prizeAmount');
+            var competitionRate = (_this.options.applyCount / totalGiftAmount).toFixed(2);
+
+            $('#competitionRate').text(competitionRate + ' : 1');
 
             $('#time-countdown').countdown(moment.unix(_this.options.eventEndTime).toDate())
                 .on('update.countdown', function(event) {

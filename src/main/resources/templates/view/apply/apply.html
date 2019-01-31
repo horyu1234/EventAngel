@@ -3,7 +3,8 @@
 
 <div class="alert alert-info"
      th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN or eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END }">
-    현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
+    현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다. 현재 경쟁률: <a id="competitionRate"
+                                                                                       style="font-weight: bold;"></a>
 </div>
 
 <div class="card bg-light">
