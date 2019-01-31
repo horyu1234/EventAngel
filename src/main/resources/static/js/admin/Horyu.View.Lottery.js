@@ -47,11 +47,6 @@ Horyu.View.Lottery = function(options) {
         } else {
             console.error(dupApplyCountUp.error);
         }
-
-        var totalGiftAmount = _this.options.companyGiftData.sum('prizeAmount');
-        var competitionRate = (_this.options.notDupApplyCount / totalGiftAmount).toFixed(2);
-
-        $('#competitionRate').text(competitionRate + ' : 1');
     };
 
     _this.updateTable = function() {
