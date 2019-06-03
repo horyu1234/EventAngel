@@ -20,7 +20,7 @@
             <a id="event-detail" th:text="${eventDetail}"></a>
 
             <form id="applyForm" method="post" action="#" th:action="@{/apply}" th:object="${applyForm}"
-                  accept-charset="utf-8">
+                  accept-charset="utf-8" data-parsley-validate="">
                 <input class="hidden-input" name="fingerprint2" id="fingerprint2"/>
 
                 <div class="form-group">
@@ -127,7 +127,7 @@
     var companyGiftData = /*[[${companyGiftData}]]*/[];
     var eventWinnerData = /*[[${eventWinnerData}]]*/[];
 
-    $(function() {
+    $(function () {
         var view = new Horyu.View.Apply({
             applyCount: applyCount,
             eventStatus: eventStatus,
