@@ -27,7 +27,7 @@
                     <label for="youtubeNickname" class="control-label">유튜브 닉네임</label>
                     <input class="form-control" name="youtubeNickname" id="youtubeNickname"
                            placeholder="유튜브 닉네임을 입력해주세요."
-                           data-parsley-trigger="change" data-parsley-required=""
+                           data-parsley-trigger="change keyup" data-parsley-required=""
                            data-parsley-length="[1, 100]"
                            data-parsley-errors-container="#youtubeNickname-errors"/>
                     <div class="invalid-feedback" id="youtubeNickname-errors"></div>
@@ -37,7 +37,7 @@
                     <label for="email" class="control-label">이메일</label>
                     <input class="form-control" name="email" id="email"
                            placeholder="이메일을 입력해주세요."
-                           data-parsley-trigger="change" data-parsley-required=""
+                           data-parsley-trigger="change keyup" data-parsley-required=""
                            data-parsley-type="email"
                            data-parsley-errors-container="#email-errors"/>
                     <div class="invalid-feedback" id="email-errors"></div>
