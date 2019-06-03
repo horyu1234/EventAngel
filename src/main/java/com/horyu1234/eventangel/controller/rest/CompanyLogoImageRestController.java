@@ -49,8 +49,7 @@ public class CompanyLogoImageRestController {
 
         try (InputStream inputStream = new FileInputStream(companyLogoImage)) {
             StreamUtils.copy(inputStream, response.getOutputStream());
-        } catch (IOException e) {
-            LOGGER.error("회사 로고 이미지 파일을 불러오는 중 오류가 발생하였습니다.", e);
+        } catch (IOException ignored) {
         }
     }
 
