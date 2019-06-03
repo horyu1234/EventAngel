@@ -1,3 +1,4 @@
+<script type="text/javascript" th:src="@{/lib/clipboardjs/clipboard.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/admin/Horyu.View.Lottery.min.js}"></script>
 
 <div class="alert alert-info" style="font-size: 14pt">
@@ -55,6 +56,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-copy" data-clipboard-text="ERROR">
+                    (방송용) 당첨자 복사
+                </button>
                 <button type="button" class="btn btn-success" onclick="location.reload()">
                     확인을 완료하였습니다.
                 </button>
@@ -90,7 +94,7 @@
     var companyGiftData = /*[[${companyGiftData}]]*/[];
     var eventWinnerData = /*[[${eventWinnerData}]]*/[];
 
-    $(function() {
+    $(function () {
         var view = new Horyu.View.Lottery({
             notDupApplyCount: notDupApplyCount,
             dupApplyCount: dupApplyCount,

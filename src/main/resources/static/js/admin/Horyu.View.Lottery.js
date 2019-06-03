@@ -2,7 +2,7 @@
 
 var Horyu = window.Horyu || {};
 Horyu.View = window.Horyu.View || {};
-Horyu.View.Lottery = function(options) {
+Horyu.View.Lottery = function (options) {
     var _this = this;
     _this.companyGiftTable = null;
     _this.currentEventWinnerData = [];
@@ -16,14 +16,14 @@ Horyu.View.Lottery = function(options) {
 
     _this.options = $.extend(defaultOptions, options);
 
-    _this.init = function() {
+    _this.init = function () {
         _this.companyGiftTable = new Horyu.View.CompanyGiftTable();
         _this.companyGiftTable.init();
 
         _this.updateTable();
         _this.bindEvents();
 
-        setInterval(function() {
+        setInterval(function () {
             $('#currentTime').text(moment().format('YYYY년 MMMM D일 dddd A h시 mm분 ss초'));
         }, 500);
 
@@ -49,7 +49,7 @@ Horyu.View.Lottery = function(options) {
         }
     };
 
-    _this.updateTable = function() {
+    _this.updateTable = function () {
         _this.companyGiftTable.updateTable(_this.options.companyGiftData, _this.options.eventWinnerData);
 
         var $nextGiftAlert = $('.next-gift-alert');
@@ -68,8 +68,8 @@ Horyu.View.Lottery = function(options) {
         }
     };
 
-    _this.bindEvents = function() {
-        $('.lotteryBtn').click(function() {
+    _this.bindEvents = function () {
+        $('.lotteryBtn').click(function () {
             if (_this.isIE()) {
                 $('#ie-modal').modal({
                     backdrop: 'static',
@@ -89,13 +89,13 @@ Horyu.View.Lottery = function(options) {
                     prizeId: _this.companyGiftTable.getNextLotteryGift().prizeId
                 },
                 timeout: 120000
-            }).done(function(result) {
+            }).done(function (result) {
                 if (typeof result !== 'object') {
                     $('.lotteryBtn').html('<i class="fas fa-exclamation-triangle"></i>&nbsp; 추첨에 실패하였습니다.');
                     $('.lotteryBtn').removeClass('btn-success');
                     $('.lotteryBtn').addClass('btn-danger');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         location.reload();
                     }, 4000);
                     return;
@@ -108,23 +108,37 @@ Horyu.View.Lottery = function(options) {
                     _this.lotteryOut(result);
                 } else {
                     var randomTime = Math.round(Math.random() * (6000 - 3000)) + 3000;
-                    setTimeout(function() {
+                    setTimeout(function () {
                         _this.lotteryOut(result);
                     }, randomTime);
                 }
-            }).fail(function(msg) {
+            }).fail(function (msg) {
                 $('.lotteryBtn').html('<i class="fas fa-exclamation-triangle"></i>&nbsp; 추첨에 실패하였습니다.');
                 $('.lotteryBtn').removeClass('btn-success');
                 $('.lotteryBtn').addClass('btn-danger');
 
-                setTimeout(function() {
+                setTimeout(function () {
                     location.reload();
                 }, 4000);
             });
         });
+
+        new ClipboardJS('.btn-copy');
+        $('.btn-copy').click(function () {
+            var nextLotteryGift = _this.companyGiftTable.getNextLotteryGift();
+            var prizeId = nextLotteryGift.prizeId;
+            var prizeName = nextLotteryGift.prizeName;
+            var youtubeNickname = $('#modal-youtubeNickname').text();
+            var email = $('#modal-email').text();
+
+            var $btnCopy = $('.btn-copy');
+            $btnCopy.attr('data-clipboard-text', prizeId + '. ' + prizeName + '\n' + youtubeNickname + '   ' + email + '\n===================================\n');
+            $btnCopy.attr('disabled', '');
+            $btnCopy.text('복사 완료!');
+        });
     };
 
-    _this.lotteryOut = function(result) {
+    _this.lotteryOut = function (result) {
         $('.lotteryBtn').html('열린 창을 확인해주세요.');
 
         var nextLotteryGift = _this.companyGiftTable.getNextLotteryGift();
@@ -149,7 +163,7 @@ Horyu.View.Lottery = function(options) {
         });
     };
 
-    _this.isIE = function() {
+    _this.isIE = function () {
         var userAgent = window.navigator.userAgent.toLowerCase();
         var appName = navigator.appName.toLowerCase();
 
@@ -161,7 +175,7 @@ Horyu.View.Lottery = function(options) {
     };
 
     return {
-        init: function() {
+        init: function () {
             _this.init();
         }
     };
