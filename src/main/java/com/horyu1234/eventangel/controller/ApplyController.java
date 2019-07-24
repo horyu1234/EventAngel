@@ -51,7 +51,9 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
-    public String apply(Model model) {
+    public String apply(Model model,
+                        @RequestHeader(value = "referer", required = false) String referer,
+                        @RequestParam(value = "key", required = false) String key) {
         Event currentEvent = eventService.getCurrentEvent();
 
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
@@ -80,7 +82,14 @@ public class ApplyController {
         model.addAttribute("companyGiftData", companyGiftData);
         model.addAttribute("eventWinnerData", winnerList);
 
-        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
+        if (referer != null && referer.startsWith("https://m.post.naver.com/viewer/postView.nhn")
+                && key != null && key.equals("TC2N7sKgBdGAeWdy9yUULJaXYehpkf9zhMU8AnUtpESYSewR3N")) {
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
+        } else {
+            LOGGER.info("[" + getClientIpAddress() + "] 이벤트 참여 방법을 안내합니다. - referer: " + referer + ", key: " + key);
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_WRONG_WAY.toView());
+        }
 
         return View.LAYOUT.getTemplateName();
     }

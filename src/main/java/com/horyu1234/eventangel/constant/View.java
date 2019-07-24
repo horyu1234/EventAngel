@@ -18,6 +18,7 @@ public enum View {
     ADMIN_REGISTER("admin/register"),
     APPLY("apply"),
     APPLY_APPLY("apply/apply"),
+    APPLY_WRONG_WAY("apply/wrongWay"),
     APPLY_REDUPLICATION("apply/reduplication"),
     APPLY_ALREADY_END("apply/alreadyEnd"),
     APPLY_INVALID_FORM("apply/invalidForm"),
