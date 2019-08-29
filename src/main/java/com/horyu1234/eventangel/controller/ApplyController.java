@@ -83,7 +83,7 @@ public class ApplyController {
         model.addAttribute("eventWinnerData", winnerList);
 
         if (referer != null && referer.startsWith("https://m.post.naver.com/viewer/postView.nhn")
-                && key != null && key.equals("TC2N7sKgBdGAeWdy9yUULJaXYehpkf9zhMU8AnUtpESYSewR3N")) {
+                && key != null && key.equals("rug3gL5DmBxfBymccs6XcwJswFAnQV7hkJTjyrCtYy4K3thFyW")) {
             model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
         } else {
             LOGGER.info("[" + getClientIpAddress() + "] 이벤트 참여 방법을 안내합니다. - referer: " + referer + ", key: " + key);
