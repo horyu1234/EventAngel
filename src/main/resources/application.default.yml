@@ -16,6 +16,10 @@ google:
 spring:
   profiles:
     active: production
+naver:
+  realtime-search:
+    referer: none
+    key: none
 
 ---
 spring:

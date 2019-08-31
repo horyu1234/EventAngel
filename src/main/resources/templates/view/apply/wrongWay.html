@@ -1,0 +1,69 @@
+<link rel="stylesheet" th:href="@{/css/apply.min.css}"/>
+<script th:src="@{/js/Horyu.View.Apply.min.js}" type="text/javascript"></script>
+
+<div class="alert alert-info"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN or eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END }">
+    현재 <a id="applyCount" style="font-weight: bold;">0명</a>이 이벤트 응모를 하였습니다.
+</div>
+
+<div class="card bg-light" th:if="${eventStatus != T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
+    <div class="card-body">
+        <div class="alert alert-primary">
+            이벤트 응모 방법
+        </div>
+
+        <p class="step-text">1. 네이버 접속 후 "<strong>{검색어}</strong>" 검색 (<a href="https://www.naver.com/"
+                                                                         style="font-size: 14pt;"
+                                                                         target="_blank">https://www.naver.com/</a>)
+        </p>
+        <img class="step-img" th:src="@{/img/sample.png}"/>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).OPEN}">
+    <div class="card-header">도움을 주신 회사와 상품 목록</div>
+    <div th:include="view/component/companyGiftTable"></div>
+</div>
+
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).ALREADY_END}">
+    <div class="card-header">현재 당첨자 목록</div>
+    <div class="card-body">
+        <div class="alert alert-success">
+            앞으로 있을 추첨 방송을 기대해주시기 바랍니다.
+            <br/><br/>
+            추첨 방송이 시작되면, 여기에도 당첨자 목록이 표시됩니다.
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 20px"
+     th:if="${eventStatus == T(com.horyu1234.eventangel.constant.EventDetailStatus).LOTTERY}">
+    <div class="card-header">현재 당첨자 목록</div>
+    <div class="card-body">
+        <div style="margin-top: 20px" th:include="view/component/companyGiftTable"></div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var applyCount = /*[[${applyCount}]]*/0;
+    var eventStatus = /*[[${eventStatus}]]*/'close';
+    var eventStartTime = /*[[${eventStartTime}]]*/0;
+    var eventEndTime = /*[[${eventEndTime}]]*/0;
+    var companyGiftData = /*[[${companyGiftData}]]*/[];
+    var eventWinnerData = /*[[${eventWinnerData}]]*/[];
+
+    $(function () {
+        var view = new Horyu.View.Apply({
+            applyCount: applyCount,
+            eventStatus: eventStatus,
+            eventStartTime: eventStartTime,
+            eventEndTime: eventEndTime,
+            companyGiftData: companyGiftData,
+            eventWinnerData: eventWinnerData
+        });
+
+        view.init();
+    });
+</script>

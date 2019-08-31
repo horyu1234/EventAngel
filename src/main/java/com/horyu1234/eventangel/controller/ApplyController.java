@@ -14,6 +14,7 @@ import com.mysql.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -42,6 +43,12 @@ public class ApplyController {
     private PrizeService prizeService;
     private EventWinnerService eventWinnerService;
 
+    @Value("${naver.realtime-search.referer:none}")
+    private String naverRealTimeSearchReferer;
+
+    @Value("${naver.realtime-search.key:none}")
+    private String naverRealTimeSearchKey;
+
     @Autowired
     public ApplyController(ReCaptchaService reCaptchaService, ApplicantService applicantService, EventService eventService, PrizeService prizeService, EventWinnerService eventWinnerService) {
         this.reCaptchaService = reCaptchaService;
@@ -52,7 +59,9 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
-    public String apply(Model model) {
+    public String apply(Model model,
+                        @RequestHeader(value = "referer", required = false) String referer,
+                        @RequestParam(value = "key", required = false) String key) {
         Event currentEvent = eventService.getCurrentEvent();
 
         EventDetailStatus eventDetailStatus = eventService.getEventDetailStatus(currentEvent);
@@ -81,7 +90,21 @@ public class ApplyController {
         model.addAttribute("companyGiftData", companyGiftData);
         model.addAttribute("eventWinnerData", winnerList);
 
-        model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
+        if ("none".equals(naverRealTimeSearchReferer) || "none".equals(naverRealTimeSearchKey)) {
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
+            return View.LAYOUT.getTemplateName();
+        }
+
+        if (referer != null && referer.contains(naverRealTimeSearchReferer)
+                && key != null && key.equals(naverRealTimeSearchKey)) {
+            LOGGER.info("[" + getClientIpAddress() + "] 이벤트 응모 화면에 접근하였습니다.");
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_APPLY.toView());
+        } else {
+            LOGGER.info("[" + getClientIpAddress() + "] 이벤트 참여 방법을 안내합니다. - referer: " + referer + ", key: " + key);
+
+            model.addAttribute(ModelAttributeNameFactory.VIEW_NAME, View.APPLY_WRONG_WAY.toView());
+        }
 
         return View.LAYOUT.getTemplateName();
     }

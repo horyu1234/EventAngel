@@ -18,3 +18,18 @@
 #subscribe-notice-detail {
     font-size: 10pt;
 }
+
+.step-text {
+    margin-bottom: 0;
+    font-size: 14pt;
+}
+
+.step-text strong {
+    color: #EF5350;
+}
+
+.step-img {
+    margin-bottom: 30px;
+    max-width: 60%;
+    max-height: 60%;
+}
