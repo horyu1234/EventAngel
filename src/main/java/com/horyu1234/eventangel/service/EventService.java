@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -52,7 +54,7 @@ public class EventService {
             return EventDetailStatus.LOTTERY;
         }
 
-        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
         if (currentTime.isBefore(event.getEventStartTime())) {
             return EventDetailStatus.START_SOON;
         } else if (currentTime.isAfter(event.getEventEndTime())) {
@@ -67,8 +69,8 @@ public class EventService {
         event.setEventTitle("허수아비 X차 이벤트");
         event.setEventDetail("이벤트 세부 일정");
         event.setEventStatus(EventStatus.CLOSE);
-        event.setEventStartTime(LocalDateTime.now());
-        event.setEventEndTime(LocalDateTime.now());
+        event.setEventStartTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime());
+        event.setEventEndTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime());
 
         updateEvent(event);
     }
