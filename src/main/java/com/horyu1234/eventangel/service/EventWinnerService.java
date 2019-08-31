@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +38,7 @@ public class EventWinnerService {
     }
 
     public void addEventWinner(int eventId, int prizeId, String applyEmail) {
-        eventWinnerDAO.insertEventWinner(eventId, prizeId, applyEmail, LocalDateTime.now());
+        eventWinnerDAO.insertEventWinner(eventId, prizeId, applyEmail, ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime());
     }
 
     public List<EventWinnerDetail> getWinnerList(int eventId) {

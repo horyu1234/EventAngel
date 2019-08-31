@@ -25,7 +25,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +141,7 @@ public class ApplyController {
 
         Applicant applicant = new Applicant();
         applicant.setEventId(currentEvent.getEventId());
-        applicant.setApplyTime(LocalDateTime.now());
+        applicant.setApplyTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime());
         applicant.setApplyEmail(applyForm.getEmail());
         applicant.setYoutubeNickname(applyForm.getYoutubeNickname());
         applicant.setIpAddress(clientIpAddress);
